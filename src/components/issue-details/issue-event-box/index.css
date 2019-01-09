@@ -1,0 +1,9 @@
+.container {
+  position: relative;
+}
+
+.event-box {
+  display: block;
+  width: 100%;
+  height: auto;
+}

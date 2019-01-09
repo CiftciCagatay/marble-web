@@ -1,0 +1,32 @@
+.bubble {
+  position: relative;
+  background: #fff;
+  padding: 4px 12px 4px 12px;
+  border-radius: 2px;
+}
+
+.bubble-left:after {
+  content: '';
+  position: absolute;
+  border: 10px solid transparent;
+  border-top: 10px solid #fff;
+  top: 0px;
+  left: -10px;
+}
+
+.bubble-right:after {
+  content: '';
+  position: absolute;
+  border: 10px solid transparent;
+  border-top: 10px solid #fff;
+  top: 0px;
+  right: -10px;
+}
+
+.carrot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-right: 4px;
+  cursor: pointer;
+}
