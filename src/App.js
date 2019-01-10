@@ -8,21 +8,19 @@ import {
   Home,
   Issues,
   KnowledgeBase,
-  Dashboard,
   Login,
   IssueDetails,
   About
 } from './routes'
 import Navbar from './components/navbar/navbar'
 
-const { store, persistor } = configureStore()
+export const { store, persistor } = configureStore()
 
 class App extends Component {
   mainRoute = () => (
     <Navbar>
       <div id="root">
         <Switch>
-          <Route path="/dashboard" component={Dashboard} />
           <Route path="/issues/:id" component={IssueDetails} />
           <Route path="/issues" component={Issues} />
           <Route path="/knowledgeBase" component={KnowledgeBase} />
