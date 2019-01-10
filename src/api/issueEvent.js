@@ -1,4 +1,5 @@
 import { issueEventServiceUrl } from './config'
+import fetch from '../scripts/fetch'
 
 export const getIssueEvents = (accessToken, issueId, limit, orderDes) => {
   let query = `orderDes=${orderDes}&limit=${limit}`
