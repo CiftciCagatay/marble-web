@@ -10,10 +10,10 @@ import { getIssueEvents, createIssueEvent, removeIssueEvent } from '../api'
 export function fetchIssueEvents(issueId, limit = -1, orderDes = 1) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return getIssueEvents(token, issueId, limit, orderDes)
+    return getIssueEvents(accessToken, issueId, limit, orderDes)
       .then(response => {
         if (!response.ok) throw new Error('Issue Events couldnt fetched')
         return response.json()
@@ -37,7 +37,7 @@ export function issueEventFileUploaded(tempId, file) {
 export function postIssueEvent(props) {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       users: { user }
     } = getState()
 
@@ -47,7 +47,7 @@ export function postIssueEvent(props) {
       date: new Date()
     }
 
-    return createIssueEvent(token, body)
+    return createIssueEvent(accessToken, body)
       .then(response => {
         if (!response.ok) throw new Error('Issue Event couldnt created')
         return response.json()
@@ -65,10 +65,10 @@ export function postIssueEvent(props) {
 export function deleteIssueEvent(id) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return removeIssueEvent(token, id)
+    return removeIssueEvent(accessToken, id)
       .then(response => {
         if (!response.ok) throw new Error('Issue Event couldnt removed')
 

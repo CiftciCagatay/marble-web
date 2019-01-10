@@ -123,7 +123,7 @@ class About extends Component {
       date: new Date()
     })
 
-    postFeedback(this.props.token, {
+    postFeedback(this.props.accessToken, {
       message: this.state.feedback,
       files: this.state.files.map(({ path }) => path),
       author: this.props.user,
@@ -143,7 +143,7 @@ class About extends Component {
 
     acceptedFiles.map(file => formData.append('uploads', file))
 
-    uploadImage(this.props.token, formData, e => {
+    uploadImage(this.props.accessToken, formData, e => {
       var percentage = (e.loaded / e.total) * 100
       console.log(percentage + '%')
     })
@@ -349,8 +349,8 @@ About.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-function mapStateToProps({ auth: { token }, users: { user } }) {
-  return { token, user }
+function mapStateToProps({ auth: { accessToken }, users: { user } }) {
+  return { accessToken, user }
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(About))

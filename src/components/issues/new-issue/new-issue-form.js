@@ -190,7 +190,7 @@ class NewIssueForm extends Component {
 
     acceptedFiles.map(file => formData.append('uploads', file))
 
-    uploadImage(this.props.token, formData, e => {
+    uploadImage(this.props.accessToken, formData, e => {
       var percentage = (e.loaded / e.total) * 100
       console.log(percentage + '%')
     })
@@ -481,13 +481,13 @@ function mapStateToProps({
   users: {
     user: { roles }
   },
-  auth: { token }
+  auth: { accessToken }
 }) {
   return {
     units,
     categories,
     roles,
-    token
+    accessToken
   }
 }
 

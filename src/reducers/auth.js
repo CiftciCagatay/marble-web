@@ -1,7 +1,8 @@
-import { LOGGED_IN, LOGGED_OUT, LOGGED_IN_WITH_SECRET, ACCOUNT_CHANGED } from '../actions'
+import { LOGGED_IN, LOGGED_OUT, LOGGED_IN_WITH_SECRET } from '../actions'
 
 const INITIAL_STATE = {
-  token: '',
+  accessToken: '',
+  refreshToken: '',
   isLoggedIn: false
 }
 

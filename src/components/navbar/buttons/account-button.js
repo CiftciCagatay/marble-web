@@ -95,7 +95,7 @@ class AccountButton extends Component {
   }
 
   onAccountListItemClick = account => {
-    if (account.token) {
+    if (account.accessToken) {
       this.props
         .onLoginWithSecret(account)
         .then(() => this.props.onChangeAccount(account))

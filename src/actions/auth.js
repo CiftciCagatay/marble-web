@@ -1,7 +1,6 @@
 import {
   ACCOUNT_REMOVED,
   LOGGED_IN,
-  LOGGED_IN_WITH_SECRET,
   UNVALID_SESSION_TOKEN,
   LOGIN_FAILED,
   LOGGED_OUT,
@@ -29,7 +28,7 @@ export const onRemoveAccount = account => {
   }
 }
 
-const onLoggedIn = (token, user, dispatch) => {
+const onLoggedIn = (accessToken, refreshToken, user, dispatch) => {
   const { _id, email, company, name } = user
 
   dispatch({
@@ -37,7 +36,8 @@ const onLoggedIn = (token, user, dispatch) => {
     payload: {
       _id,
       email,
-      token,
+      accessToken,
+      refreshToken,
       company,
       name
     }
@@ -51,7 +51,9 @@ export const onLogin = props => {
         if (!response.ok) throw new Error('Email veya şifre hatalı.')
         return response.json()
       })
-      .then(({ token }) => getUserData(token, dispatch))
+      .then(({ accessToken, refreshToken }) =>
+        getUserData(accessToken, refreshToken, dispatch)
+      )
       .catch(error => {
         dispatch({
           type: LOGIN_FAILED,
@@ -63,13 +65,13 @@ export const onLogin = props => {
   }
 }
 
-export const onLoginWithSecret = ({ email, token }) => {
+export const onLoginWithSecret = ({ email, accessToken }) => {
   return dispatch => {
-    return secret({ token })
+    return secret({ accessToken })
       .then(response => {
         if (!response.ok) throw new Error('Email veya şifre hatalı.')
 
-        return getUserData(token, dispatch)
+        return getUserData(accessToken, dispatch)
       })
       .catch(error => {
         dispatch({
@@ -88,8 +90,8 @@ export const onLogout = () => {
   }
 }
 
-const getUserData = (token, dispatch) => {
-  return getUserInfo(token)
+const getUserData = (accessToken, refreshToken, dispatch) => {
+  return getUserInfo(accessToken)
     .then(response => {
       if (!response.ok) throw new Error('Users couldnt fetched')
 
@@ -98,7 +100,7 @@ const getUserData = (token, dispatch) => {
     .then(user => {
       if (!user) throw new Error('Users couldnt fetched')
       dispatch({ type: USER_FETCHED, payload: user })
-      return onLoggedIn(token, user, dispatch)
+      return onLoggedIn(accessToken, refreshToken, user, dispatch)
     })
     .catch(error => {
       dispatch({ type: USER_COULDNT_FETCHED, payload: error })

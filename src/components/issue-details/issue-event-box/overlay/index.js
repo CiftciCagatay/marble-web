@@ -195,8 +195,8 @@ class Overlay extends Component {
   }
 }
 
-function mapStateToProps({ auth: { token }, users: { user } }) {
-  return { token, user }
+function mapStateToProps({ auth: { accessToken }, users: { user } }) {
+  return { accessToken, user }
 }
 
 export default connect(

@@ -307,7 +307,7 @@ function mapStateToProps({
   users: {
     user: { roles }
   },
-  auth: { token },
+  auth: { accessToken },
   issues
 }) {
   return {
@@ -315,7 +315,7 @@ function mapStateToProps({
     categories,
     roles,
     issues,
-    token
+    accessToken
   }
 }
 

@@ -3,7 +3,7 @@ import { issueServiceUrl } from './config'
 //
 // CRUD Issue
 // props { isOpen, unitId, limit, offset, orderBy, createdBy, solvedBy }
-export const getIssues = (token, props) => {
+export const getIssues = (accessToken, props) => {
   let queryString = ''
 
   Object.keys(props).forEach(key => {
@@ -32,23 +32,23 @@ export const getIssues = (token, props) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export const getIssueById = (token, _id) => {
+export const getIssueById = (accessToken, _id) => {
   return fetch(`${issueServiceUrl}/${_id}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export const getIssueCount = (token, props) => {
+export const getIssueCount = (accessToken, props) => {
   let queryString = ''
 
   Object.keys(props).forEach(key => {
@@ -77,65 +77,65 @@ export const getIssueCount = (token, props) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export const createIssue = (token, props) => {
+export const createIssue = (accessToken, props) => {
   return fetch(`${issueServiceUrl}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     },
     body: JSON.stringify(props)
   })
 }
 
-export const deleteIssue = (token, id) => {
+export const deleteIssue = (accessToken, id) => {
   return fetch(`${issueServiceUrl}/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export const updateIssue = (token, issueId, props) => {
+export const updateIssue = (accessToken, issueId, props) => {
   return fetch(`${issueServiceUrl}/${issueId}`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     },
     body: JSON.stringify(props)
   })
 }
 
-export const updateLabels = (token, id, labels) => {
+export const updateLabels = (accessToken, id, labels) => {
   return fetch(`${issueServiceUrl}/${id}/labels`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     },
     body: JSON.stringify({ labels })
   })
 }
 
-export const updateAssignees = (token, id, assignees) => {
+export const updateAssignees = (accessToken, id, assignees) => {
   return fetch(`${issueServiceUrl}/${id}/assignees`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     },
     body: JSON.stringify({ assignees })
   })

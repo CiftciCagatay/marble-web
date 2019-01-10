@@ -4,10 +4,10 @@ import { UNITS_FETCHED, CATEGORIES_FETCHED } from '.'
 export function fetchUnits() {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return getUnits(token)
+    return getUnits(accessToken)
       .then(response => {
         if (!response.ok) throw new Error('Units couldnt fetched')
         return response.json()
@@ -26,10 +26,10 @@ export function fetchUnits() {
 export function fetchCategories({ unit }) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return getCategories(token, { unit })
+    return getCategories(accessToken, { unit })
       .then(response => {
         if (!response.ok) throw new Error('Categories couldnt fetched')
         return response.json()

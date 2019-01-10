@@ -5,11 +5,11 @@ import { getNotifications, putNotifications } from '../api'
 export const fetchNotifications = () => {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       users: { user }
     } = getState()
 
-    return getNotifications(token, user._id)
+    return getNotifications(accessToken, user._id)
       .then(response => {
         if (!response.ok) throw new Error('Users couldnt fetched')
 
@@ -28,10 +28,10 @@ export const fetchNotifications = () => {
 export const markNotificationsRead = ids => {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    putNotifications(token, ids)
+    putNotifications(accessToken, ids)
       .then(response => {
         if (!response.ok) throw new Error('Users couldnt fetched')
 

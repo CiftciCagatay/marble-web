@@ -71,7 +71,7 @@ class CommentItem extends Component {
 
     formData.append('uploads', file)
 
-    return uploadImage(this.props.token, formData, progress =>
+    return uploadImage(this.props.accessToken, formData, progress =>
       this.setState({ progress })
     )
   }
@@ -233,8 +233,8 @@ class CommentItem extends Component {
   }
 }
 
-function mapStateToProps({ auth: { token } }) {
-  return { token }
+function mapStateToProps({ auth: { accessToken } }) {
+  return { accessToken }
 }
 
 export default connect(

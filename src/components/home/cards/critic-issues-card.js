@@ -14,7 +14,7 @@ class CriticIssuesCard extends Component {
   path = `/issues?priority=3&isOpen=true`
 
   componentDidMount() {
-    getIssueCount(this.props.token, {
+    getIssueCount(this.props.accessToken, {
       priority: 3,
       isOpen: true
     })
@@ -54,8 +54,8 @@ class CriticIssuesCard extends Component {
   }
 }
 
-function mapStateToProps({ users: { user }, auth: { token } }) {
-  return { user, token }
+function mapStateToProps({ users: { user }, auth: { accessToken } }) {
+  return { user, accessToken }
 }
 
 export default connect(mapStateToProps)(CriticIssuesCard)

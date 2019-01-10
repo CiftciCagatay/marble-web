@@ -1,17 +1,17 @@
 import { userServiceUrl } from './config'
 
-export const getUserInfo = token => {
+export const getUserInfo = accessToken => {
   return fetch(`${userServiceUrl}/token`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export const getUsers = (token, { unit, units }) => {
+export const getUsers = (accessToken, { unit, units }) => {
   let query = ''
 
   if (unit) query = `unit=${unit}&&`
@@ -22,7 +22,7 @@ export const getUsers = (token, { unit, units }) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }

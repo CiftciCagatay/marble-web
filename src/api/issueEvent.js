@@ -1,6 +1,6 @@
 import { issueEventServiceUrl } from './config'
 
-export const getIssueEvents = (token, issueId, limit, orderDes) => {
+export const getIssueEvents = (accessToken, issueId, limit, orderDes) => {
   let query = `orderDes=${orderDes}&limit=${limit}`
 
   if (issueId) query += `&issueId=${issueId}`
@@ -8,18 +8,18 @@ export const getIssueEvents = (token, issueId, limit, orderDes) => {
   return fetch(`${issueEventServiceUrl}?${query}`, {
     method: 'GET',
     headers: {
-      Authorization: token,
+      Authorization: accessToken,
       'Content-Type': 'application/json',
       Accept: 'application/json'
     }
   })
 }
 
-export const createIssueEvent = (token, props) => {
+export const createIssueEvent = (accessToken, props) => {
   return fetch(`${issueEventServiceUrl}`, {
     method: 'POST',
     headers: {
-      Authorization: token,
+      Authorization: accessToken,
       'Content-Type': 'application/json',
       Accept: 'application/json'
     },
@@ -27,11 +27,11 @@ export const createIssueEvent = (token, props) => {
   })
 }
 
-export const removeIssueEvent = (token, id) => {
+export const removeIssueEvent = (accessToken, id) => {
   return fetch(`${issueEventServiceUrl}/${id}`, {
     method: 'DELETE',
     headers: {
-      Authorization: token,
+      Authorization: accessToken,
       'Content-Type': 'application/json',
       Accept: 'application/json'
     }

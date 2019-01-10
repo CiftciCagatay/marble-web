@@ -26,7 +26,7 @@ class IssuesByUserReport extends Component {
   }
 
   refreshChart() {
-    getIssuesByUsersReport(this.props.token)
+    getIssuesByUsersReport(this.props.accessToken)
       .then(({ result }) => {
         let temp = []
         this.data = result
@@ -78,11 +78,11 @@ class IssuesByUserReport extends Component {
   }
 }
 
-function mapStateToProps({ users: { users, user }, auth: { token } }) {
+function mapStateToProps({ users: { users, user }, auth: { accessToken } }) {
   return {
     users: _.keyBy(users, '_id'),
     user,
-    token
+    accessToken
   }
 }
 

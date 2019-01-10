@@ -10,10 +10,10 @@ import { getUsers } from '../api'
 export const getUserList = (props = {}) => {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return getUsers(token, props)
+    return getUsers(accessToken, props)
       .then(response => {
         if (!response.ok) throw new Error('Users couldnt fetched')
 

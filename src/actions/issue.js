@@ -28,7 +28,7 @@ export function cleanIssuesFromRedux() {
 export function fetchIssues(props, append = false) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
     let query = {
@@ -41,7 +41,7 @@ export function fetchIssues(props, append = false) {
 
     const type = append ? MORE_ISSUES_FETCHED : ISSUES_FETCHED
 
-    return getIssues(token, query)
+    return getIssues(accessToken, query)
       .then(response => {
         if (!response.ok) throw new Error('')
 
@@ -57,10 +57,10 @@ export function fetchIssues(props, append = false) {
 export function fetchIssueById(_id) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return getIssueById(token, _id)
+    return getIssueById(accessToken, _id)
       .then(response => {
         if (!response.ok) throw new Error('')
 
@@ -80,11 +80,11 @@ export function fetchIssueById(_id) {
 export function postIssue(props) {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       users: { user }
     } = getState()
 
-    return createIssue(token, {
+    return createIssue(accessToken, {
       ...props,
       createdAt: new Date(),
       createdBy: user
@@ -108,11 +108,11 @@ export function postIssue(props) {
 export function putIssue(issueId, props) {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       issues
     } = getState()
 
-    return updateIssue(token, issueId, props)
+    return updateIssue(accessToken, issueId, props)
       .then(response => {
         if (!response.ok) throw new Error('Issue couldnt updated.')
 
@@ -132,10 +132,10 @@ export function putIssue(issueId, props) {
 export function removeIssue(issueId) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return deleteIssue(token, issueId)
+    return deleteIssue(accessToken, issueId)
       .then(response => {
         if (!response.ok) throw new Error('Issue couldnt removed.')
 
@@ -155,10 +155,10 @@ export function removeIssue(issueId) {
 export function getLabelList({ unit }) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    getLabels(token, { unit })
+    getLabels(accessToken, { unit })
       .then(response => {
         if (!response.ok) throw new Error('')
 
@@ -174,10 +174,10 @@ export function getLabelList({ unit }) {
 export function updateAssigneesAction(issueId, assignees) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return updateAssignees(token, issueId, assignees)
+    return updateAssignees(accessToken, issueId, assignees)
       .then(response => {
         if (!response.ok) throw new Error('Assignees couldnt updated.')
 
@@ -197,10 +197,10 @@ export function updateAssigneesAction(issueId, assignees) {
 export function updateLabelsAction(issueId, labels) {
   return (dispatch, getState) => {
     const {
-      auth: { token }
+      auth: { accessToken }
     } = getState()
 
-    return updateLabels(token, issueId, labels)
+    return updateLabels(accessToken, issueId, labels)
       .then(response => {
         if (!response.ok) throw new Error('Labels couldnt updated.')
 

@@ -13,13 +13,13 @@ import {
 export const fetchHomePageReport = filters => {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       users: {
         user: { unit }
       }
     } = getState()
 
-    return getHomePageReport(token, { ...filters, unit })
+    return getHomePageReport(accessToken, { ...filters, unit })
       .then(response => {
         if (!response.ok) throw new Error('Issue Events couldnt fetched')
         return response.json()
@@ -34,11 +34,11 @@ export const fetchHomePageReport = filters => {
 export const fetchSolverGuildReport = filters => {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       users: { user }
     } = getState()
     
-    return getSolversGuildReport(token, { ...filters, unit: user.unit })
+    return getSolversGuildReport(accessToken, { ...filters, unit: user.unit })
       .then(response => {
         if (!response.ok) throw new Error('Issue Events couldnt fetched')
         return response.json()
@@ -53,13 +53,13 @@ export const fetchSolverGuildReport = filters => {
 export const fetchProblemResourcesReport = filters => {
   return (dispatch, getState) => {
     const {
-      auth: { token },
+      auth: { accessToken },
       users: {
         user: { unit }
       }
     } = getState()
 
-    return getProblemResourcesReport(token, { ...filters, unit })
+    return getProblemResourcesReport(accessToken, { ...filters, unit })
       .then(response => {
         if (!response.ok) throw new Error('Issue Events couldnt fetched')
         return response.json()

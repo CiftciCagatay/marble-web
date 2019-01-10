@@ -14,7 +14,7 @@ class HighPriorityIssuesCard extends Component {
   path = `/issues?priority=2&isOpen=true`
 
   componentDidMount() {
-    getIssueCount(this.props.token, {
+    getIssueCount(this.props.accessToken, {
       priority: 2,
       isOpen: true
     })
@@ -54,8 +54,8 @@ class HighPriorityIssuesCard extends Component {
   }
 }
 
-function mapStateToProps({ users: { user }, auth: { token } }) {
-  return { user, token }
+function mapStateToProps({ users: { user }, auth: { accessToken } }) {
+  return { user, accessToken }
 }
 
 export default connect(mapStateToProps)(HighPriorityIssuesCard)

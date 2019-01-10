@@ -14,7 +14,7 @@ class WaitingIssuesCard extends Component {
   path = `/issues`
 
   componentDidMount() {
-    getIssueCount(this.props.token, {
+    getIssueCount(this.props.accessToken, {
       isOpen: true
     })
       .then(response => {
@@ -53,8 +53,8 @@ class WaitingIssuesCard extends Component {
   }
 }
 
-function mapStateToProps({ users: { user }, auth: { token } }) {
-  return { user, token }
+function mapStateToProps({ users: { user }, auth: { accessToken } }) {
+  return { user, accessToken }
 }
 
 export default connect(mapStateToProps)(WaitingIssuesCard)

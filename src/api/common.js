@@ -5,45 +5,45 @@ import {
   feedbackServiceUrl
 } from './config'
 
-export function getUnits(token) {
+export function getUnits(accessToken) {
   return fetch(`${unitServiceUrl}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export function getCategories(token, { unit }) {
+export function getCategories(accessToken, { unit }) {
   return fetch(`${categoryServiceUrl}?unit=${unit}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export const getLabels = (token, { unit }) => {
+export const getLabels = (accessToken, { unit }) => {
   return fetch(`${labelServiceUrl}?unit=${unit}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     }
   })
 }
 
-export function postFeedback(token, body) {
+export function postFeedback(accessToken, body) {
   return fetch(feedbackServiceUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token
+      Authorization: accessToken
     },
     body: JSON.stringify(body)
   })

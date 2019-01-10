@@ -11,11 +11,11 @@ export const login = ({ email, password }) => {
   })
 }
 
-export const secret = ({ token }) => {
+export const secret = ({ accessToken }) => {
   return fetch(`${authenticationServiceUrl}/token`, {
     method: 'POST',
     headers: {
-      Authorization: token,
+      Authorization: accessToken,
       Accept: 'application/json',
       'Content-Type': 'application/json'
     }

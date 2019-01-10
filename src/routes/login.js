@@ -68,16 +68,16 @@ class Login extends Component {
     const { activeAccountEmail, accounts } = this.props.accounts
 
     if (activeAccountEmail && accounts[activeAccountEmail]) {
-      const { token } = accounts[activeAccountEmail]
-      if (token) {
-        this.loginWithSecret({ email: activeAccountEmail, token })
+      const { accessToken } = accounts[activeAccountEmail]
+      if (accessToken) {
+        this.loginWithSecret({ email: activeAccountEmail, accessToken })
       }
     }
   }
 
-  loginWithSecret = ({ email, token }) => {
+  loginWithSecret = ({ email, accessToken }) => {
     this.props
-      .onLoginWithSecret({ email, token })
+      .onLoginWithSecret({ email, accessToken })
       .then(() => {
         localStorage.setItem('showWelcomeMessage', 'true')
         this.pushToHomePage()
@@ -117,7 +117,7 @@ class Login extends Component {
   onClickAccount = account => {
     if (this.state.removeAccounts) {
       this.props.onRemoveAccount(account)
-    } else if (account.token) {
+    } else if (account.accessToken) {
       this.loginWithSecret(account)
     } else {
       this.setState({ ...account, showForm: true })
