@@ -14,10 +14,7 @@ export function fetchIssueEvents(issueId, limit = -1, orderDes = 1) {
     } = getState()
 
     return getIssueEvents(accessToken, issueId, limit, orderDes)
-      .then(response => {
-        if (!response.ok) throw new Error('Issue Events couldnt fetched')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type: ISSUE_EVENTS_FETCHED, payload: result })
       })
@@ -48,10 +45,7 @@ export function postIssueEvent(props) {
     }
 
     return createIssueEvent(accessToken, body)
-      .then(response => {
-        if (!response.ok) throw new Error('Issue Event couldnt created')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({
           type: ISSUE_EVENT_CREATED,
@@ -69,9 +63,7 @@ export function deleteIssueEvent(id) {
     } = getState()
 
     return removeIssueEvent(accessToken, id)
-      .then(response => {
-        if (!response.ok) throw new Error('Issue Event couldnt removed')
-
+      .then(() => {
         dispatch({
           type: ISSUE_EVENT_REMOVED,
           payload: { id }

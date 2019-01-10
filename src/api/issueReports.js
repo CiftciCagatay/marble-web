@@ -1,4 +1,5 @@
 import { issueServiceUrl } from './config'
+import fetch from '../scripts/fetch'
 
 export const getHomePageReport = (accessToken, { unit }) => {
   return fetch(`${issueServiceUrl}/reports/homePageReport?unit=${unit}`, {

@@ -8,10 +8,7 @@ export function fetchUnits() {
     } = getState()
 
     return getUnits(accessToken)
-      .then(response => {
-        if (!response.ok) throw new Error('Units couldnt fetched')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type: UNITS_FETCHED, payload: result })
         return Promise.resolve()
@@ -30,10 +27,7 @@ export function fetchCategories({ unit }) {
     } = getState()
 
     return getCategories(accessToken, { unit })
-      .then(response => {
-        if (!response.ok) throw new Error('Categories couldnt fetched')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type: CATEGORIES_FETCHED, payload: result })
 

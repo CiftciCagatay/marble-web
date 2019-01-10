@@ -20,10 +20,7 @@ export const fetchHomePageReport = filters => {
     } = getState()
 
     return getHomePageReport(accessToken, { ...filters, unit })
-      .then(response => {
-        if (!response.ok) throw new Error('Issue Events couldnt fetched')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(result => {
         dispatch({ type: HOME_PAGE_REPORT_DATA_FETCHED, payload: result })
         return Promise.resolve()
@@ -37,12 +34,9 @@ export const fetchSolverGuildReport = filters => {
       auth: { accessToken },
       users: { user }
     } = getState()
-    
+
     return getSolversGuildReport(accessToken, { ...filters, unit: user.unit })
-      .then(response => {
-        if (!response.ok) throw new Error('Issue Events couldnt fetched')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(result => {
         dispatch({ type: SOLVERS_GUILD_REPORT_DATA_FETCHED, payload: result })
         return Promise.resolve()
@@ -60,10 +54,7 @@ export const fetchProblemResourcesReport = filters => {
     } = getState()
 
     return getProblemResourcesReport(accessToken, { ...filters, unit })
-      .then(response => {
-        if (!response.ok) throw new Error('Issue Events couldnt fetched')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(result => {
         dispatch({
           type: PROBLEM_RESOURCES_REPORT_DATA_FETCHED,

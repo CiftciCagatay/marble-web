@@ -47,10 +47,7 @@ const onLoggedIn = (accessToken, refreshToken, user, dispatch) => {
 export const onLogin = props => {
   return dispatch => {
     return login(props)
-      .then(response => {
-        if (!response.ok) throw new Error('Email veya şifre hatalı.')
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ accessToken, refreshToken }) =>
         getUserData(accessToken, refreshToken, dispatch)
       )
@@ -65,15 +62,11 @@ export const onLogin = props => {
   }
 }
 
-export const onLoginWithSecret = ({ email, accessToken }) => {
+export const onLoginWithSecret = ({ email, accessToken, refreshToken }) => {
   return dispatch => {
     return secret({ accessToken })
-      .then(response => {
-        if (!response.ok) throw new Error('Email veya şifre hatalı.')
-
-        return getUserData(accessToken, dispatch)
-      })
-      .catch(error => {
+      .then(() => getUserData(accessToken, refreshToken, dispatch))
+      .catch(() => {
         dispatch({
           type: UNVALID_SESSION_TOKEN,
           payload: { email }
@@ -92,11 +85,7 @@ export const onLogout = () => {
 
 const getUserData = (accessToken, refreshToken, dispatch) => {
   return getUserInfo(accessToken)
-    .then(response => {
-      if (!response.ok) throw new Error('Users couldnt fetched')
-
-      return response.json()
-    })
+    .then(response => response.json())
     .then(user => {
       if (!user) throw new Error('Users couldnt fetched')
       dispatch({ type: USER_FETCHED, payload: user })

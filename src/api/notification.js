@@ -1,4 +1,5 @@
 import { notificationServiceUrl } from './config'
+import fetch from '../scripts/fetch'
 
 export const getNotifications = (accessToken, userId) => {
   return fetch(`${notificationServiceUrl}/?userId=${userId}`, {

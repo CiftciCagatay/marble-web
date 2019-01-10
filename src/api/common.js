@@ -4,6 +4,7 @@ import {
   labelServiceUrl,
   feedbackServiceUrl
 } from './config'
+import fetch from '../scripts/fetch'
 
 export function getUnits(accessToken) {
   return fetch(`${unitServiceUrl}`, {

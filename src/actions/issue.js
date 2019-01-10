@@ -42,11 +42,7 @@ export function fetchIssues(props, append = false) {
     const type = append ? MORE_ISSUES_FETCHED : ISSUES_FETCHED
 
     return getIssues(accessToken, query)
-      .then(response => {
-        if (!response.ok) throw new Error('')
-
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type, payload: result })
       })
@@ -61,15 +57,9 @@ export function fetchIssueById(_id) {
     } = getState()
 
     return getIssueById(accessToken, _id)
-      .then(response => {
-        if (!response.ok) throw new Error('')
-
-        return response.json()
-      })
-      .then((res) => {
-        console.log(res)
-
-        const { result } = res 
+      .then(response => response.json())
+      .then(res => {
+        const { result } = res
         if (!result) throw new Error()
 
         dispatch({ type: ISSUES_FETCHED, payload: [result] })
@@ -89,11 +79,7 @@ export function postIssue(props) {
       createdAt: new Date(),
       createdBy: user
     })
-      .then(response => {
-        if (!response.ok) throw new Error('Issue couldnt created.')
-
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type: ISSUE_CREATED, payload: result })
         return Promise.resolve({ _id: result._id })
@@ -113,9 +99,7 @@ export function putIssue(issueId, props) {
     } = getState()
 
     return updateIssue(accessToken, issueId, props)
-      .then(response => {
-        if (!response.ok) throw new Error('Issue couldnt updated.')
-
+      .then(() => {
         dispatch({
           type: ISSUE_UPDATED,
           payload: { ...issues[issueId], ...props }
@@ -123,7 +107,7 @@ export function putIssue(issueId, props) {
 
         return Promise.resolve()
       })
-      .catch(error => {
+      .catch(() => {
         return Promise.reject()
       })
   }
@@ -136,9 +120,7 @@ export function removeIssue(issueId) {
     } = getState()
 
     return deleteIssue(accessToken, issueId)
-      .then(response => {
-        if (!response.ok) throw new Error('Issue couldnt removed.')
-
+      .then(() => {
         dispatch({
           type: ISSUE_REMOVED,
           payload: issueId
@@ -146,7 +128,7 @@ export function removeIssue(issueId) {
 
         return Promise.resolve()
       })
-      .catch(error => {
+      .catch(() => {
         return Promise.reject()
       })
   }
@@ -159,11 +141,7 @@ export function getLabelList({ unit }) {
     } = getState()
 
     getLabels(accessToken, { unit })
-      .then(response => {
-        if (!response.ok) throw new Error('')
-
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type: LABELS_FETCHED, payload: result })
       })
@@ -178,12 +156,8 @@ export function updateAssigneesAction(issueId, assignees) {
     } = getState()
 
     return updateAssignees(accessToken, issueId, assignees)
-      .then(response => {
-        if (!response.ok) throw new Error('Assignees couldnt updated.')
-
-        return response.json()
-      })
-      .then(data => {
+      .then(response => response.json())
+      .then(() => {
         dispatch({ type: ASSIGNEES_UPDATED, payload: { issueId, assignees } })
         return Promise.resolve()
       })
@@ -201,12 +175,8 @@ export function updateLabelsAction(issueId, labels) {
     } = getState()
 
     return updateLabels(accessToken, issueId, labels)
-      .then(response => {
-        if (!response.ok) throw new Error('Labels couldnt updated.')
-
-        return response.json()
-      })
-      .then(data => {
+      .then(response => response.json())
+      .then(() => {
         dispatch({ type: LABELS_UPDATED, payload: { issueId, labels } })
         return Promise.resolve()
       })

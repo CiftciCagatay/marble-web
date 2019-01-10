@@ -1,4 +1,5 @@
 import { userServiceUrl } from './config'
+import fetch from '../scripts/fetch'
 
 export const getUserInfo = accessToken => {
   return fetch(`${userServiceUrl}/token`, {

@@ -10,16 +10,12 @@ export const fetchNotifications = () => {
     } = getState()
 
     return getNotifications(accessToken, user._id)
-      .then(response => {
-        if (!response.ok) throw new Error('Users couldnt fetched')
-
-        return response.json()
-      })
+      .then(response => response.json())
       .then(({ result }) => {
         dispatch({ type: NOTIFICATIONS_FETCHED, payload: result })
         return Promise.resolve()
       })
-      .catch(error => {
+      .catch(() => {
         return Promise.reject()
       })
   }
@@ -32,9 +28,7 @@ export const markNotificationsRead = ids => {
     } = getState()
 
     putNotifications(accessToken, ids)
-      .then(response => {
-        if (!response.ok) throw new Error('Users couldnt fetched')
-
+      .then(() => {
         dispatch({ type: NOTIFICATIONS_UPDATED, payload: ids })
       })
       .catch(error => console.log(error))

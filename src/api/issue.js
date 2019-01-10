@@ -1,4 +1,5 @@
 import { issueServiceUrl } from './config'
+import fetch from '../scripts/fetch'
 
 //
 // CRUD Issue

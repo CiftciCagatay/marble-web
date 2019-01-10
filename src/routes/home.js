@@ -20,7 +20,6 @@ class Home extends React.Component {
     this.setState({ open: open === 'true' }, () =>
       localStorage.removeItem('showWelcomeMessage')
     )
-    console.log(process.env.REACT_APP_PORT)
   }
 
   renderSnackbar = () => {
