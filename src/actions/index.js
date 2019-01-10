@@ -22,6 +22,7 @@ export const LOGGED_IN_WITH_SECRET = 'logged-in-with-secret'
 export const LOGIN_FAILED = 'login-failed'
 export const LOGGED_OUT = 'logged-out'
 export const UNVALID_SESSION_TOKEN = 'unvalid-session-token'
+export const ACCESS_TOKEN_REFRESHED = 'access-token-refreshed'
 
 export const MORE_ISSUES_FETCHED = 'more-issues-fetched'
 
