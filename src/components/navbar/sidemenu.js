@@ -8,19 +8,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  IconButton,
-  Drawer,
-  Divider
+  Drawer
 } from '@material-ui/core'
 
 import {
   Info,
   Home,
   List as ListIcon,
-  AccountBalance,
-  Dashboard,
-  ChevronRight,
-  ChevronLeft
+  AccountBalance
 } from '@material-ui/icons'
 
 import { Link } from 'react-router-dom'
@@ -28,7 +23,25 @@ import { Link } from 'react-router-dom'
 const drawerWidth = 200
 
 const Sidemenu = props => {
-  const { open, classes, theme, handleClose } = props
+  const { open, classes } = props
+
+  const items = [
+    { to: '/home', icon: <Home />, title: 'Anasayfa' },
+    { to: '/issues', icon: <ListIcon />, title: 'Görevler' },
+    { to: '/knowledgeBase', icon: <AccountBalance />, title: 'Bilgi Bankası' },
+    { to: '/about', icon: <Info />, title: 'Hakkında' }
+  ]
+
+  const renderItems = () => {
+    return items.map(item => (
+      <Link to={item.to} style={{ textDecoration: 'none' }}>
+        <ListItem button style={{ paddingLeft: '14px' }}>
+          <ListItemIcon style={{ fontSize: '20px' }}>{item.icon}</ListItemIcon>
+          <ListItemText style={{ padding: '0px' }} primary={item.title} />
+        </ListItem>
+      </Link>
+    ))
+  }
 
   return (
     <Drawer
@@ -42,41 +55,7 @@ const Sidemenu = props => {
       open={open}
     >
       <List style={{ marginTop: '48px' }} component="nav">
-        <Link to="/home" style={{ textDecoration: 'none' }}>
-          <ListItem button style={{ paddingLeft: '14px' }}>
-            <ListItemIcon style={{ fontSize: '20px' }}>
-              <Home />
-            </ListItemIcon>
-            <ListItemText style={{ padding: '0px' }} primary="Anasayfa" />
-          </ListItem>
-        </Link>
-
-        <Link to="/issues" style={{ textDecoration: 'none' }}>
-          <ListItem button style={{ paddingLeft: '14px' }}>
-            <ListItemIcon style={{ fontSize: '20px' }}>
-              <ListIcon />
-            </ListItemIcon>
-            <ListItemText style={{ padding: '0px' }} primary="Görevler" />
-          </ListItem>
-        </Link>
-
-        <Link to="/knowledgeBase" style={{ textDecoration: 'none' }}>
-          <ListItem button style={{ paddingLeft: '14px' }}>
-            <ListItemIcon style={{ fontSize: '20px' }}>
-              <AccountBalance />
-            </ListItemIcon>
-            <ListItemText style={{ padding: '0px' }} primary="Bilgi Bankası" />
-          </ListItem>
-        </Link>
-
-        <Link to="/about" style={{ textDecoration: 'none' }}>
-          <ListItem button style={{ paddingLeft: '14px' }}>
-            <ListItemIcon style={{ fontSize: '20px' }}>
-              <Info />
-            </ListItemIcon>
-            <ListItemText style={{ padding: '0px' }} primary="Hakkında" />
-          </ListItem>
-        </Link>
+        {renderItems()}
       </List>
     </Drawer>
   )
