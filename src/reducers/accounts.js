@@ -45,6 +45,7 @@ export default (state = INITIAL_STATE, action) => {
     case UNVALID_SESSION_TOKEN:
       let { [action.payload.email]: unvalidAccount, ...others } = state.accounts
       delete account.accessToken
+      delete account.refreshToken
 
       return {
         accounts: { ...others, [action.payload.email]: unvalidAccount },
@@ -57,6 +58,7 @@ export default (state = INITIAL_STATE, action) => {
     case LOGGED_OUT:
       let { [state.activeAccountEmail]: account, ...rest } = state.accounts
       delete account.accessToken
+      delete account.refreshToken
 
       return {
         accounts: { ...rest, [state.activeAccountEmail]: account },

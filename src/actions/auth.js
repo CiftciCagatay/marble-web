@@ -62,18 +62,11 @@ export const onLogin = props => {
   }
 }
 
-export const onLoginWithSecret = ({ email, accessToken, refreshToken }) => {
+export const onLoginWithSecret = ({ accessToken, refreshToken }) => {
   return dispatch => {
-    return secret({ accessToken })
-      .then(() => getUserData(accessToken, refreshToken, dispatch))
-      .catch(() => {
-        dispatch({
-          type: UNVALID_SESSION_TOKEN,
-          payload: { email }
-        })
-
-        return Promise.reject()
-      })
+    return secret({ accessToken }).then(() =>
+      getUserData(accessToken, refreshToken, dispatch)
+    )
   }
 }
 

@@ -1,8 +1,8 @@
 import { authenticationServiceUrl } from './config'
-import fetch from '../scripts/fetch'
+import fetchCustom from '../scripts/fetch'
 
 export const login = ({ email, password }) => {
-  return fetch(`${authenticationServiceUrl}/login`, {
+  return fetchCustom(`${authenticationServiceUrl}/login`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -13,7 +13,7 @@ export const login = ({ email, password }) => {
 }
 
 export const secret = ({ accessToken }) => {
-  return fetch(`${authenticationServiceUrl}/token`, {
+  return fetchCustom(`${authenticationServiceUrl}/token`, {
     method: 'POST',
     headers: {
       Authorization: accessToken,
@@ -23,11 +23,11 @@ export const secret = ({ accessToken }) => {
   })
 }
 
-export const refresh = ({ resfreshToken }) => {
+export const refresh = ({ refreshToken }) => {
   return fetch(`${authenticationServiceUrl}/refresh`, {
     method: 'POST',
     headers: {
-      Authorization: resfreshToken,
+      Authorization: refreshToken,
       Accept: 'application/json',
       'Content-Type': 'application/json'
     }

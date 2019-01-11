@@ -2,48 +2,73 @@ import { store } from '../App'
 import { LOGGED_OUT, ACCESS_TOKEN_REFRESHED } from '../actions'
 import { refresh, authenticationServiceUrl } from '../api'
 
-export default (...params) => {
-  return fetch(...params).then(response => {
-    if (response.ok) {
-      return Promise.resolve(response)
-    } else if (response.status === 403) {
-      return Promise.reject(new Error('Yetkisiz erişim.'))
-    } else if (response.status === 401) {
-      if (response.url === `${authenticationServiceUrl}/refresh`) {
-        // Logout
-        // Refresh token expired too. Session is not valid anymore
-        store.dispatch({ type: LOGGED_OUT })
-        return Promise.reject(new Error('Unauthorized Access'))
-      }
+function configureFetch() {
+  let refreshingTokenPromise = null
 
-      // Access token expired
-      // Try to refresh it
-      const {
-        auth: { refreshToken }
-      } = store.getState()
-
-      refresh({ refreshToken })
-        .then(response => response.json())
-        .then(({ accessToken }) => {
-          // Access token refreshed
-          store.dispatch({
-            type: ACCESS_TOKEN_REFRESHED,
-            payload: { accessToken }
-          })
-
-          // Repeat prev request with refreshed token
-          const { options, url, ...restParams } = params
-          return fetch(
-            url,
-            {
-              ...options,
-              headers: { ...options.headers, Authorization: accessToken }
-            },
-            ...restParams
-          )
-        })
+  return (...params) => {
+    if (refreshingTokenPromise !== null) {
+      return refreshingTokenPromise
+        .then(() => fetch(...params))
+        .catch(() => fetch(...params))
     }
 
-    return Promise.reject(new Error('Sunucuya erişilemedi.'))
-  })
+    return fetch(...params).then(response => {
+      if (response.ok) {
+        return Promise.resolve(response)
+      }
+
+      if (response.status === 401) {
+        if (response.url === `${authenticationServiceUrl}/refresh`) {
+          // Logout
+          // Refresh token expired too. Session is not valid anymore
+          store.dispatch({ type: LOGGED_OUT })
+          return Promise.reject(new Error('Unauthorized Access'))
+        }
+
+        if (refreshingTokenPromise === null) {
+          const {
+            auth: { refreshToken }
+          } = store.getState()
+
+          refreshingTokenPromise = new Promise((resolve, reject) => {
+            refresh({ refreshToken })
+              .then(response => response.json())
+              .then(({ accessToken }) => {
+                // Access token refreshed
+                store.dispatch({
+                  type: ACCESS_TOKEN_REFRESHED,
+                  payload: { accessToken }
+                })
+
+                refreshingTokenPromise = null
+
+                resolve()
+              })
+              .catch(error => {
+                refreshingTokenPromise = null
+                reject(error)
+              })
+          })
+        }
+
+        return refreshingTokenPromise.then(() => {
+          // Repeat prev request with refreshed token
+          const {
+            auth: { accessToken }
+          } = store.getState()
+
+          const url = params[0]
+          const { headers, ...restOptions } = params[1]
+          return fetch(url, {
+            headers: { ...headers, Authorization: accessToken },
+            ...restOptions
+          })
+        })
+      } else {
+        return Promise.reject(new Error('Sunucuya erişilemedi.'))
+      }
+    })
+  }
 }
+
+export default configureFetch()
