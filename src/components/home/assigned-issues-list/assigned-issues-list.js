@@ -16,7 +16,7 @@ import { PriorityHigh, Grade } from '@material-ui/icons'
 import { red, yellow } from '@material-ui/core/colors'
 
 import { connect } from 'react-redux'
-import { fetchIssues, cleanIssuesFromRedux } from '../../../actions'
+import { getIssues } from '../../../api'
 
 import UserAvatar from '../../common/user-avatar'
 import { Link } from 'react-router-dom'
@@ -24,11 +24,19 @@ import { timeFormat } from '../../../scripts'
 import _ from 'lodash'
 
 class AssignedIssueList extends Component {
+  state = {
+    issues: []
+  }
+
   componentDidMount() {
-    this.props.fetchIssues({
+    getIssues(this.props.accessToken, {
       assignees: [this.props.user._id],
-      orderBy: 'createdAt'
+      orderBy: 'createdAt',
+      limit: 10
     })
+      .then(response => response.json())
+      .then(({ result }) => this.setState({ issues: result }))
+      .catch(e => console.log(e))
   }
 
   renderNoIssueCard = () => {
@@ -46,7 +54,7 @@ class AssignedIssueList extends Component {
   }
 
   render() {
-    if (this.props.issues.length === 0) {
+    if (this.state.issues.length === 0) {
       return this.renderNoIssueCard()
     }
 
@@ -57,7 +65,7 @@ class AssignedIssueList extends Component {
             Bana Atanan Görevler
           </ListSubheader>
 
-          {this.props.issues.map(issue => (
+          {this.state.issues.map(issue => (
             <Link
               to={`/issues/${issue._id}`}
               style={{ textDecoration: 'none' }}
@@ -85,11 +93,8 @@ class AssignedIssueList extends Component {
   }
 }
 
-function mapStateToProps({ issues, users: { user } }) {
-  return { issues: _.toArray(issues), user }
+function mapStateToProps({ auth: { accessToken }, users: { user } }) {
+  return { accessToken, user }
 }
 
-export default connect(
-  mapStateToProps,
-  { fetchIssues, cleanIssuesFromRedux }
-)(AssignedIssueList)
+export default connect(mapStateToProps)(AssignedIssueList)
