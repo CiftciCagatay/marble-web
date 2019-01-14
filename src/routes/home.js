@@ -12,6 +12,9 @@ import NewIssueFabButton from '../components/issues/new-issue/new-issue-fab-butt
 import EventsCard from '../components/home/events/event-list-card'
 import IssuesByUsers from '../components/dashboard/issuesByUsers'
 
+import AccessControl from '../components/common/access-control'
+import { READ_ALL_TASKS } from '../config'
+
 class Home extends React.Component {
   state = { open: false }
 
@@ -56,34 +59,35 @@ class Home extends React.Component {
     return (
       <div>
         <Grid container spacing={8}>
-          <Grid container item xs={12} sm={5} spacing={8}>
-            <Grid item xs={6}>
+          <Grid item container xs={12} spacing={8}>
+            <Grid item xs={3}>
               <CriticIssuesCard />
             </Grid>
-
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               <HighPriorityIssuesCard />
             </Grid>
-
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               <WaitingIssuesCard />
             </Grid>
-
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               <SolvedIssuesCard />
-            </Grid>
-
-            <Grid item xs={12}>
-              <AssignedIssueList />
-            </Grid>
-
-            <Grid item xs={12}>
-              <EventsCard />
             </Grid>
           </Grid>
 
-          <Grid xs={12} sm={7} item>
-            <IssuesByUsers />
+          <AccessControl permission={READ_ALL_TASKS}>
+            <Grid xs={12} item>
+              <IssuesByUsers />
+            </Grid>
+          </AccessControl>
+
+          <Grid container item spacing={8}>
+            <Grid xs={6} item>
+              <AssignedIssueList />
+            </Grid>
+
+            <Grid xs={6} item>
+              <EventsCard />
+            </Grid>
           </Grid>
         </Grid>
         <NewIssueFabButton />
