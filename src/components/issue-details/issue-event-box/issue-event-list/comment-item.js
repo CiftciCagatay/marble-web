@@ -5,7 +5,6 @@ import {
   Typography,
   CircularProgress,
   IconButton,
-  Button,
   Menu,
   MenuItem
 } from '@material-ui/core'
@@ -21,6 +20,8 @@ import {
   postIssueEvent,
   deleteIssueEvent
 } from '../../../../actions'
+
+import { timeDiff } from '../../../../scripts'
 
 class CommentItem extends Component {
   csl = new ColorHash()
@@ -224,7 +225,7 @@ class CommentItem extends Component {
             <Typography>{event.comment}</Typography>
 
             <div style={{ textAlign: 'right', color: 'grey', fontSize: 12 }}>
-              {event.date}
+              {timeDiff(event.date)}
             </div>
           </div>
         </div>
