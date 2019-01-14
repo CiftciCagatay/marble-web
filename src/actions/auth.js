@@ -1,14 +1,13 @@
 import {
   ACCOUNT_REMOVED,
   LOGGED_IN,
-  UNVALID_SESSION_TOKEN,
   LOGIN_FAILED,
   LOGGED_OUT,
   USER_FETCHED,
   USER_COULDNT_FETCHED,
   ACCOUNT_CHANGED
 } from './'
-import { login, secret, getUserInfo } from '../api'
+import { login, secret, getUserInfo, getRole } from '../api'
 
 export const onChangeAccount = account => {
   return dispatch => {
@@ -81,6 +80,18 @@ const getUserData = (accessToken, refreshToken, dispatch) => {
     .then(response => response.json())
     .then(user => {
       if (!user) throw new Error('Users couldnt fetched')
+
+      // If users role set get permissions
+      if (user.roleId)
+        return getRole(accessToken, user.roleId)
+          .then(response => response.json())
+          .then(({ role: { permissions } }) => {
+            return Promise.resolve({ ...user, permissions })
+          })
+
+      return Promise.resolve(user)
+    })
+    .then(user => {
       dispatch({ type: USER_FETCHED, payload: user })
       return onLoggedIn(accessToken, refreshToken, user, dispatch)
     })
