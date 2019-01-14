@@ -30,6 +30,7 @@ class AssignedIssueList extends Component {
 
   componentDidMount() {
     getIssues(this.props.accessToken, {
+      isOpen: true,
       assignees: [this.props.user._id],
       orderBy: 'createdAt',
       limit: 10
