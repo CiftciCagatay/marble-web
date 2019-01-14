@@ -15,7 +15,8 @@ import {
   Info,
   Home,
   List as ListIcon,
-  AccountBalance
+  AccountBalance,
+  Category as UnitIcon
 } from '@material-ui/icons'
 
 import { Link } from 'react-router-dom'
@@ -29,6 +30,7 @@ const Sidemenu = props => {
     { to: '/home', icon: <Home />, title: 'Anasayfa' },
     { to: '/issues', icon: <ListIcon />, title: 'Görevler' },
     { to: '/knowledgeBase', icon: <AccountBalance />, title: 'Bilgi Bankası' },
+    { to: '/units', icon: <UnitIcon />, title: 'Birimler' },
     { to: '/about', icon: <Info />, title: 'Hakkında' }
   ]
 

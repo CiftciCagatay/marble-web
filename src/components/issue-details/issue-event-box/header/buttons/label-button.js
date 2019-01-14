@@ -13,11 +13,12 @@ import { Label } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
 import {
-  getLabelList,
+  fetchLabels,
   updateLabelsAction,
   postIssueEvent
 } from '../../../../../actions'
 import update from 'immutability-helper'
+import _ from 'lodash'
 
 class LabelButton extends Component {
   state = {
@@ -27,8 +28,8 @@ class LabelButton extends Component {
 
   componentDidMount() {
     this.setState({ labels: this.props.selectedLabels })
-    
-    this.props.getLabelList({ unit: this.props.unit })
+
+    this.props.fetchLabels({ unit: this.props.unit })
   }
 
   // Actions
@@ -156,7 +157,7 @@ class LabelButton extends Component {
         onClose={this.handlePopoverClose}
       >
         <List dense>
-          {this.props.labels.map(label => {
+          {_.map(this.props.labels, label => {
             const checked = this.state.labels.some(
               ({ _id }) => _id === label._id
             )
@@ -195,5 +196,5 @@ function mapStateToProps({ labels }) {
 
 export default connect(
   mapStateToProps,
-  { getLabelList, postIssueEvent, updateLabelsAction }
+  { fetchLabels, postIssueEvent, updateLabelsAction }
 )(LabelButton)
