@@ -7,6 +7,7 @@ import LabelButton from './buttons/label-button'
 import EditButton from './buttons/edit-button'
 import ResolveButton from './buttons/resolve-button'
 import DeleteButton from './buttons/delete-button'
+import ShareButton from './buttons/share-button'
 
 const IssueDetailHeader = props => {
   const { issue } = props
@@ -16,7 +17,8 @@ const IssueDetailHeader = props => {
   return (
     <div
       style={{
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        position: 'relative'
       }}
     >
       <AssigneeButton

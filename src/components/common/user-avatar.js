@@ -21,8 +21,7 @@ const UserAvatar = props => {
           height: small ? '30px' : big ? '80px' : '40px',
           fontSize: small ? '0.95rem' : big ? '1.75rem' : '1.25rem',
           backgroundColor,
-          color: 'white',
-          margin: '4px'
+          color: 'white'
         }}
       >
         {getInitials()}

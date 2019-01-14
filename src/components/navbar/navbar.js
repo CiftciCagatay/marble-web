@@ -78,8 +78,7 @@ const styles = theme => ({
     flexGrow: 1
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: '#015D58'
+    zIndex: theme.zIndex.drawer + 1
   },
   appBarShift: {
     marginLeft: drawerWidth,

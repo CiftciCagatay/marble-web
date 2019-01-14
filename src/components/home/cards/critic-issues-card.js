@@ -31,7 +31,7 @@ class CriticIssuesCard extends Component {
 
   render() {
     return (
-      <Card style={{ height: '100%' }}>
+      <Card style={{ height: '100%', backgroundColor: 'transparent' }} elevation={0}>
         <Link to={this.path} style={{ textDecoration: 'none' }}>
           <ListItem>
             <Avatar

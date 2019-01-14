@@ -31,7 +31,7 @@ class HighPriorityIssuesCard extends Component {
 
   render() {
     return (
-      <Card>
+      <Card style={{ backgroundColor: 'transparent' }} elevation={0}>
         <Link to={this.path} style={{ textDecoration: 'none'}}>
           <ListItem>
             <Avatar
