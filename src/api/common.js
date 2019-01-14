@@ -1,35 +1,12 @@
 import {
   categoryServiceUrl,
-  unitServiceUrl,
-  labelServiceUrl,
-  feedbackServiceUrl
+  feedbackServiceUrl,
+  roleServiceUrl
 } from './config'
 import fetch from '../scripts/fetch'
 
-export function getUnits(accessToken) {
-  return fetch(`${unitServiceUrl}`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: accessToken
-    }
-  })
-}
-
-export function getCategories(accessToken, { unit }) {
-  return fetch(`${categoryServiceUrl}?unit=${unit}`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: accessToken
-    }
-  })
-}
-
-export const getLabels = (accessToken, { unit }) => {
-  return fetch(`${labelServiceUrl}?unit=${unit}`, {
+export function getRole(accessToken, roleId) {
+  return fetch(`${roleServiceUrl}/${roleId}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

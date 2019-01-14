@@ -13,6 +13,7 @@ export const fileServiceUrl = `${ROOT_URL}:${BPM_PORT}/files`
 
 export const userServiceUrl = `${ROOT_URL}:${AUTH_PORT}/users`
 export const authenticationServiceUrl = `${ROOT_URL}:${AUTH_PORT}/auth`
+export const roleServiceUrl = `${ROOT_URL}:${AUTH_PORT}/roles`
 
 export const notificationServiceUrl = `${ROOT_URL}:${NOTIFICATION_PORT}/notifications`
 
