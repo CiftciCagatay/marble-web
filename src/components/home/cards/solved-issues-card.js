@@ -30,9 +30,9 @@ class SolvedIssuesCard extends Component {
 
   render() {
     return (
-      <Card style={{ backgroundColor: 'transparent' }} elevation={0}>
+      <Card>
         <Link to={this.path} style={{ textDecoration: 'none' }}>
-          <ListItem>
+          <ListItem button>
             <Avatar
               style={{
                 margin: 10,

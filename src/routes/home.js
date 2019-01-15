@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { Grid, Snackbar } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 import AssignedIssueList from '../components/home/assigned-issues-list/assigned-issues-list'
 import HighPriorityIssuesCard from '../components/home/cards/high-priority-issues-card'
@@ -56,40 +57,47 @@ class Home extends React.Component {
   }
 
   render() {
+    const { classes } = this.props
+
     return (
-      <div>
-        <Grid container spacing={8}>
-          <Grid item container xs={12} spacing={8}>
-            <Grid item xs={3}>
+      <div className={classes.root}>
+        <div className={classes.section}>
+          <Grid container alignContent="space-between" spacing={16}>
+            <Grid item xs>
               <CriticIssuesCard />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs>
               <HighPriorityIssuesCard />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs>
               <WaitingIssuesCard />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs>
               <SolvedIssuesCard />
             </Grid>
           </Grid>
+        </div>
 
-          <AccessControl permission={READ_ALL_TASKS}>
-            <Grid xs={12} item>
-              <IssuesByUsers />
-            </Grid>
-          </AccessControl>
+        <div className={classes.section}>
+          <Grid container spacing={16}>
+            <AccessControl permission={READ_ALL_TASKS}>
+              <Grid xs={12} item>
+                <IssuesByUsers />
+              </Grid>
+            </AccessControl>
 
-          <Grid container item spacing={8}>
-            <Grid xs={6} item>
-              <AssignedIssueList />
-            </Grid>
+            <Grid container item spacing={16}>
+              <Grid xs={6} item>
+                <AssignedIssueList />
+              </Grid>
 
-            <Grid xs={6} item>
-              <EventsCard />
+              <Grid xs={6} item>
+                <EventsCard />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </div>
+
         <NewIssueFabButton />
 
         {this.renderSnackbar()}
@@ -104,4 +112,13 @@ function mapStateToProps({ users: { user } }) {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+const styles = theme => ({
+  root: {
+    padding: theme.spacing.unit * 3
+  },
+  section: {
+    paddingTop: theme.spacing.unit * 2
+  }
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Home))
