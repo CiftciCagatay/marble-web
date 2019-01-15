@@ -58,11 +58,20 @@ class EventsCard extends Component {
     const { classes } = this.props
     const maxCharCount = 140
 
+    let text = ''
+
+    if (event.comment) {
+      text = `${event.comment.substring(0, maxCharCount)}${
+        event.comment.length > maxCharCount ? '...' : ''
+      }`
+    } else if (event.file) {
+      text = `${event.author.name} bir dosya yükledi.`
+    }
+
     return (
       <Fragment>
         <Typography class={classes.inline} component="span">
-          {event.comment.substring(0, maxCharCount)}
-          {event.comment.length > maxCharCount ? '...' : ''}
+          {text}
         </Typography>
       </Fragment>
     )

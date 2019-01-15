@@ -32,7 +32,6 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { postFeedback, uploadImage } from '../api'
-import Dropzone from '../components/issues/new-issue/file-dropzone'
 import marbleIcon from '../assets/marble-icon.png'
 
 class About extends Component {
@@ -178,66 +177,51 @@ class About extends Component {
         }}
         className={this.props.classes.paper}
       >
-        <Dropzone
-          setDropzoneRef={this.setDropzoneRef}
-          onDrop={this.onDrop}
-          onDragEnter={() => this.setState({ dropzoneActive: true })}
-          onDragLeave={() => this.setState({ dropzoneActive: false })}
-          disableClick
-        >
-          {this.state.dropzoneActive && (
-            <div className={this.props.classes.overlay}>
-              <Typography variant="headline" color="default">
-                Dosyaları buraya bırakın...
-              </Typography>
-            </div>
-          )}
-          <form onSubmit={this.onFeedbackFormSubmit}>
-            <TextField
-              value={this.state.feedback}
-              onChange={e => this.setState({ feedback: e.target.value })}
-              label="Mesaj"
-              multiline
-              fullWidth
-              autoFocus
-              rows={5}
-            />
+        <form onSubmit={this.onFeedbackFormSubmit}>
+          <TextField
+            value={this.state.feedback}
+            onChange={e => this.setState({ feedback: e.target.value })}
+            label="Mesaj"
+            multiline
+            fullWidth
+            autoFocus
+            rows={5}
+          />
 
-            <Button
-              color="primary"
-              style={{ float: 'right', marginTop: '12px' }}
-              variant="contained"
-              disabled={!this.state.feedback}
-              type="submit"
-            >
-              Gönder
-              <Send style={{ marginLeft: '4px' }} />
-            </Button>
+          <Button
+            color="primary"
+            style={{ float: 'right', marginTop: '12px' }}
+            variant="contained"
+            disabled={!this.state.feedback}
+            type="submit"
+          >
+            Gönder
+            <Send style={{ marginLeft: '4px' }} />
+          </Button>
 
-            <Button
-              variant="contained"
-              color="default"
-              style={{ float: 'right', marginTop: '12px', marginRight: '8px' }}
-              onClick={this.openFileDialog}
-            >
-              Dosya Yükle
-              <CloudUpload style={{ marginLeft: '4px' }} />
-            </Button>
+          <Button
+            variant="contained"
+            color="default"
+            style={{ float: 'right', marginTop: '12px', marginRight: '8px' }}
+            onClick={this.openFileDialog}
+          >
+            Dosya Yükle
+            <CloudUpload style={{ marginLeft: '4px' }} />
+          </Button>
 
-            <div style={{ marginTop: '12px' }}>
-              {this.state.files.map((file, index) => (
-                <Chip
-                  label={file.originalname}
-                  onDelete={() =>
-                    this.setState({
-                      files: this.state.files.filter((_, i) => i !== index)
-                    })
-                  }
-                />
-              ))}
-            </div>
-          </form>
-        </Dropzone>
+          <div style={{ marginTop: '12px' }}>
+            {this.state.files.map((file, index) => (
+              <Chip
+                label={file.originalname}
+                onDelete={() =>
+                  this.setState({
+                    files: this.state.files.filter((_, i) => i !== index)
+                  })
+                }
+              />
+            ))}
+          </div>
+        </form>
       </div>
     </Modal>
   )

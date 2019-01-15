@@ -4,7 +4,9 @@ export const uploadImage = (accessToken, data, onProgress) => {
   var req = new XMLHttpRequest()
 
   req.upload.addEventListener('progress', function(ev) {
-    onProgress(ev.loaded / ev.total)
+    if (onProgress) {
+      onProgress(ev.loaded / ev.total)
+    }
   })
 
   req.open('post', fileServiceUrl)

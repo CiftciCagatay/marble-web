@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
-import NewIssueFormModal from './new-issue-form-modal'
+import IssueDialog from './issue-dialog'
 
 class NewIssueFabButton extends Component {
   state = { open: false }
@@ -21,11 +21,7 @@ class NewIssueFabButton extends Component {
         <Add />
       </Button>,
 
-      <NewIssueFormModal
-        key="new-issue-modal"
-        open={this.state.open}
-        handleModalClose={this.handleModalClose}
-      />
+      <IssueDialog open={this.state.open} handleClose={this.handleModalClose} />
     ]
   }
 }
