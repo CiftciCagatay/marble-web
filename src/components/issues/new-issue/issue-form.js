@@ -295,8 +295,8 @@ class IssueForm extends Component {
         autoFocus
         margin="dense"
         fullWidth
-        {...props}
         disabled={this.state.submitting}
+        {...props}
       />
     )
   }
@@ -329,6 +329,7 @@ class IssueForm extends Component {
         {this.renderTextField({
           label: 'Açıklama',
           id: 'explanation',
+          required: true,
           value: this.state.explanation,
           onChange: this.handleChange('explanation'),
           rows: 3,
@@ -337,14 +338,17 @@ class IssueForm extends Component {
         })}
 
         {this.renderSelect({
+          id: 'unit',
           label: 'Birim',
           value: this.state.unit,
           onChange: this.onUnitChange,
+          required: true,
           labelKey: 'name',
           items: this.props.units
         })}
 
         {this.renderSelect({
+          id: 'priority',
           label: 'Öncelik',
           value: this.state.priority,
           onChange: this.handleChange('priority'),
@@ -353,6 +357,7 @@ class IssueForm extends Component {
         })}
 
         {this.renderSelect({
+          id: 'category',
           label: 'Kategori',
           value: this.state.category,
           onChange: this.handleChange('category'),
@@ -361,6 +366,7 @@ class IssueForm extends Component {
         })}
 
         {this.renderSelect({
+          id: 'subCategory',
           label: 'Alt Kategori',
           value: this.state.subCategory,
           onChange: this.handleChange('subCategory'),
@@ -469,7 +475,7 @@ class IssueForm extends Component {
                 variant="outlined"
                 color="primary"
                 onClick={this.onSubmit}
-                disabled={this.state.submitting}
+                disabled={this.state.submitting || !this.state.explanation}
               >
                 {this.state.submitting && (
                   <CircularProgress size={16} className={classes.progress} />
