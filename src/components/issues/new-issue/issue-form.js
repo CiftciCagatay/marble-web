@@ -216,6 +216,7 @@ class IssueForm extends Component {
     this.setState({ submitting: true })
 
     const issue = this.refactorIssue()
+    const unitId = issue.unit._id
     const { files } = this.state
 
     this.props
@@ -229,6 +230,7 @@ class IssueForm extends Component {
             this.uploadFile(files[0]).then(file =>
               this.props.postIssueEvent({
                 issueId,
+                unitId,
                 type: 'comment',
                 comment: issue.explanation,
                 file
@@ -242,6 +244,7 @@ class IssueForm extends Component {
               this.uploadFile(file).then(file =>
                 this.props.postIssueEvent({
                   issueId,
+                  unitId,
                   type: 'comment',
                   file
                 })
@@ -253,6 +256,7 @@ class IssueForm extends Component {
           promises.push(
             this.props.postIssueEvent({
               issueId,
+              unitId,
               type: 'comment',
               comment: issue.explanation
             })
@@ -263,6 +267,7 @@ class IssueForm extends Component {
           promises.push(
             this.props.postIssueEvent({
               issueId,
+              unitId,
               type: 'assign',
               users: issue.assignees
             })
@@ -273,6 +278,7 @@ class IssueForm extends Component {
           promises.push(
             this.props.postIssueEvent({
               issueId,
+              unitId,
               type: 'addLabel',
               labels: issue.labels
             })
@@ -339,24 +345,12 @@ class IssueForm extends Component {
         })}
 
         {this.renderTextField({
-          type: 'date',
-          label: 'Bitiş Tarihi',
-          id: 'deadline',
-          value: this.state.deadline,
-          onChange: this.handleChange('deadline'),
-          InputProps: {
-            shrink: true
-          }
-        })}
-
-        {this.renderSelect({
-          id: 'unit',
-          label: 'Birim',
-          value: this.state.unit,
-          onChange: this.onUnitChange,
-          required: true,
-          labelKey: 'name',
-          items: this.props.units
+          label: 'Özet',
+          id: 'summary',
+          value: this.state.summary,
+          onChange: this.handleChange('summary'),
+          rows: 2,
+          multiline: true
         })}
 
         {this.renderSelect({
@@ -404,6 +398,29 @@ class IssueForm extends Component {
           </Grid>
 
           <Grid xs={4} item>
+            {this.renderTextField({
+              type: 'date',
+              label: 'Teslim Tarihi',
+              id: 'deadline',
+              value: this.state.deadline,
+              onChange: this.handleChange('deadline'),
+              InputLabelProps: {
+                shrink: true
+              }
+            })}
+
+            {this.renderSelect({
+              id: 'unit',
+              label: 'Birim',
+              value: this.state.unit,
+              onChange: this.onUnitChange,
+              required: true,
+              labelKey: 'name',
+              items: this.props.units
+            })}
+
+            <Divider className={classes.divider} />
+
             <AssigneePopoverButton
               selectedUsers={this.state.assignees}
               onSelectUser={this.onSelectUser}
