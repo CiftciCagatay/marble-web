@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { IconButton, Tooltip } from '@material-ui/core'
+import EditIssueForm from '../../../edit-issue/edit-issue-modal'
 import { Edit } from '@material-ui/icons'
 
 class EditButton extends Component {
@@ -15,7 +16,11 @@ class EditButton extends Component {
         <IconButton onClick={() => this.setState({ open: true })}>
           <Edit />
         </IconButton>
-      </Tooltip>
+      </Tooltip>,
+      <EditIssueForm
+        open={open}
+        handleModalClose={() => this.setState({ open: false })}
+      />
     ]
   }
 }

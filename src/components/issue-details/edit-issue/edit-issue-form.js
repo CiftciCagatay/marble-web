@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 
 import {
+  Grid,
   TextField,
   Button,
   Select,
@@ -19,8 +20,10 @@ import { Update, Cancel } from '@material-ui/icons'
 
 class EditIssueForm extends Component {
   state = {
+    _id: '',
     title: '',
     explanation: '',
+    summary: '',
     priority: 0,
     category: null,
     subCategory: null,
@@ -29,9 +32,6 @@ class EditIssueForm extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCategories()
-    this.props.fetchUnits()
-
     const { id } = this.props.match.params
     const {
       _id,
@@ -40,8 +40,12 @@ class EditIssueForm extends Component {
       category,
       subCategory,
       unit,
-      priority
+      priority,
+      summary
     } = this.props.issues[id]
+
+    this.props.fetchCategories({ unit })
+    this.props.fetchUnits()
 
     let subCategories = []
 
@@ -57,23 +61,16 @@ class EditIssueForm extends Component {
       subCategory,
       unit,
       subCategories,
-      priority
+      priority,
+      summary
     })
   }
 
   handleFormSubmit = () => {
-    const {
-      _id,
-      title,
-      explanation,
-      category,
-      subCategory,
-      unit,
-      priority
-    } = this.state
+    const { _id, subCategories, ...body } = this.state
 
     this.props
-      .putIssue(_id, { title, explanation, category, subCategory, unit, priority })
+      .putIssue(_id, body)
       .then(() => this.props.closeModal())
       .catch(err => console.log(err))
   }
@@ -130,6 +127,51 @@ class EditIssueForm extends Component {
     })
   }
 
+  handleChange = id => event => {
+    this.setState({ [id]: event.target.value })
+  }
+
+  renderTextField = props => {
+    const { classes } = this.props
+    const { id } = props
+
+    return (
+      <FormControl className={classes.formControl} fullWidth>
+        <TextField
+          value={this.state[id]}
+          onChange={this.handleChange(id)}
+          fullWidth
+          {...props}
+        />
+      </FormControl>
+    )
+  }
+
+  renderSelect = ({ label, id, name, items, labelKey, valueKey, ...props }) => {
+    const { classes } = this.props
+
+    return (
+      <FormControl className={classes.formControl} fullWidth>
+        <InputLabel htmlFor={id}>{label}</InputLabel>
+        <Select
+          value={this.state[id]}
+          onChange={this.handleUnitChange}
+          inputProps={{
+            name,
+            id
+          }}
+          native
+          {...props}
+        >
+          <option value="" />
+          {map(items, item => (
+            <option value={item[valueKey]}>{item[labelKey]}</option>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+
   render() {
     const { classes } = this.props
 
@@ -138,142 +180,102 @@ class EditIssueForm extends Component {
         className={classes.container}
         onSubmit={event => event.preventDefault()}
       >
-        <div className={classes.formControl}>
-          <TextField
-            id="title"
-            label="Başlık"
-            value={this.state.title}
-            onChange={event => this.setState({ title: event.target.value })}
-            fullWidth
-            helperText="Başlık girilmezse otomatik olarak atanacak"
-          />
-        </div>
+        <Grid container direction="row" spacing={32}>
+          <Grid xs={8} item>
+            {this.renderTextField({
+              helperText: 'Başlık girilmezse otomatik olarak atanacak',
+              label: 'Başlık',
+              id: 'title'
+            })}
 
-        <div className={classes.formControl}>
-          <TextField
-            id="explanation"
-            label="Açıklama"
-            value={this.state.explanation}
-            onChange={event =>
-              this.setState({ explanation: event.target.value })
-            }
-            fullWidth
-            multiline
-            rows="5"
-          />
-        </div>
+            {this.renderTextField({
+              id: 'explanation',
+              label: 'Açıklama',
+              multiline: true,
+              rows: 5
+            })}
 
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="unit-select">Birim</InputLabel>
-          <Select
-            value={this.state.unit ? this.state.unit._id : ''}
-            onChange={this.handleUnitChange}
-            inputProps={{
+            {this.renderTextField({
+              id: 'summary',
+              label: 'Özet',
+              multiline: true,
+              rows: 2
+            })}
+          </Grid>
+
+          <Grid xs={4} item>
+            {this.renderSelect({
+              id: 'unit',
+              label: 'Birim',
               name: 'unit',
-              id: 'unit-select'
-            }}
-            native
-          >
-            <option value="" />
-            {map(this.props.units, unit => (
-              <option value={unit._id}>{unit.name}</option>
-            ))}
-          </Select>
-        </FormControl>
+              value: this.state.unit ? this.state.unit._id : '',
+              onChange: this.handleUnitChange,
+              items: this.props.units,
+              labelKey: 'name',
+              valueKey: '_id'
+            })}
 
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="category-select">Kategori</InputLabel>
-          <Select
-            value={this.state.category ? this.state.category._id : ''}
-            onChange={this.handleCategoryChange}
-            inputProps={{
+            {this.renderSelect({
+              id: 'category',
+              label: 'Kategori',
               name: 'category',
-              id: 'category-select'
-            }}
-            native
-          >
-            <option value="" />
-            {map(this.props.categories, category => (
-              <option value={category._id}>{category.text}</option>
-            ))}
-          </Select>
-        </FormControl>
+              value: this.state.category ? this.state.category._id : '',
+              onChange: this.handleCategoryChange,
+              items: this.props.categories,
+              labelKey: 'text',
+              valueKey: '_id'
+            })}
 
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="subCategory-select">Alt Kategori</InputLabel>
-          <Select
-            value={this.state.subCategory ? this.state.subCategory._id : ''}
-            onChange={this.handleSubCategoryChange}
-            inputProps={{
+            {this.renderSelect({
+              id: 'subCategory',
+              label: 'Alt Kategori',
               name: 'subCategory',
-              id: 'subCategory-select'
-            }}
-            native
-            disabled={this.state.subCategories.length === 0}
-          >
-            <option value="" />
-            {this.state.subCategories.map(subCategory => (
-              <option value={subCategory._id}>{subCategory.text}</option>
-            ))}
-          </Select>
-        </FormControl>
+              value: this.state.subCategory ? this.state.subCategory._id : '',
+              onChange: this.handleSubCategoryChange,
+              items: this.props.subCategories,
+              labelKey: 'text',
+              valueKey: '_id'
+            })}
 
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="priority-select">Öncelik</InputLabel>
-          <Select
-            value={this.state.priority}
-            onChange={e => this.setState({ priority: e.target.value })}
-            inputProps={{
+            {this.renderSelect({
+              id: 'priority',
+              label: 'Öncelik',
               name: 'priority',
-              id: 'priority-select'
-            }}
-            native
-          >
-            <option value="0">Düşük</option>
-            <option value="1">Normal</option>
-            <option value="2">Yüksek</option>
-            <option value="3">Kritik</option>
-          </Select>
-        </FormControl>
+              items: [
+                { value: 0, label: 'Düşük' },
+                { value: 1, label: 'Normal' },
+                { value: 2, label: 'Yüksek' },
+                { value: 3, label: 'Kritik' }
+              ],
+              labelKey: 'label',
+              valueKey: 'value'
+            })}
+          </Grid>
 
-        <div>
-          <Button
-            variant="contained"
-            size="small"
-            className={classes.button}
-            color="primary"
-            style={{
-              float: 'left'
-            }}
-            onClick={this.handleFormSubmit}
-            disabled={!this.state.explanation || this.state.isSaving}
-          >
-            <Update
-              className={classNames(classes.leftIcon, classes.iconSmall)}
-            />
-            Güncelle
-          </Button>
+          <Grid xs={12} spacing={16} justify="flex-end" item container>
+            <Grid item>
+              <Button color="primary" onClick={this.props.closeModal}>
+                Vazgeç
+              </Button>
+            </Grid>
 
-          <Button
-            variant="contained"
-            size="small"
-            className={classes.button}
-            style={{
-              float: 'right'
-            }}
-            color="secondary"
-            onClick={this.props.closeModal}
-          >
-            Vazgeç
-            <Cancel
-              className={classNames(classes.rightIcon, classes.iconSmall)}
-            />
-          </Button>
-        </div>
+            <Grid item>
+              <Button
+                onClick={this.handleFormSubmit}
+                disabled={!this.state.explanation || this.state.isSaving}
+                variant="outlined"
+                color="primary"
+              >
+                Güncelle
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </form>
     )
   }
 }
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -282,18 +284,6 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit
-  },
-  button: {
-    margin: theme.spacing.unit
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  iconSmall: {
-    fontSize: 20
   }
 })
 
@@ -301,21 +291,11 @@ EditIssueForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-function mapStateToProps({
-  units,
-  categories,
-  users: {
-    user: { roles }
-  },
-  auth: { accessToken },
-  issues
-}) {
+function mapStateToProps({ units, categories, issues }) {
   return {
     units,
     categories,
-    roles,
-    issues,
-    accessToken
+    issues
   }
 }
 
