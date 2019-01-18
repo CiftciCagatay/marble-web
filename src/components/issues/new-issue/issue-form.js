@@ -323,7 +323,8 @@ class IssueForm extends Component {
           label: 'Başlık',
           id: 'title',
           value: this.state.title,
-          onChange: this.handleChange('title')
+          onChange: this.handleChange('title'),
+          autoFocus: true
         })}
 
         {this.renderTextField({
@@ -335,6 +336,17 @@ class IssueForm extends Component {
           rows: 3,
           maxRows: 5,
           multiline: true
+        })}
+
+        {this.renderTextField({
+          type: 'date',
+          label: 'Bitiş Tarihi',
+          id: 'deadline',
+          value: this.state.deadline,
+          onChange: this.handleChange('deadline'),
+          InputProps: {
+            shrink: true
+          }
         })}
 
         {this.renderSelect({
