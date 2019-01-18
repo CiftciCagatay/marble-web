@@ -26,6 +26,8 @@ export const timeDiff = date => {
 }
 
 export const timeFormat = (date, format) => {
+  if (!date) return '--/--/----'
+
   return moment(date).format(format)
 }
 

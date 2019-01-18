@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ListItem, ListItemText } from '@material-ui/core'
+import { Grid, ListItem, ListItemText, Typography } from '@material-ui/core'
 import Label from '../common/label'
 import UserAvatar from '../common/user-avatar'
-import UserAvatarGrid from '../common/user-avatar-grid'
 import { timeDiff, timeFormat, getDuration } from '../../scripts'
-import moment from 'moment'
 
 const IssueListItem = props => {
   const { issue } = props
@@ -36,38 +34,46 @@ const IssueListItem = props => {
         <UserAvatar user={issue.createdBy} />
         <ListItemText
           primary={
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                {issue.title}
-                <Label
-                  key={issue.priority}
-                  label={priorities[issue.priority]}
-                />
-                
-                {issue.labels.map(label => (
-                  <Label key={label._id} label={label} />
-                ))}
-              </div>
+            <div>
+              <Typography variant="subtitle1">{issue.title}</Typography>
+              <Typography variant="body1">{issue.summary}</Typography>
 
-              <div style={{ display: 'flex' }}>
-                {issue.assignees.map(user => (
-                  <UserAvatar user={user} small />
-                ))}
-              </div>
+              <Grid container justify="space-between">
+                <Grid item>
+                  <Label
+                    key={issue.priority}
+                    label={priorities[issue.priority]}
+                  />
+
+                  {issue.labels.map(label => (
+                    <Label key={label._id} label={label} />
+                  ))}
+                </Grid>
+
+                <Grid item>
+                  <Grid container>
+                    {issue.assignees.map(user => (
+                      <UserAvatar user={user} small />
+                    ))}
+                  </Grid>
+                </Grid>
+              </Grid>
             </div>
           }
           secondary={
             <div>
-              <p style={{ margin: '0px' }}>
+              <Typography variant="caption">
                 {'Son güncellenme : ' + timeDiff(issue.updatedAt)}
-              </p>
-              <p style={{ margin: '0px' }}>
+              </Typography>
+
+              <Typography variant="caption">
                 {'Oluşturulma Tarihi : ' +
                   timeFormat(issue.createdAt, 'DD/MM/YYYY HH:mm:ss')}
-              </p>
-              <p style={{ margin: '0px' }}>
+              </Typography>
+
+              <Typography variant="caption">
                 {'Bekleme süresi : ' + getDuration(issue.createdAt)}
-              </p>
+              </Typography>
             </div>
           }
           style={{ width: '100%' }}

@@ -2,26 +2,30 @@ import React from 'react'
 import { Card, Chip, List, ListItem, ListItemText } from '@material-ui/core'
 import Label from '../common/label'
 import UserAvatar from '../common/user-avatar'
-import { timeDiff } from '../../scripts'
+import { timeDiff, timeFormat } from '../../scripts'
 
 const IssueDetailsCard = props => {
-  const renderDetail = (title, detail) => (
-    <ListItem>
-      <ListItemText
-        primary={title}
-        secondary={detail}
-        primaryTypographyProps={{
-          color: 'textSecondary',
-          variant: 'caption',
-          gutterBottom: true
-        }}
-        secondaryTypographyProps={{
-          color: 'textPrimary',
-          variant: 'subheading'
-        }}
-      />
-    </ListItem>
-  )
+  const renderDetail = (title, detail) => {
+    if (!detail) return null
+
+    return (
+      <ListItem>
+        <ListItemText
+          primary={title}
+          secondary={detail}
+          primaryTypographyProps={{
+            color: 'textSecondary',
+            variant: 'caption',
+            gutterBottom: true
+          }}
+          secondaryTypographyProps={{
+            color: 'textPrimary',
+            variant: 'subheading'
+          }}
+        />
+      </ListItem>
+    )
+  }
 
   const { issue } = props
   const priorities = [
@@ -65,6 +69,13 @@ const IssueDetailsCard = props => {
         </ListItem>
 
         {renderDetail('Açıklama', issue.explanation)}
+
+        {renderDetail('Özet', issue.summary)}
+
+        {renderDetail(
+          'Teslim Tarihi',
+          timeFormat(issue.deadline, 'DD/MM/YYYY')
+        )}
 
         {issue.unit && renderDetail('Birim', issue.unit.name)}
 

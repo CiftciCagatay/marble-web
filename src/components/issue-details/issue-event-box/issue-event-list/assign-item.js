@@ -1,4 +1,6 @@
 import React from 'react'
+import { Typography } from '@material-ui/core'
+import { timeDiff } from '../../../../scripts'
 
 const AssignItem = props => {
   const { event } = props
@@ -14,11 +16,13 @@ const AssignItem = props => {
           padding: '4px'
         }}
       >
-        <div style={{ fontSize: '15px' }}>
+        <Typography variant="body1">
           {event.author.name} bu görevi
           {event.users.map(user => ', ' + user.name)}{' '}
           {event.type === 'assign' ? 'a atadı.' : 'dan aldı.'}
-        </div>
+        </Typography>
+
+        <Typography variant="caption">{timeDiff(event.date)}</Typography>
       </div>
     </div>
   )

@@ -56,7 +56,10 @@ class IssueEventBox extends Component {
               >
                 <IssueEventList issueId={this.props.issue._id} />
               </div>
-              <Footer issueId={this.props.issue._id} />
+              <Footer
+                issueId={this.props.issue._id}
+                unitId={this.props.issue.unit._id}
+              />
             </Card>
           </div>
 
@@ -70,6 +73,7 @@ class IssueEventBox extends Component {
             <Overlay
               isOpen={this.state.attachButtonClicked}
               issueId={this.props.issue._id}
+              unitId={this.props.issue.unit._id}
               closeOverlay={() => this.setState({ fileHovering: false })}
             />
           </div>

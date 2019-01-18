@@ -1,8 +1,6 @@
 import React from 'react'
-import {
-  Label as LabelIcon,
-  LabelOff as LabelOffIcon
-} from '@material-ui/icons'
+import { Typography } from '@material-ui/core'
+import { timeDiff } from '../../../../scripts'
 
 const LabelItem = props => {
   const { event } = props
@@ -18,11 +16,13 @@ const LabelItem = props => {
           padding: '4px'
         }}
       >
-        <div style={{ fontSize: '15px' }}>
+        <Typography variant="body1">
           {event.author.name}
           {event.labels.map(label => ', ' + label.text)} etiketlerini{' '}
           {event.type === 'addLabel' ? 'ekledi.' : 'çıkardı.'}
-        </div>
+        </Typography>
+
+        <Typography variant="caption">{timeDiff(event.date)}</Typography>
       </div>
     </div>
   )

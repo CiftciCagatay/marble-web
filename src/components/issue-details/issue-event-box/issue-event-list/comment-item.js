@@ -224,9 +224,9 @@ class CommentItem extends Component {
 
             <Typography>{event.comment}</Typography>
 
-            <div style={{ textAlign: 'right', color: 'grey', fontSize: 12 }}>
+            <Typography align="right" variant="caption" color="default">
               {timeDiff(event.date)}
-            </div>
+            </Typography>
           </div>
         </div>
       </div>
