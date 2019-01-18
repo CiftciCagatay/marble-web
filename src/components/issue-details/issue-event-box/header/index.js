@@ -26,6 +26,7 @@ const IssueDetailHeader = props => {
         assignees={issue.assignees}
         isOpen={issue.isOpen}
         issueId={issue._id}
+        unitId={issue.unit._id}
         unit={issue.unit._id}
       />
 
@@ -33,11 +34,17 @@ const IssueDetailHeader = props => {
         selectedLabels={issue.labels}
         isOpen={issue.isOpen}
         issueId={issue._id}
+        unitId={issue.unit._id}
         key="label-button"
         unit={issue.unit._id}
       />
 
-      <ResolveButton isOpen={issue.isOpen} issueId={issue._id} />
+      <ResolveButton
+        isOpen={issue.isOpen}
+        issueId={issue._id}
+        unitId={issue.unit._id}
+      />
+
       <DeleteButton issueId={issue._id} />
 
       <EditButton />

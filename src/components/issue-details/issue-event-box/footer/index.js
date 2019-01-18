@@ -16,7 +16,8 @@ class Footer extends Component {
       .postIssueEvent({
         type: 'comment',
         comment,
-        issueId: this.props.issueId
+        issueId: this.props.issueId,
+        unitId: this.props.unitId
       })
       .then(() => this.setState({ comment: '' }))
       .catch(error => console.log(error))

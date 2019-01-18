@@ -48,6 +48,7 @@ class LabelButton extends Component {
       promises.push(
         this.props.postIssueEvent({
           issueId: this.props.issueId,
+          unitId: this.props.unitId,
           type: 'addLabel',
           labels: addedLabels
         })
@@ -57,6 +58,7 @@ class LabelButton extends Component {
       promises.push(
         this.props.postIssueEvent({
           issueId: this.props.issueId,
+          unitId: this.props.unitId,
           type: 'removeLabel',
           labels: removedLabels
         })

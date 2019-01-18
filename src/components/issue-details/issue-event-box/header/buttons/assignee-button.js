@@ -53,6 +53,7 @@ class AssigneeButton extends Component {
       promises.push(
         this.props.postIssueEvent({
           issueId: this.props.issueId,
+          unitId: this.props.unitId,
           type: 'assign',
           users: addedAssignees
         })
@@ -62,6 +63,7 @@ class AssigneeButton extends Component {
       promises.push(
         this.props.postIssueEvent({
           issueId: this.props.issueId,
+          unitId: this.props.unitId,
           type: 'unassign',
           users: removedAssignees
         })

@@ -13,6 +13,7 @@ class EditButton extends Component {
       }),
       this.props.postIssueEvent({
         type: this.props.isOpen ? 'resolve' : 'reopen',
+        unitId: this.props.unitId,
         issueId: this.props.issueId
       })
     ])
