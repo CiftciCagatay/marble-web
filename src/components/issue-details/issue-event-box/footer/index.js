@@ -1,8 +1,29 @@
 import React, { Component } from 'react'
-import { Input, Button } from '@material-ui/core'
-import { Send } from '@material-ui/icons'
+import { Paper, InputBase, IconButton, Divider } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { Send as SendIcon, AttachFile } from '@material-ui/icons'
 import { connect } from 'react-redux'
 import { postIssueEvent } from '../../../../actions'
+
+const styles = {
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1
+  },
+  iconButton: {
+    padding: 10
+  },
+  divider: {
+    width: 1,
+    height: 28,
+    margin: 4
+  }
+}
 
 class Footer extends Component {
   state = {
@@ -23,6 +44,49 @@ class Footer extends Component {
       .catch(error => console.log(error))
   }
 
+  render() {
+    const { classes } = this.props
+
+    return (
+      <Paper className={classes.root} elevation={0}>
+        <InputBase
+          value={this.state.comment}
+          onChange={event => this.setState({ comment: event.target.value })}
+          multiline
+          fullWidth
+          onKeyPress={e => {
+            const { key, shiftKey } = e
+
+            if (key === 'Enter' && !shiftKey) {
+              this.sendComment()
+            }
+          }}
+          className={classes.input}
+          placeholder="Bir mesaj yazın"
+        />
+
+        <IconButton
+          className={classes.iconButton}
+          onClick={this.props.openFileDialog}
+          aria-label="Attach File"
+        >
+          <AttachFile />
+        </IconButton>
+
+        <Divider className={classes.divider} />
+
+        <IconButton
+          color="primary"
+          className={classes.iconButton}
+          aria-label="Directions"
+          onClick={this.sendComment}
+        >
+          <SendIcon />
+        </IconButton>
+      </Paper>
+    )
+  }
+  /*
   render() {
     return (
       <div
@@ -65,10 +129,10 @@ class Footer extends Component {
         </div>
       </div>
     )
-  }
+  }*/
 }
 
 export default connect(
   null,
   { postIssueEvent }
-)(Footer)
+)(withStyles(styles)(Footer))

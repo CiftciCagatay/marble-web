@@ -39,10 +39,7 @@ class IssueEventBox extends Component {
         <div class="container">
           <div class="event-box">
             <Card>
-              <Header
-                issue={this.props.issue}
-                openFileDialog={this.openFileDialog}
-              />
+              <Header issue={this.props.issue} />
 
               <div
                 style={{
@@ -59,6 +56,7 @@ class IssueEventBox extends Component {
               <Footer
                 issueId={this.props.issue._id}
                 unitId={this.props.issue.unit._id}
+                openFileDialog={this.openFileDialog}
               />
             </Card>
           </div>

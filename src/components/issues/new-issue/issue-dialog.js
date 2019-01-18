@@ -10,7 +10,7 @@ class IssueDialog extends Component {
       <Dialog
         open={open}
         onClose={handleClose}
-        maxWidth="md"
+        maxWidth="lg"
         fullWidth
         disableBackdropClick
         aria-categoryledby="form-dialog-title"

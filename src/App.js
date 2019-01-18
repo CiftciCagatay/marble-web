@@ -22,9 +22,10 @@ export const { store, persistor } = configureStore()
 
 const theme = createMuiTheme({
   palette: {
-    primary: teal,
-    secondary: green
-  }
+    primary: { main: '#00796B' },
+    secondary: { main: '#00796B' }
+  },
+  themeName: 'Pine Green Turquoise Blue Yak'
 })
 
 class App extends Component {

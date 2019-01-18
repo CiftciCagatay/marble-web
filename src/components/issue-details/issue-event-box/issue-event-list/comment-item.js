@@ -8,6 +8,8 @@ import {
   Menu,
   MenuItem
 } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
 import {
   CloudDownload as DownloadIcon,
   InsertDriveFile,
@@ -22,6 +24,15 @@ import {
 } from '../../../../actions'
 
 import { timeDiff } from '../../../../scripts'
+
+const styles = theme => ({
+  quote: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
+    padding: theme.spacing.unit,
+    backgroundColor: '#f5f5f5'
+  }
+})
 
 class CommentItem extends Component {
   csl = new ColorHash()
@@ -124,7 +135,6 @@ class CommentItem extends Component {
           {this.state.progress !== 100 ? (
             <CircularProgress
               style={{ margin: '4px' }}
-              variant="determinate"
               value={this.state.progress * 100}
             />
           ) : (
@@ -180,6 +190,23 @@ class CommentItem extends Component {
             <Typography variant="body1">Yorumu sil</Typography>
           </MenuItem>
         </Menu>
+      </div>
+    )
+  }
+
+  renderQuote = () => {
+    const { classes, event } = this.props
+    const color = this.csl.hex(event.author._id)
+
+    return (
+      <div
+        className={classes.quote}
+        style={{ borderLeft: `4px solid ${color}` }}
+      >
+        <Typography variant="body2" style={{ color }}>
+          {event.author.name}
+        </Typography>
+        <Typography variant="body1">{event.comment}</Typography>
       </div>
     )
   }
@@ -241,4 +268,4 @@ function mapStateToProps({ auth: { accessToken } }) {
 export default connect(
   mapStateToProps,
   { issueEventFileUploaded, postIssueEvent, deleteIssueEvent }
-)(CommentItem)
+)(withStyles(styles)(CommentItem))

@@ -48,10 +48,6 @@ const IssueDetailHeader = props => {
       <DeleteButton issueId={issue._id} />
 
       <EditButton />
-
-      <IconButton onClick={props.openFileDialog}>
-        <AttachFile />
-      </IconButton>
     </div>
   )
 }
