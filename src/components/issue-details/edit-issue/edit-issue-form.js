@@ -17,6 +17,7 @@ import {
   InputLabel
 } from '@material-ui/core'
 import { Update, Cancel } from '@material-ui/icons'
+import { timeFormat } from '../../../scripts'
 
 class EditIssueForm extends Component {
   state = {
@@ -28,6 +29,7 @@ class EditIssueForm extends Component {
     category: null,
     subCategory: null,
     unit: null,
+    deadline: null,
     subCategories: []
   }
 
@@ -41,6 +43,7 @@ class EditIssueForm extends Component {
       subCategory,
       unit,
       priority,
+      deadline,
       summary
     } = this.props.issues[id]
 
@@ -62,6 +65,7 @@ class EditIssueForm extends Component {
       unit,
       subCategories,
       priority,
+      deadline,
       summary
     })
   }
@@ -204,6 +208,16 @@ class EditIssueForm extends Component {
           </Grid>
 
           <Grid xs={4} item>
+            {this.renderTextField({
+              id: 'deadline',
+              label: 'Teslim Tarihi',
+              type: 'date',
+              value: timeFormat(this.state.deadline, 'YYYY-MM-DD'),
+              InputLabelProps: {
+                shrink: true
+              }
+            })}
+
             {this.renderSelect({
               id: 'unit',
               label: 'Birim',
