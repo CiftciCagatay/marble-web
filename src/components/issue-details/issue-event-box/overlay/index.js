@@ -98,7 +98,8 @@ class Overlay extends Component {
         comment: '',
         type: 'comment',
         author: this.props.user,
-        issueId: this.props.issueId
+        issueId: this.props.issueId,
+        unitId: this.props.unitId
       }
     })
 
