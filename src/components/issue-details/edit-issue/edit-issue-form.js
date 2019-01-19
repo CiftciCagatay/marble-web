@@ -118,16 +118,15 @@ class EditIssueForm extends Component {
   }
 
   handleUnitChange = event => {
-    // Eğer boş seçenek seçilmişse
-    if (!event.target.value) {
-      this.setState({
-        unit: null
-      })
+    const id = event.target.value
+    const unit = this.props.units[id]
+
+    if (!unit) {
       return
     }
 
     this.setState({
-      unit: this.props.units[event.target.value]
+      unit
     })
   }
 
@@ -159,7 +158,7 @@ class EditIssueForm extends Component {
         <InputLabel htmlFor={id}>{label}</InputLabel>
         <Select
           value={this.state[id]}
-          onChange={this.handleUnitChange}
+          onChange={this.handleChange(id)}
           inputProps={{
             name,
             id
@@ -167,7 +166,6 @@ class EditIssueForm extends Component {
           native
           {...props}
         >
-          <option value="" />
           {map(items, item => (
             <option value={item[valueKey]}>{item[labelKey]}</option>
           ))}

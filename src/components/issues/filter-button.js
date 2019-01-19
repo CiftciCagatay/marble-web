@@ -46,11 +46,11 @@ class FilterButton extends Component {
           onClose={this.handleClose}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'center'
+            horizontal: 'right'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'right'
           }}
         >
           <List dense={true}>
