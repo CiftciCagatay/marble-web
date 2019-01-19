@@ -2,7 +2,11 @@ import { labelServiceUrl } from './config'
 import fetch from '../scripts/fetch'
 
 export const getLabels = (accessToken, { unit }) => {
-  return fetch(`${labelServiceUrl}?unit=${unit}`, {
+  let queryString = ''
+
+  if (unit) queryString += `unit=${unit}&`
+
+  return fetch(`${labelServiceUrl}?${queryString}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

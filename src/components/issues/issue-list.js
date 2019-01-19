@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import IssueListItem from './issue-list-item'
 import SortButton from './sort-button'
 import FilterButton from './filter-button'
+import LabelFilterButton from './label-button'
 import Searchbar from './searchbar'
 import { Card, List, ListItem } from '@material-ui/core'
 
@@ -20,7 +21,8 @@ class IssueList extends PureComponent {
     createdBy: '',
     assignees: [],
     priority: null,
-    solvedBy: ''
+    solvedBy: '',
+    labels: {}
   }
 
   componentDidMount() {
@@ -43,6 +45,20 @@ class IssueList extends PureComponent {
   onSearchbarTextChange = search => {
     this.setState({ search }, this.fetchIssues())
   }
+
+  onSelectLabel = label => {
+    this.setState(
+      { labels: { ...this.state.labels, [label._id]: label } },
+      () => this.fetchIssues()
+    )
+  }
+
+  onDeselectLabel = label => {
+    const { [label._id]: _, ...labels } = this.state.labels
+    this.setState({ labels }, () => this.fetchIssues())
+  }
+
+  onClearLabels = () => this.setState({ labels: {} }, () => this.fetchIssues())
 
   onSortChange = orderBy => {
     this.setState({ orderBy }, () => this.fetchIssues())
@@ -84,10 +100,18 @@ class IssueList extends PureComponent {
       createdBy,
       assignees,
       priority,
-      solvedBy
+      solvedBy,
+      labels
     } = this.state
 
-    let query = { search, orderBy, createdBy, assignees, isOpen }
+    let query = {
+      search,
+      orderBy,
+      createdBy,
+      assignees,
+      isOpen,
+      labels: _.map(labels, label => label.text)
+    }
 
     if (priority) query['priority'] = priority
     if (solvedBy) query['solvedBy'] = solvedBy
@@ -103,10 +127,19 @@ class IssueList extends PureComponent {
             value={this.state.search}
             onChange={this.onSearchbarTextChange}
           />
+
+          <LabelFilterButton
+            onSelectLabel={this.onSelectLabel}
+            onDeselectLabel={this.onDeselectLabel}
+            selectedLabels={this.state.labels}
+            onClearLabels={this.onClearLabels}
+          />
+
           <FilterButton
             value={this.state.filter}
             onChange={this.onFilterChange}
           />
+
           <SortButton value={this.state.orderBy} onChange={this.onSortChange} />
         </ListItem>
 
