@@ -82,14 +82,15 @@ const getUserData = (accessToken, refreshToken, dispatch) => {
       if (!user) throw new Error('Users couldnt fetched')
 
       // If users role set get permissions
-      if (user.roleId)
+      if (user.roleId) {
         return getRole(accessToken, user.roleId)
           .then(response => response.json())
           .then(({ role: { permissions } }) => {
             return Promise.resolve({ ...user, permissions })
           })
+      }
 
-      return Promise.resolve(user)
+      return Promise.resolve({ ...user, permissions: [] })
     })
     .then(user => {
       dispatch({ type: USER_FETCHED, payload: user })
