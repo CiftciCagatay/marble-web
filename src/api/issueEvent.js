@@ -16,6 +16,17 @@ export const getIssueEvents = (accessToken, issueId, limit, orderDes) => {
   })
 }
 
+export const getIssueEventById = (accessToken, id) => {
+  return fetch(`${issueEventServiceUrl}/${id}`, {
+    method: 'GET',
+    headers: {
+      Authorization: accessToken,
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    }
+  })
+}
+
 export const createIssueEvent = (accessToken, props) => {
   return fetch(`${issueEventServiceUrl}`, {
     method: 'POST',
