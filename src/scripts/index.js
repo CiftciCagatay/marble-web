@@ -39,6 +39,7 @@ export const getDuration = date => {
   const temp = moment.duration(ms)
   let string = ''
 
+  if (temp.months()) string += `${temp.months()} ay `
   if (temp.days()) string += `${temp.days()} gün `
   if (temp.hours()) string += `${temp.hours()} saat `
   if (temp.minutes()) string += `${temp.minutes()} dakika `
