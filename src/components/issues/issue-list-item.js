@@ -36,7 +36,17 @@ const IssueListItem = props => {
           primary={
             <div>
               <Typography variant="subtitle1">{issue.title}</Typography>
-              <Typography variant="body1">{issue.summary}</Typography>
+              
+              {issue.summary && (
+                <Typography variant="body1">{issue.summary}</Typography>
+              )}
+
+              {issue.deadline && (
+                <Typography variant="body2" color="error">
+                  {'Teslim tarihi : ' +
+                    timeFormat(issue.deadline, 'DD/MM/YYYY')}
+                </Typography>
+              )}
 
               <Grid container justify="space-between">
                 <Grid item>
