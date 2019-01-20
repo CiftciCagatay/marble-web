@@ -13,7 +13,8 @@ import './index.css'
 class IssueEventBox extends Component {
   state = {
     fileHovering: false,
-    attachButtonClicked: false
+    attachButtonClicked: false,
+    quote: null
   }
 
   constructor(props) {
@@ -51,12 +52,17 @@ class IssueEventBox extends Component {
                   backgroundColor: '#ECEFF1'
                 }}
               >
-                <IssueEventList issueId={this.props.issue._id} />
+                <IssueEventList
+                  issueId={this.props.issue._id}
+                  onClickQuote={quote => this.setState({ quote })}
+                />
               </div>
               <Footer
                 issueId={this.props.issue._id}
                 unitId={this.props.issue.unit._id}
+                quote={this.state.quote}
                 openFileDialog={this.openFileDialog}
+                onClickUnquote={() => this.setState({ quote: null })}
               />
             </Card>
           </div>

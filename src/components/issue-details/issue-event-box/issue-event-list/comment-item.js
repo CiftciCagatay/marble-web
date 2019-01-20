@@ -22,8 +22,10 @@ import {
   postIssueEvent,
   deleteIssueEvent
 } from '../../../../actions'
+import { getIssueEventById } from '../../../../api'
 
 import { timeDiff } from '../../../../scripts'
+import { DELETE_COMMENT } from '../../../../config'
 
 const styles = theme => ({
   quote: {
@@ -31,7 +33,8 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
     padding: theme.spacing.unit,
     backgroundColor: '#f5f5f5'
-  }
+  },
+  menuItem: {}
 })
 
 class CommentItem extends Component {
@@ -40,11 +43,18 @@ class CommentItem extends Component {
   state = {
     progress: 100,
     showCommentMenu: false,
-    anchorEl: null
+    anchorEl: null,
+    quote: null
   }
 
   componentDidMount() {
     const { event } = this.props
+
+    if (event.quoteId) {
+      getIssueEventById(this.props.accessToken, event.quoteId)
+        .then(response => response.json())
+        .then(({ result }) => this.setState({ quote: result }))
+    }
 
     if (event._id) {
       // Event backend den geliyor
@@ -164,6 +174,20 @@ class CommentItem extends Component {
   }
 
   renderMenu = () => {
+    const { classes, event, user, onClickQuote } = this.props
+
+    const menuItems = [
+      {
+        label: 'Cevapla',
+        onClick: () => onClickQuote(event)
+      },
+      {
+        label: 'Mesajı sil',
+        onClick: this.onRemoveCommentButtonClick,
+        hide: !user.permissions.includes(DELETE_COMMENT) && event.author._id !== user._id
+      }
+    ]
+
     return (
       <div
         class="carrot"
@@ -183,20 +207,24 @@ class CommentItem extends Component {
           open={Boolean(this.state.anchorEl)}
           onClose={() => this.setState({ anchorEl: null })}
         >
-          <MenuItem
-            onClick={this.onRemoveCommentButtonClick}
-            disableGutters={true}
-          >
-            <Typography variant="body1">Yorumu sil</Typography>
-          </MenuItem>
+          {menuItems.map(item => {
+            if (item.hide) return null
+
+            return (
+              <MenuItem onClick={item.onClick} className={classes.menuItem}>
+                <Typography variant="body1">{item.label}</Typography>
+              </MenuItem>
+            )
+          })}
         </Menu>
       </div>
     )
   }
 
   renderQuote = () => {
-    const { classes, event } = this.props
-    const color = this.csl.hex(event.author._id)
+    const { classes } = this.props
+    const { quote } = this.state
+    const color = this.csl.hex(quote.author._id)
 
     return (
       <div
@@ -204,9 +232,9 @@ class CommentItem extends Component {
         style={{ borderLeft: `4px solid ${color}` }}
       >
         <Typography variant="body2" style={{ color }}>
-          {event.author.name}
+          {quote.author.name}
         </Typography>
-        <Typography variant="body1">{event.comment}</Typography>
+        <Typography variant="body1">{quote.comment}</Typography>
       </div>
     )
   }
@@ -249,6 +277,8 @@ class CommentItem extends Component {
               {event.file && this.renderMedia(event.file)}
             </div>
 
+            {this.state.quote && this.renderQuote()}
+
             <Typography>{event.comment}</Typography>
 
             <Typography align="right" variant="caption" color="default">
@@ -261,8 +291,8 @@ class CommentItem extends Component {
   }
 }
 
-function mapStateToProps({ auth: { accessToken } }) {
-  return { accessToken }
+function mapStateToProps({ auth: { accessToken }, users: { user } }) {
+  return { accessToken, user }
 }
 
 export default connect(

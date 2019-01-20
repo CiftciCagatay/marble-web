@@ -1,11 +1,23 @@
 import React, { Component } from 'react'
-import { Paper, InputBase, IconButton, Divider } from '@material-ui/core'
+import {
+  Paper,
+  InputBase,
+  IconButton,
+  Divider,
+  Typography,
+  Grid
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { Send as SendIcon, AttachFile } from '@material-ui/icons'
+import {
+  Send as SendIcon,
+  AttachFile,
+  CancelOutlined as CancelIcon
+} from '@material-ui/icons'
 import { connect } from 'react-redux'
 import { postIssueEvent } from '../../../../actions'
+import ColorHash from 'color-hash'
 
-const styles = {
+const styles = theme => ({
   root: {
     padding: '2px 4px',
     display: 'flex',
@@ -22,15 +34,24 @@ const styles = {
     width: 1,
     height: 28,
     margin: 4
+  },
+  quote: {
+    padding: theme.spacing.unit,
+    backgroundColor: '#f5f5f5'
+  },
+  quoteRoot: {
+    padding: theme.spacing.unit
   }
-}
+})
 
 class Footer extends Component {
   state = {
     comment: ''
   }
+  csl = new ColorHash()
 
   sendComment = () => {
+    const { quote } = this.props
     const { comment } = this.state
 
     this.props
@@ -38,16 +59,60 @@ class Footer extends Component {
         type: 'comment',
         comment,
         issueId: this.props.issueId,
-        unitId: this.props.unitId
+        unitId: this.props.unitId,
+        quoteId: quote ? quote._id : null
       })
-      .then(() => this.setState({ comment: '' }))
+      .then(() => {
+        this.props.onClickUnquote()
+        this.setState({ comment: '' })
+      })
       .catch(error => console.log(error))
+  }
+
+  renderQuote = () => {
+    const { quote, classes } = this.props
+
+    if (!quote) return null
+
+    const color = this.csl.hex(quote.author._id)
+
+    return (
+      <div className={classes.quoteRoot}>
+        <Grid
+          container
+          justify="space-between"
+          alignItems="center"
+          spacing={16}
+        >
+          <Grid xs item>
+            <div
+              className={classes.quote}
+              style={{ borderLeft: `4px solid ${color}` }}
+            >
+              <Typography variant="body2" style={{ color }}>
+                {quote.author.name}
+              </Typography>
+              <Typography variant="body1">
+                {quote.comment ? quote.comment.substring(0, 140) : ''}...
+              </Typography>
+            </div>
+          </Grid>
+
+          <Grid item>
+            <IconButton onClick={this.props.onClickUnquote}>
+              <CancelIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </div>
+    )
   }
 
   render() {
     const { classes } = this.props
 
-    return (
+    return [
+      this.renderQuote(),
       <Paper className={classes.root} elevation={0}>
         <InputBase
           value={this.state.comment}
@@ -84,52 +149,8 @@ class Footer extends Component {
           <SendIcon />
         </IconButton>
       </Paper>
-    )
+    ]
   }
-  /*
-  render() {
-    return (
-      <div
-        style={{
-          backgroundColor: '#f2f2f2',
-          padding: '5px',
-          display: 'flex'
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            borderRadius: '2px',
-            backgroundColor: '#fff',
-            paddingLeft: '12px',
-            paddingRight: '12px'
-          }}
-        >
-          <Input
-            value={this.state.comment}
-            onChange={event => this.setState({ comment: event.target.value })}
-            placeholder="Yorum yazın"
-            fullWidth
-            multiline
-            rowsMax="5"
-            onKeyPress={e => {
-              const { key, shiftKey } = e
-
-              if (key === 'Enter' && !shiftKey) {
-                this.sendComment()
-              }
-            }}
-          />
-        </div>
-
-        <div>
-          <Button onClick={this.sendComment}>
-            <Send />
-          </Button>
-        </div>
-      </div>
-    )
-  }*/
 }
 
 export default connect(

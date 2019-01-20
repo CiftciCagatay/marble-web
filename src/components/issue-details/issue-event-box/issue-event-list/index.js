@@ -31,7 +31,7 @@ class IssueEventList extends Component {
         ownEvent = this.props.user._id === event.author._id
 
         if (event.type === 'comment') {
-          return <CommentItem ownEvent={ownEvent} event={event} />
+          return <CommentItem ownEvent={ownEvent} event={event} onClickQuote={this.props.onClickQuote} />
         } else if (event.type === 'addLabel' || event.type === 'removeLabel') {
           return <LabelItem event={event} />
         } else if (event.type === 'assign' || event.type === 'unassign') {
