@@ -8,10 +8,8 @@ import {
   onLoginWithSecret
 } from '../../../actions'
 import {
-  IconButton,
   Button,
   Chip,
-  Divider,
   List,
   ListSubheader,
   ListItem,
@@ -25,9 +23,10 @@ import {
   DialogActions
 } from '@material-ui/core'
 import { KeyboardArrowDown, ExitToApp } from '@material-ui/icons'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import UserAvatar from '../../common/user-avatar'
 import _ from 'lodash'
+import { Link } from 'react-router-dom'
 
 class AccountButton extends Component {
   state = {
@@ -58,6 +57,7 @@ class AccountButton extends Component {
   renderPasswordDialog() {
     return (
       <Dialog
+        key="password-dialog"
         open={this.state.passwordDialogOpen}
         onClose={this.handlePasswordDialogClose}
         aria-labelledby="form-dialog-title"
@@ -116,6 +116,7 @@ class AccountButton extends Component {
   renderAccountButton(account) {
     return (
       <Chip
+        key="account-button"
         avatar={<UserAvatar user={account} small />}
         onClick={({ currentTarget }) =>
           this.onClickAccountMenuButton(currentTarget)
@@ -144,13 +145,17 @@ class AccountButton extends Component {
     const { accounts, activeAccountEmail } = this.props.accounts
     const { [activeAccountEmail]: activeAccount, ...restAccounts } = accounts
 
+    if (!activeAccountEmail || !accounts || !activeAccount)
+      return <Redirect to="/" />
+
     return [
       this.renderAccountButton(activeAccount),
       this.renderPasswordDialog(),
       <Menu
         id="account-menu"
-        classes="account-list-menu"
+        key="account-menu"
         anchorEl={this.state.anchorEl}
+        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right'
@@ -179,8 +184,15 @@ class AccountButton extends Component {
           <div style={{ padding: '12px' }}>
             <div style={{ fontWeight: 'bold' }}>{activeAccount.name}</div>
             <div style={{ fontWeight: 'lighter' }}>{activeAccount.company}</div>
+
+            <Link to="/settings">
+              <Button variant="contained" color="primary">
+                Ayarlar
+              </Button>
+            </Link>
           </div>
         </div>
+
         {Object.keys(restAccounts).length !== 0 && (
           <List
             subheader={
@@ -189,6 +201,7 @@ class AccountButton extends Component {
           >
             {_.map(restAccounts, account => (
               <ListItem
+                key={account.email}
                 onClick={() => this.onAccountListItemClick(account)}
                 dense
                 button
@@ -204,7 +217,7 @@ class AccountButton extends Component {
         )}
 
         <Button
-          variant="flat"
+          variant="text"
           fullWidth
           onClick={this.onLogoutButtonClicked}
           style={{

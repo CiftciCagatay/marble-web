@@ -1,0 +1,34 @@
+{
+  "1": {
+    "_id": "1",
+    "type": "meeting",
+    "title": "BPM Modülü Satış Toplantısı",
+    "user": {
+      "_id": "2",
+      "name": "Çağatay Çiftçi"
+    },
+    "date": "20 Şubat"
+  },
+
+  "2": {
+    "_id": "2",
+    "type": "task",
+    "title": "Ali Beylere Teklif Sunulacak",
+    "user": {
+      "_id": "2",
+      "name": "Çağatay Çiftçi"
+    },
+    "date": "20 Şubat"
+  },
+
+  "3": {
+    "_id": "3",
+    "type": "visit",
+    "title": "Mecidiyeköy Ofis Ziyareti",
+    "user": {
+      "_id": "2",
+      "name": "Çağatay Çiftçi"
+    },
+    "date": "20 Şubat"
+  }
+}

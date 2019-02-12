@@ -1,31 +1,37 @@
 import React, { Component } from 'react'
-import ColorHash from 'color-hash'
-import './comment.css'
+
 import {
   Typography,
   CircularProgress,
   IconButton,
   Menu,
-  MenuItem
+  MenuItem,
+  Paper
 } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
 
 import {
   CloudDownload as DownloadIcon,
   InsertDriveFile,
   KeyboardArrowDown
 } from '@material-ui/icons'
-import { ROOT_URL, BPM_PORT, uploadImage } from '../../../../api'
-import { connect } from 'react-redux'
+
+import { withStyles } from '@material-ui/core/styles'
+import ColorHash from 'color-hash'
+import './comment.css'
+
+import DeleteForeverDialog from '../../../common/delete-forever-dialog'
+
 import {
   issueEventFileUploaded,
   postIssueEvent,
   deleteIssueEvent
 } from '../../../../actions'
 import { getIssueEventById } from '../../../../api'
+import { connect } from 'react-redux'
 
-import { timeDiff } from '../../../../scripts'
+import { BPM_PORT, uploadImage } from '../../../../api'
 import { DELETE_COMMENT } from '../../../../config'
+import { timeDiff } from '../../../../scripts'
 
 const styles = theme => ({
   quote: {
@@ -44,7 +50,8 @@ class CommentItem extends Component {
     progress: 100,
     showCommentMenu: false,
     anchorEl: null,
-    quote: null
+    quote: null,
+    dialogOpen: false
   }
 
   componentDidMount() {
@@ -61,8 +68,8 @@ class CommentItem extends Component {
     } else if (event.tempId && event.fileToUpload) {
       // Event henüz backend e gönderilmemiş
       this.uploadFile(event.fileToUpload)
-        .then(result => {
-          let files = JSON.parse(result)
+        .then(response => response.json())
+        .then(files => {
           this.setState({ progress: 100 })
           this.props.issueEventFileUploaded(event.tempId, files[0])
           return Promise.resolve(files[0])
@@ -82,7 +89,7 @@ class CommentItem extends Component {
     }
 
     const link = document.createElement('a', { target: '_blank' })
-    link.href = `${ROOT_URL}:${BPM_PORT}${file.path}`
+    link.href = `http://arctory.tk:${BPM_PORT}${file.path}`
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -101,13 +108,21 @@ class CommentItem extends Component {
   renderImage = image => {
     return (
       <a
-        href={`${ROOT_URL}:${BPM_PORT}${image.path}`}
+        href={`http://arctory.tk:${BPM_PORT}${image.path}`}
         target="_blank"
-        style={{ textDecoration: 'none' }}
+        style={{
+          textDecoration: 'none'
+        }}
       >
         <img
-          style={{ maxHeight: '120px', maxWidth: '100%', cursor: 'pointer' }}
-          src={`${ROOT_URL}:${BPM_PORT}${image.path}`}
+          style={{
+            height: '100px',
+            width: '150px',
+            cursor: 'pointer',
+            borderRadius: '2px',
+            objectFit: 'cover'
+          }}
+          src={`http://arctory.tk:${BPM_PORT}${image.path}`}
         />
       </a>
     )
@@ -148,7 +163,10 @@ class CommentItem extends Component {
               value={this.state.progress * 100}
             />
           ) : (
-            <a href={`${ROOT_URL}:${BPM_PORT}${file.path}`} target="_blank">
+            <a
+              href={`http://arctory.tk:${BPM_PORT}${file.path}`}
+              target="_blank"
+            >
               <IconButton>
                 <DownloadIcon style={{ color: '#757575' }} />
               </IconButton>
@@ -160,7 +178,7 @@ class CommentItem extends Component {
   }
 
   renderMedia = file => {
-    if (file.mimetype.startsWith('image/')) {
+    if (file.mimetype && file.mimetype.startsWith('image/')) {
       return this.renderImage(file)
     } else {
       return this.renderFile(file)
@@ -170,7 +188,7 @@ class CommentItem extends Component {
   onRemoveCommentButtonClick = () => {
     this.props.deleteIssueEvent(this.props.event._id)
 
-    this.setState({ anchorEl: null })
+    this.setState({ anchorEl: null, dialogOpen: false })
   }
 
   renderMenu = () => {
@@ -179,18 +197,23 @@ class CommentItem extends Component {
     const menuItems = [
       {
         label: 'Cevapla',
-        onClick: () => onClickQuote(event)
+        onClick: () => {
+          this.setState({ anchorEl: null })
+          onClickQuote(event)
+        }
       },
       {
         label: 'Mesajı sil',
-        onClick: this.onRemoveCommentButtonClick,
-        hide: !user.permissions.includes(DELETE_COMMENT) && event.author._id !== user._id
+        onClick: () => this.setState({ dialogOpen: true }),
+        hide:
+          !user.permissions.includes(DELETE_COMMENT) &&
+          event.author._id !== user._id
       }
     ]
 
     return (
       <div
-        class="carrot"
+        className="carrot"
         style={{ opacity: this.state.showCommentMenu ? 1 : 0 }}
       >
         <span
@@ -207,11 +230,15 @@ class CommentItem extends Component {
           open={Boolean(this.state.anchorEl)}
           onClose={() => this.setState({ anchorEl: null })}
         >
-          {menuItems.map(item => {
+          {menuItems.map((item, i) => {
             if (item.hide) return null
 
             return (
-              <MenuItem onClick={item.onClick} className={classes.menuItem}>
+              <MenuItem
+                key={i}
+                onClick={item.onClick}
+                className={classes.menuItem}
+              >
                 <Typography variant="body1">{item.label}</Typography>
               </MenuItem>
             )
@@ -231,10 +258,10 @@ class CommentItem extends Component {
         className={classes.quote}
         style={{ borderLeft: `4px solid ${color}` }}
       >
-        <Typography variant="body2" style={{ color }}>
+        <Typography style={{ color, fontSize: 13 }}>
           {quote.author.name}
         </Typography>
-        <Typography variant="body1">{quote.comment}</Typography>
+        <Typography>{quote.comment}</Typography>
       </div>
     )
   }
@@ -242,16 +269,16 @@ class CommentItem extends Component {
   render() {
     const { ownEvent, event } = this.props
 
-    return (
-      <div style={{ marginBottom: '8px' }}>
+    return [
+      <div style={{ marginBottom: '8px' }} key={event._id}>
         <div
           style={{
             maxWidth: '60%',
             float: ownEvent ? 'right' : 'left'
           }}
         >
-          <div
-            class={`bubble ${ownEvent ? 'bubble-right' : 'bubble-left'}`}
+          <Paper
+            className={`bubble ${ownEvent ? 'bubble-right' : 'bubble-left'}`}
             onMouseEnter={() => this.setState({ showCommentMenu: true })}
             onMouseLeave={() => this.setState({ showCommentMenu: false })}
           >
@@ -260,7 +287,6 @@ class CommentItem extends Component {
             <div
               style={{
                 color: this.csl.hex(event.author._id),
-                fontWeight: 'bold',
                 fontSize: 13
               }}
             >
@@ -281,13 +307,22 @@ class CommentItem extends Component {
 
             <Typography>{event.comment}</Typography>
 
-            <Typography align="right" variant="caption" color="default">
+            <Typography align="right" variant="caption">
               {timeDiff(event.date)}
             </Typography>
-          </div>
+          </Paper>
         </div>
-      </div>
-    )
+      </div>,
+
+      <DeleteForeverDialog
+        key="delete-dialog"
+        open={this.state.dialogOpen}
+        title="Mesajı Sil"
+        detail="Mesajı silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        onClickCancel={() => this.setState({ dialogOpen: false })}
+        onClickDelete={this.onRemoveCommentButtonClick}
+      />
+    ]
   }
 }
 

@@ -16,9 +16,11 @@ import {
   Comment as CommentIcon,
   Label as LabelAddIcon,
   LabelOff as LabelRemoveIcon,
-  CheckCircle as ResolvedIcon
+  CheckCircle as ResolvedIcon,
+  Replay as ReopenIcon
 } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
+import { red, green } from '@material-ui/core/colors'
 
 import { connect } from 'react-redux'
 import { fetchIssueEvents } from '../../../actions'
@@ -38,16 +40,16 @@ class EventsCard extends Component {
 
     return (
       <Fragment>
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.author.name}{' '}
         </Typography>
 
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.labels.map(label => `${label.text}, `)}
           {event.labels.length > 1 ? 'etiketlerini' : 'etiketini'}
         </Typography>
 
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.type === 'addLabel' ? ' ekledi.' : ' çıkardı.'}
         </Typography>
       </Fragment>
@@ -70,7 +72,7 @@ class EventsCard extends Component {
 
     return (
       <Fragment>
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {text}
         </Typography>
       </Fragment>
@@ -82,18 +84,18 @@ class EventsCard extends Component {
 
     return (
       <Fragment>
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.author.name} bir görevi,{' '}
         </Typography>
 
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.users.map(user => {
             user.name
           })}
           kullanıcıları
         </Typography>
 
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.type === 'assign' ? 'na atadı.' : 'ndan aldı.'}
         </Typography>
       </Fragment>
@@ -105,8 +107,20 @@ class EventsCard extends Component {
 
     return (
       <Fragment>
-        <Typography class={classes.inline} component="span">
+        <Typography className={classes.inline} component="span">
           {event.author.name} bir görevi tamamlandı olarak işaretledi.
+        </Typography>
+      </Fragment>
+    )
+  }
+
+  renderReopenEvent = event => {
+    const { classes } = this.props
+
+    return (
+      <Fragment>
+        <Typography className={classes.inline} component="span">
+          {event.author.name} bir görevi tekrar açtı.
         </Typography>
       </Fragment>
     )
@@ -146,8 +160,14 @@ class EventsCard extends Component {
         )
       case 'resolve':
         return (
-          <Avatar style={{ backgroundColor: 'green', color: '#fff' }}>
+          <Avatar style={{ backgroundColor: green[500], color: '#fff' }}>
             <ResolvedIcon />
+          </Avatar>
+        )
+      case 'reopen':
+        return (
+          <Avatar style={{ backgroundColor: red[500], color: '#fff' }}>
+            <ReopenIcon />
           </Avatar>
         )
       default:
@@ -167,6 +187,8 @@ class EventsCard extends Component {
         return this.renderLabelEvent(event)
       case 'resolve':
         return this.renderResolveEvent(event)
+      case 'reopen':
+        return this.renderReopenEvent(event)
       default:
         return null
     }
@@ -176,7 +198,11 @@ class EventsCard extends Component {
     if (!event.issueId || !event.author) return null
 
     return (
-      <Link to={`/issues/${event.issueId}`} style={{ textDecoration: 'none' }}>
+      <Link
+        key={event._id}
+        to={`/issues/${event.issueId}`}
+        style={{ textDecoration: 'none' }}
+      >
         <ListItem alignItems="flex-start" button>
           <ListItemAvatar>
             <Avatar>{this.renderIcon(event)}</Avatar>
@@ -195,7 +221,9 @@ class EventsCard extends Component {
     const { classes } = this.props
 
     return (
-      <List className={classes.root}>
+      <List className={classes.root} subheader={<li />}>
+        <ListSubheader>Son Aktiviteler</ListSubheader>
+
         {_.map(this.props.issueEvents, event => this.renderListItem(event))}
       </List>
     )
@@ -204,9 +232,6 @@ class EventsCard extends Component {
   render() {
     return (
       <Card style={{ maxHeight: '400px', overflowY: 'scroll' }}>
-        <ListSubheader style={{ backgroundColor: '#fff' }}>
-          Son Aktiviteler
-        </ListSubheader>
         {this.renderList()}
       </Card>
     )

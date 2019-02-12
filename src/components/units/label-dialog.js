@@ -52,7 +52,6 @@ class LabelDialog extends Component {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
           {mode === 'create' ? 'Etiket Oluştur' : 'Etiket Düzenle'}

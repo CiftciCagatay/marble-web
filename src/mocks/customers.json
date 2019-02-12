@@ -1,0 +1,27 @@
+{
+  "1": {
+    "_id": "1",
+    "name": "Çağatay Çiftçi",
+    "company": {
+      "_id": "1",
+      "name": "Arctory"
+    },
+
+    "position": "Kurucu Ortak",
+    "email": "cagatay@arctory.com",
+    "phone": "+905309110520"
+  },
+
+  "2": {
+    "_id": "2",
+    "name": "Mahmut İnce",
+    "company": {
+      "_id": "2",
+      "name": "Apple"
+    },
+
+    "position": "Kurucu Ortak",
+    "email": "mahmutince@apple.com",
+    "phone": ""
+  }
+}

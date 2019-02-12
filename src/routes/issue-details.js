@@ -14,7 +14,7 @@ class IssueDetails extends Component {
 
   componentDidMount() {
     const issueId = this.props.match.params.id
-
+    
     const issue = this.props.issues[issueId]
 
     // Eğer sorun redux ta yoksa

@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { Grid, Snackbar } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
 
 import AssignedIssueList from '../components/home/assigned-issues-list/assigned-issues-list'
 import HighPriorityIssuesCard from '../components/home/cards/high-priority-issues-card'
@@ -13,8 +12,7 @@ import NewIssueFabButton from '../components/issues/new-issue/new-issue-fab-butt
 import EventsCard from '../components/home/events/event-list-card'
 import IssuesByUsers from '../components/dashboard/issuesByUsers'
 
-import AccessControl from '../components/common/access-control'
-import { READ_ALL_TASKS } from '../config'
+import UpdateNotesDialog from '../components/common/update-notes'
 
 class Home extends React.Component {
   state = { open: false }
@@ -57,41 +55,37 @@ class Home extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
-
     return (
-      <div className={classes.root}>
-        <div className={classes.section}>
+      <div>
+        <div>
           <Grid container alignContent="space-between" spacing={16}>
-            <Grid item xs>
+            <Grid item xs={12} sm={6} md={3}>
               <CriticIssuesCard />
             </Grid>
-            <Grid item xs>
+            <Grid item xs={12} sm={6} md={3}>
               <HighPriorityIssuesCard />
             </Grid>
-            <Grid item xs>
+            <Grid item xs={12} sm={6} md={3}>
               <WaitingIssuesCard />
             </Grid>
-            <Grid item xs>
+            <Grid item xs={12} sm={6} md={3}>
               <SolvedIssuesCard />
             </Grid>
           </Grid>
         </div>
 
-        <div className={classes.section}>
+        <div>
           <Grid container spacing={16}>
-            <AccessControl permission={READ_ALL_TASKS}>
-              <Grid xs={12} item>
-                <IssuesByUsers />
-              </Grid>
-            </AccessControl>
+            <Grid xs={12} item>
+              <IssuesByUsers />
+            </Grid>
 
             <Grid container item spacing={16}>
-              <Grid xs={6} item>
+              <Grid sm={12} md={6} item>
                 <AssignedIssueList />
               </Grid>
 
-              <Grid xs={6} item>
+              <Grid sm={12} md={6} item>
                 <EventsCard />
               </Grid>
             </Grid>
@@ -101,6 +95,8 @@ class Home extends React.Component {
         <NewIssueFabButton />
 
         {this.renderSnackbar()}
+
+        <UpdateNotesDialog />
       </div>
     )
   }
@@ -112,13 +108,4 @@ function mapStateToProps({ users: { user } }) {
   }
 }
 
-const styles = theme => ({
-  root: {
-    padding: theme.spacing.unit * 3
-  },
-  section: {
-    paddingTop: theme.spacing.unit * 2
-  }
-})
-
-export default connect(mapStateToProps)(withStyles(styles)(Home))
+export default connect(mapStateToProps)(Home)

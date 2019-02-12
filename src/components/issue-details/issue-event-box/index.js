@@ -37,8 +37,8 @@ class IssueEventBox extends Component {
         setDropzoneRef={this.setDropzoneRef}
         disableClick
       >
-        <div class="container">
-          <div class="event-box">
+        <div className="container">
+          <div className="event-box">
             <Card>
               <Header issue={this.props.issue} />
 
@@ -68,7 +68,7 @@ class IssueEventBox extends Component {
           </div>
 
           <div
-            class="overlay"
+            className="overlay"
             style={{
               height: this.state.fileHovering ? '100%' : 0,
               top: this.state.fileHovering ? 0 : '100%'

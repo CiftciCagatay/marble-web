@@ -1,25 +1,42 @@
 import React, { Component } from 'react'
-import { IconButton, Tooltip } from '@material-ui/core'
-import { DeleteForever } from '@material-ui/icons'
+import {
+  IconButton,
+  Tooltip,
+} from '@material-ui/core'
+import { DeleteForever as DeleteIcon } from '@material-ui/icons'
 import { connect } from 'react-redux'
 import { removeIssue } from '../../../../../actions'
 import { withRouter } from 'react-router-dom'
+import DeleteForeverDialog from '../../../../common/delete-forever-dialog'
 
 class DeleteButton extends Component {
-  onClick = () => {
+  state = {
+    dialogOpen: false
+  }
+
+  onRemoveIssue = () => {
     this.props
       .removeIssue(this.props.issueId)
       .then(() => this.props.history.goBack())
   }
 
   render() {
-    return (
+    return [
       <Tooltip key="delete-issue-button" title="Görevi Sil">
-        <IconButton onClick={this.onClick}>
-          <DeleteForever />
+        <IconButton onClick={() => this.setState({ dialogOpen: true })}>
+          <DeleteIcon />
         </IconButton>
-      </Tooltip>
-    )
+      </Tooltip>,
+      
+      <DeleteForeverDialog
+        open={this.state.dialogOpen}
+        key="delete-dialog"
+        title="Görevi Sil"
+        detail="Görevi silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        onClickCancel={() => this.setState({ dialogOpen: false })}
+        onClickDelete={this.onRemoveIssue}
+      />
+    ]
   }
 }
 

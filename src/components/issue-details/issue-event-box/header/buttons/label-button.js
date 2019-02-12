@@ -41,42 +41,18 @@ class LabelButton extends Component {
     return this.props.updateLabelsAction(this.props.issueId, this.state.labels)
   }
 
-  addEvents = (addedLabels, removedLabels) => {
-    let promises = []
-
-    if (addedLabels.length > 0)
-      promises.push(
-        this.props.postIssueEvent({
-          issueId: this.props.issueId,
-          unitId: this.props.unitId,
-          type: 'addLabel',
-          labels: addedLabels
-        })
-      )
-
-    if (removedLabels.length > 0)
-      promises.push(
-        this.props.postIssueEvent({
-          issueId: this.props.issueId,
-          unitId: this.props.unitId,
-          type: 'removeLabel',
-          labels: removedLabels
-        })
-      )
-
-    return Promise.all(promises)
+  // Compare Functions
+  getAddedLabels = () => {
+    const ids = this.props.selectedLabels.map(({ _id }) => _id)
+    return this.state.labels.filter(({ _id }) => ids.indexOf(_id) === -1)
   }
 
-  // Compare Functions
-  getAddedLabels = () =>
-    this.state.labels.filter(
-      label => !this.props.selectedLabels.includes(label)
+  getRemovedLabels = () => {
+    const ids = this.state.labels.map(({ _id }) => _id)
+    return this.props.selectedLabels.filter(
+      ({ _id }) => ids.indexOf(_id) === -1
     )
-
-  getRemovedLabels = () =>
-    this.props.selectedLabels.filter(
-      label => !this.state.labels.includes(label)
-    )
+  }
 
   // Handlers
   handlePopoverButtonClick = event => {
@@ -98,7 +74,6 @@ class LabelButton extends Component {
     this.setState({ updating: true })
 
     this.updateLabels()
-      .then(() => this.addEvents(addedLabels, removedLabels))
       .then(() => this.setState({ updating: false, anchorEl: null }))
       .catch(() => this.setState({ updating: false, anchorEl: null }))
   }
@@ -163,6 +138,7 @@ class LabelButton extends Component {
             const checked = this.state.labels.some(
               ({ _id }) => _id === label._id
             )
+
             return (
               <ListItem
                 key={label._id}

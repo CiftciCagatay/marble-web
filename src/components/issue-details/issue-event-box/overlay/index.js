@@ -134,7 +134,7 @@ class Overlay extends Component {
 
   render() {
     const { events, selectedEventId } = this.state
-    const currentEvent = events[selectedEventId] || {}
+    const currentEvent = events[selectedEventId] || { comment: '' }
 
     return (
       <FileDropzone
@@ -146,7 +146,7 @@ class Overlay extends Component {
         <div
           style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
         >
-          <div class="header">
+          <div className="header">
             <Close
               style={{ cursor: 'pointer' }}
               onClick={() => {
@@ -159,7 +159,7 @@ class Overlay extends Component {
 
           {this.renderMedia(currentEvent)}
 
-          <div class="comment-container">
+          <div className="comment-container">
             <div style={{ width: '80%', display: 'inline-block' }}>
               <Input
                 onChange={e => this.onCommentChange(e)}

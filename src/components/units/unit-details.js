@@ -19,6 +19,7 @@ import { fetchUnits, removeUnit } from '../../actions'
 
 import { UPDATE_UNIT, DELETE_UNIT } from '../../config'
 import AccessControl from '../common/access-control'
+import DeleteForeverDialog from '../common/delete-forever-dialog'
 
 const styles = theme => ({
   root: {
@@ -49,8 +50,8 @@ class UnitDetails extends React.Component {
 
     if (!unit) return null
 
-    return (
-      <Paper className={classes.root}>
+    return [
+      <Paper key="root" className={classes.root}>
         <div className={classes.header}>
           <Grid container>
             <Grid xs item>
@@ -59,14 +60,20 @@ class UnitDetails extends React.Component {
             </Grid>
 
             <Grid item>
-              <AccessControl permission={UPDATE_UNIT}>
-                <Button onClick={() => this.props.openUnitDialog('update', unit)}>
+              <AccessControl permission={UPDATE_UNIT} unitId={unitId}>
+                <Button
+                  onClick={() => this.props.openUnitDialog('update', unit)}
+                >
                   Düzenle
                 </Button>
               </AccessControl>
 
-              <AccessControl permission={DELETE_UNIT}>
-                <Button onClick={() => this.props.removeUnit(unit._id)}>Sil</Button>
+              <AccessControl permission={DELETE_UNIT} unitId={unitId}>
+                <Button
+                  onClick={() => this.setState({ deleteDialogOpen: true })}
+                >
+                  Sil
+                </Button>
               </AccessControl>
             </Grid>
           </Grid>
@@ -83,8 +90,17 @@ class UnitDetails extends React.Component {
         {value === 0 && <UserList unit={this.props.unitId} />}
         {value === 1 && <LabelList unit={this.props.unitId} />}
         {value === 2 && <CategoryList unit={this.props.unitId} />}
-      </Paper>
-    )
+      </Paper>,
+
+      <DeleteForeverDialog
+        key="delete-dialog"
+        open={this.state.deleteDialogOpen}
+        title="Birimi Sil"
+        detail="Birimi silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        onClickCancel={() => this.setState({ deleteDialogOpen: false })}
+        onClickDelete={() => this.props.removeUnit(unit._id)}
+      />
+    ]
   }
 }
 

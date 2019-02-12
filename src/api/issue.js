@@ -118,6 +118,18 @@ export const updateIssue = (accessToken, issueId, props) => {
   })
 }
 
+export const updateIssueStatus = (accessToken, issueId, isOpen) => {
+  return fetch(`${issueServiceUrl}/${issueId}/isOpen`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: accessToken
+    },
+    body: JSON.stringify({ isOpen })
+  })
+}
+
 export const updateLabels = (accessToken, id, labels) => {
   return fetch(`${issueServiceUrl}/${id}/labels`, {
     method: 'PUT',

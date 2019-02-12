@@ -5,6 +5,7 @@ export const CATEGORIES_FETCHED = 'categories-fetched'
 export const ISSUES_FETCHED = 'issues-fetched'
 export const ISSUE_CREATED = 'issue-created'
 export const ISSUE_UPDATED = 'issue-updated'
+export const ISSUE_STATUS_UPDATED = 'issue-status-updated'
 export const ISSUE_REMOVED = 'issue-removed'
 
 export const ISSUE_EVENTS_FETCHED = 'issue-events-fetched'
@@ -42,6 +43,7 @@ export const ACCOUNTS_FETCHED = 'accounts-fetched'
 export const ACCOUNT_CHANGED = 'accounts-changed'
 export const ACCOUNT_REMOVED = 'account-removed'
 
+// BPM
 export * from './issue'
 export * from './auth'
 export * from './user'
@@ -51,3 +53,14 @@ export * from './notification'
 export * from './label'
 export * from './category'
 export * from './unit'
+export * from './activity'
+export * from './calendar'
+
+// CRM
+export * from './company'
+export * from './product'
+export * from './sale'
+export * from './offer'
+
+// Contact
+export * from './contact'

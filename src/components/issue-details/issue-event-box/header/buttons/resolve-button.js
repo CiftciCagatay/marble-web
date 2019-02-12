@@ -2,15 +2,12 @@ import React, { Component } from 'react'
 import { IconButton, Tooltip } from '@material-ui/core'
 import { Done, Refresh } from '@material-ui/icons'
 import { connect } from 'react-redux'
-import { putIssue, postIssueEvent } from '../../../../../actions'
+import { putIssueStatus, postIssueEvent } from '../../../../../actions'
 
 class EditButton extends Component {
   onClick = () => {
     Promise.all([
-      this.props.putIssue(this.props.issueId, {
-        isOpen: !this.props.isOpen,
-        solvedBy: this.props.isOpen ? this.props.user : null
-      }),
+      this.props.putIssueStatus(this.props.issueId, !this.props.isOpen),
       this.props.postIssueEvent({
         type: this.props.isOpen ? 'resolve' : 'reopen',
         unitId: this.props.unitId,
@@ -38,5 +35,5 @@ function mapStateToProps({ users: { user } }) {
 
 export default connect(
   mapStateToProps,
-  { putIssue, postIssueEvent }
+  { putIssueStatus, postIssueEvent }
 )(EditButton)

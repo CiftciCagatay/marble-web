@@ -8,6 +8,7 @@ import EditButton from './buttons/edit-button'
 import ResolveButton from './buttons/resolve-button'
 import DeleteButton from './buttons/delete-button'
 import ShareButton from './buttons/share-button'
+import ScheduleActivityButton from './buttons/schedule-activity-button'
 
 const IssueDetailHeader = props => {
   const { issue } = props
@@ -21,6 +22,8 @@ const IssueDetailHeader = props => {
         position: 'relative'
       }}
     >
+      <ScheduleActivityButton issueId={issue._id} />
+
       <AssigneeButton
         key="assignee-button"
         assignees={issue.assignees}

@@ -4,6 +4,7 @@ import {
   MORE_ISSUES_FETCHED,
   ISSUE_CREATED,
   ISSUE_UPDATED,
+  ISSUE_STATUS_UPDATED,
   ISSUE_REMOVED,
   ASSIGNEES_UPDATED,
   LABELS_UPDATED,
@@ -18,7 +19,8 @@ import {
   getLabels,
   updateAssignees,
   updateLabels,
-  updateIssue
+  updateIssue,
+  updateIssueStatus
 } from '../api'
 
 export function cleanIssuesFromRedux() {
@@ -113,6 +115,28 @@ export function putIssue(issueId, props) {
   }
 }
 
+export function putIssueStatus(issueId, isOpen) {
+  return (dispatch, getState) => {
+    const {
+      auth: { accessToken },
+      issues
+    } = getState()
+
+    return updateIssueStatus(accessToken, issueId, isOpen)
+      .then(() => {
+        dispatch({
+          type: ISSUE_STATUS_UPDATED,
+          payload: { issueId, isOpen }
+        })
+
+        return Promise.resolve()
+      })
+      .catch(() => {
+        return Promise.reject()
+      })
+  }
+}
+
 export function removeIssue(issueId) {
   return (dispatch, getState) => {
     const {
@@ -157,8 +181,11 @@ export function updateAssigneesAction(issueId, assignees) {
 
     return updateAssignees(accessToken, issueId, assignees)
       .then(response => response.json())
-      .then(() => {
-        dispatch({ type: ASSIGNEES_UPDATED, payload: { issueId, assignees } })
+      .then(events => {
+        dispatch({
+          type: ASSIGNEES_UPDATED,
+          payload: { issueId, assignees, events }
+        })
         return Promise.resolve()
       })
       .catch(err => {
@@ -176,8 +203,8 @@ export function updateLabelsAction(issueId, labels) {
 
     return updateLabels(accessToken, issueId, labels)
       .then(response => response.json())
-      .then(() => {
-        dispatch({ type: LABELS_UPDATED, payload: { issueId, labels } })
+      .then(events => {
+        dispatch({ type: LABELS_UPDATED, payload: { issueId, labels, events } })
         return Promise.resolve()
       })
       .catch(err => {

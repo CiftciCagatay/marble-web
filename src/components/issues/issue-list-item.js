@@ -38,7 +38,7 @@ const IssueListItem = props => {
               <Typography variant="subtitle1">{issue.title}</Typography>
               
               {issue.summary && (
-                <Typography variant="body1">{issue.summary}</Typography>
+                <Typography variant="body2" color="error">{issue.summary}</Typography>
               )}
 
               {issue.deadline && (
@@ -63,7 +63,7 @@ const IssueListItem = props => {
                 <Grid item>
                   <Grid container>
                     {issue.assignees.map(user => (
-                      <UserAvatar user={user} small />
+                      <UserAvatar key={user._id} user={user} small />
                     ))}
                   </Grid>
                 </Grid>
@@ -72,16 +72,16 @@ const IssueListItem = props => {
           }
           secondary={
             <div>
-              <Typography variant="caption">
+              <Typography variant="caption" component="span">
                 {'Son güncellenme : ' + timeDiff(issue.updatedAt)}
               </Typography>
 
-              <Typography variant="caption">
+              <Typography variant="caption" component="span">
                 {'Oluşturulma Tarihi : ' +
                   timeFormat(issue.createdAt, 'DD/MM/YYYY HH:mm:ss')}
               </Typography>
 
-              <Typography variant="caption">
+              <Typography variant="caption" component="span">
                 {'Bekleme süresi : ' + getDuration(issue.createdAt)}
               </Typography>
             </div>

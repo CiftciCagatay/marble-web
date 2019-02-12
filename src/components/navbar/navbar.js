@@ -39,7 +39,7 @@ class Navbar extends React.Component {
             </IconButton>
 
             <Typography
-              variant="title"
+              variant="h6"
               color="inherit"
               className={classes.flex}
             >

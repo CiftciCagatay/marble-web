@@ -58,7 +58,7 @@ class AssigneePopoverButton extends Component {
     return (
       <List dense disablePadding>
         {_.map(this.props.selectedUsers, user => (
-          <ListItem dense disableGutters>
+          <ListItem key={user._id} dense disableGutters>
             <ListItemAvatar>
               <UserAvatar small user={user} />
             </ListItemAvatar>

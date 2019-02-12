@@ -77,7 +77,7 @@ class Footer extends Component {
     const color = this.csl.hex(quote.author._id)
 
     return (
-      <div className={classes.quoteRoot}>
+      <div className={classes.quoteRoot} key="quote">
         <Grid
           container
           justify="space-between"
@@ -89,10 +89,10 @@ class Footer extends Component {
               className={classes.quote}
               style={{ borderLeft: `4px solid ${color}` }}
             >
-              <Typography variant="body2" style={{ color }}>
+              <Typography style={{ color, fontSize: 13 }}>
                 {quote.author.name}
               </Typography>
-              <Typography variant="body1">
+              <Typography>
                 {quote.comment ? quote.comment.substring(0, 140) : ''}...
               </Typography>
             </div>
@@ -113,7 +113,7 @@ class Footer extends Component {
 
     return [
       this.renderQuote(),
-      <Paper className={classes.root} elevation={0}>
+      <Paper className={classes.root} key="input-paper" elevation={0}>
         <InputBase
           value={this.state.comment}
           onChange={event => this.setState({ comment: event.target.value })}

@@ -53,7 +53,6 @@ class CategoryDialog extends Component {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-categoryledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
           {mode === 'create' ? 'Kategori Oluştur' : 'Kategori Düzenle'}

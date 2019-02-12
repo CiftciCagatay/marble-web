@@ -1,0 +1,172 @@
+{
+  "home": {
+    "icon": "CalendarIcon",
+    "title": "Takvim Yardım",
+    "caption": "Ne konuda yardıma ihtiyacınız var?",
+    "listItems": [
+      {
+        "_id": "create:activity",
+        "primary": "Etkinlik Oluşturma"
+      },
+      {
+        "_id": "update:activity",
+        "primary": "Etkinlik Bilgilerini Güncelleme"
+      },
+      {
+        "_id": "answer:activityInvite",
+        "primary": "Etkinlik Davetini Yanıtlama"
+      }
+    ]
+  },
+
+  "list": {
+    "create:activity": {
+      "title": "Etkinlik Oluşturma",
+      "listItems": [
+        {
+          "_id": "create:activityByTimeRange",
+          "primary": "Takvimden Zaman Aralığı Seçerek"
+        },
+        {
+          "_id": "create:activityByDraggingTask",
+          "primary": "Görevi Sürükleyerek"
+        },
+        {
+          "_id": "create:activityByButton",
+          "primary": "Etkinlik Oluştur Butonunu Kullanarak"
+        }
+      ]
+    },
+
+    "update:activity": {
+      "title": "Etkinlik Bilgilerini Güncelleme",
+      "listItems": [
+        {
+          "_id": "update:activityByCalendar",
+          "primary": "Takvim Üzerinde Etkinlik Zamanını Düzenleyerek"
+        }
+      ]
+    },
+
+    "answer:activityInvite": {
+      "title": "Etkinlik Davetini Yanıtlama",
+      "listItems": [
+        {
+          "_id": "answer:activityInviteFromDetailsDialog",
+          "primary": "Etkinlik Düzenleme Formunu Kullanarak"
+        },
+        {
+          "_id": "answer:activityInviteFromlist",
+          "primary": "Takvim Üzerinde Etkinlik Zamanını Düzenleyerek"
+        }
+      ]
+    }
+  },
+
+  "details": {
+    "create:activityByTimeRange": {
+      "title": "Takviminizden bir zaman aralığı seçin",
+      "listItems": [
+        {
+          "primary": "Takvimde imleç yardımıyla boş bir zaman aralığı seçin"
+        },
+        {
+          "primary": "Etkinliğinize bir başlık belirleyin"
+        },
+        {
+          "primary": "Etkinliğe davetli eklemek veya başka detaylarını düzenlemek için 'Diğer Seçenekler' butonuna tıklayın"
+        },
+        {
+          "primary": "Kaydet'i tıklayın"
+        }
+      ]
+    },
+
+    "create:activityByDraggingTask": {
+      "title": "Görevi sürükleyerek etkinlik oluşturun",
+      "listItems": [
+        {
+          "primary": "Görevler listesinden bir görevi imleciniz yardımıyla tutup takviminin üzerine sürükleyin"
+        },
+        {
+          "primary": "İstediğiniz bir zaman aralığına ilgili görevi bırakın. Etkinlik oluşmuş olacaktır"
+        },
+        {
+          "primary": "Daha sonrasında etkinlik detaylarını, başlangıç ve bitiş zamanını ayrıca düzenleyebilirsiniz"
+        }
+      ]
+    },
+
+    "create:activityByButton": {
+      "title": "Etkinlik oluştur butonunu kullanın",
+      "listItems": [
+        {
+          "primary": "Sayfanın sağ altındaki 'Etkinlik Oluştur' butonuna tıklayın"
+        },
+        {
+          "primary": "Etkinliğinize bir başlık, başlangıç ve bitiş tarihi belirleyin"
+        },
+        {
+          "primary": "Etkinliğe davetli eklemek veya başka detaylarını düzenlemek için 'Diğer Seçenekler' butonuna tıklayın"
+        },
+        {
+          "primary": "Kaydet'i tıklayın"
+        }
+      ]
+    },
+
+    "update:activityByCalendar": {
+      "title": "Takvim üzerinde etkinlik zamanını düzenleyin",
+      "listItems": [
+        {
+          "primary": "Başlangıç veya bitiş zamanını güncellemek istediğiniz etkinliği takvim üzerinde bulun"
+        },
+        {
+          "primary": "Etkinliği farenizin yardımıyla ortasından tutup başka bir zaman aralığına sürükleyin"
+        },
+        {
+          "primary": "Veya etkinliğin sonundan farenizin yardımıyla tutup sürükleyerek etkinliğin bitiş tarihini değiştirin"
+        },
+        {
+          "primary": "Takvim üzerindeki bu düzenlemeler otomatik olarak kaydedilecektir"
+        }
+      ]
+    },
+
+    "answer:activityInviteFromDetailsDialog": {
+      "title": "Detaylar penceresinden daveti yanıtlayın",
+      "listItems": [
+        {
+          "primary": "Yanıtlamak istediğiniz etkinliği takvimde bulun ve üzerine tıklayarak detaylar diyaloğunu açın"
+        },
+        {
+          "primary": "Aşağıda 'Katılacak mısınız?' yazısının sağındaki 'Evet' ve 'Hayır' butonlarını kullanarak daveti yanıtlayın"
+        }
+      ],
+      "tips": [
+        {
+          "primary": "Takvim üzerinde yanıt bekleyen etkinlik davetleri beyaz renkte ve yeşil çerçeve ile gösterilir"
+        }
+      ]
+    },
+
+    "answer:activityInviteFromlist": {
+      "title": "Takvim Üzerinde Etkinlik Zamanını Düzenleyerek",
+
+      "listItems": [
+        {
+          "primary": "Eğer yanıt bekleyen bir davet varsa sayfanın sol tarafında 'Yanıt Bekleyen Davetler' adlı bir liste göreceksiniz."
+        },
+        {
+          "primary": "Listedeki davetlerin sağ tarafındaki 'Çarpı (x)' ve 'Kontrol (✓)' butonlarını kullanarak daveti yanıtlayın"
+        }
+      ],
+
+      "tips": [
+        {
+          "primary": "Listedeki davetlere tıklayarak takvimde etkinliğin bulunduğu zamana gidebilirsiniz."
+        }
+      ]
+    }
+  }
+}

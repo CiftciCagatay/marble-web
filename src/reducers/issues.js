@@ -2,6 +2,7 @@ import {
   CLEAN_ISSUES,
   ISSUES_FETCHED,
   ISSUE_CREATED,
+  ISSUE_STATUS_UPDATED,
   MORE_ISSUES_FETCHED,
   ISSUE_UPDATED,
   ISSUE_REMOVED,
@@ -29,6 +30,15 @@ export default function(state = {}, action) {
       let temp = {}
       temp[action.payload._id] = action.payload
       return Object.assign({}, { ...state, ...temp })
+
+    case ISSUE_STATUS_UPDATED:
+      return {
+        ...state,
+        [action.payload.issueId]: {
+          ...state[action.payload.issueId],
+          isOpen: action.payload.isOpen
+        }
+      }
 
     case ISSUE_REMOVED:
       let { [action.payload]: undefined, ...newState } = state

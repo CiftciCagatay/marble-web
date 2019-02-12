@@ -66,9 +66,12 @@ class IssueForm extends Component {
     assignees: {},
     labels: {},
     unit: '',
+    category: '',
+    subCategory: '',
     priority: 0,
     files: [],
-    submitting: false
+    submitting: false,
+    deadline: ''
   }
 
   dropzoneRef = null
@@ -206,10 +209,9 @@ class IssueForm extends Component {
 
     formData.append('uploads', file)
 
-    return uploadImage(this.props.accessToken, formData).then(result => {
-      let files = JSON.parse(result)
-      return Promise.resolve(files[0])
-    })
+    return uploadImage(this.props.accessToken, formData)
+      .then(response => response.json())
+      .then(files => Promise.resolve(files[0]))
   }
 
   onSubmit = () => {
@@ -310,12 +312,14 @@ class IssueForm extends Component {
   renderSelect = ({ label, items, labelKey, ...props }) => {
     return (
       <FormControl className={this.props.classes.formControl} fullWidth>
-        <InputLabel htmlFor="age-simple">{label}</InputLabel>
+        <InputLabel>{label}</InputLabel>
         <Select {...props} disabled={this.state.submitting}>
           <MenuItem value="" />
 
           {_.map(items, item => (
-            <MenuItem value={item._id}>{item[labelKey]}</MenuItem>
+            <MenuItem key={item._id} value={item._id}>
+              {item[labelKey]}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -340,7 +344,7 @@ class IssueForm extends Component {
           value: this.state.explanation,
           onChange: this.handleChange('explanation'),
           rows: 3,
-          maxRows: 5,
+          maxrows: 5,
           multiline: true
         })}
 
@@ -414,7 +418,6 @@ class IssueForm extends Component {
               label: 'Birim',
               value: this.state.unit,
               onChange: this.onUnitChange,
-              required: true,
               labelKey: 'name',
               items: this.props.units
             })}
@@ -462,7 +465,7 @@ class IssueForm extends Component {
 
             <List dense disablePadding>
               {this.state.files.map((file, index) => (
-                <ListItem dense disableGutters>
+                <ListItem key={index} dense disableGutters>
                   <ListItemAvatar>
                     <Avatar>
                       <FileIcon />

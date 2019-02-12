@@ -12,8 +12,13 @@ import { fetchIssues } from '../../actions'
 import { withRouter } from 'react-router-dom'
 import querySearch from 'stringquery'
 
+import { MediaBlock } from 'react-placeholder/lib/placeholders'
+import ReactPlaceholder from 'react-placeholder'
+import 'react-placeholder/lib/reactPlaceholder.css'
+
 class IssueList extends PureComponent {
   state = {
+    ready: false,
     isOpen: this.props.isOpen,
     search: '',
     orderBy: 'updatedAt',
@@ -93,6 +98,10 @@ class IssueList extends PureComponent {
   }
 
   fetchIssues = _.debounce(() => {
+    this.setState({
+      ready: false
+    })
+
     const {
       isOpen,
       search,
@@ -116,8 +125,21 @@ class IssueList extends PureComponent {
     if (priority) query['priority'] = priority
     if (solvedBy) query['solvedBy'] = solvedBy
 
-    this.props.fetchIssues(query)
+    this.props.fetchIssues(query).then(() => this.setState({ ready: true }))
   }, 300)
+
+  renderPlaceholder = () => {
+    return [0, 1, 2, 3, 4].map(() => (
+      <ReactPlaceholder
+        type='media'
+        style={{ margin: '16px' }}
+        rows={3}
+        showLoadingAnimation={true}
+        ready={this.state.ready}
+        firstLaunchOnly={true}
+      />
+    ))
+  }
 
   render() {
     return (
@@ -143,11 +165,17 @@ class IssueList extends PureComponent {
           <SortButton value={this.state.orderBy} onChange={this.onSortChange} />
         </ListItem>
 
-        <List>
-          {_.map(this.props.issues, issue => (
-            <IssueListItem key={issue._id} issue={issue} />
-          ))}
-        </List>
+        <ReactPlaceholder
+          customPlaceholder={this.renderPlaceholder()}
+          ready={this.state.ready}
+          firstLaunchOnly={true}
+        >
+          <List>
+            {_.map(this.props.issues, issue => (
+              <IssueListItem key={issue._id} issue={issue} />
+            ))}
+          </List>
+        </ReactPlaceholder>
       </Card>
     )
   }

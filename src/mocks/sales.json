@@ -1,0 +1,112 @@
+{
+  "sales": {
+    "1": {
+      "_id": 1,
+      "title": "BPM Modülü",
+      "totalPrice": 5000,
+      "progress": 5,
+      "status": "Teklif Verilecek",
+      "customer": {
+        "_id": "1",
+        "name": "Arctory"
+      },
+      "createdBy": {
+        "_id": "2",
+        "name": "Çağatay Çiftçi"
+      }
+    },
+    "2": {
+      "_id": 2,
+      "title": "BPM Modülü",
+      "totalPrice": 5000,
+      "progress": 10,
+      "status": "Teklif Verilecek",
+      "customer": {
+        "_id": "1",
+        "name": "Arctory"
+      },
+      "createdBy": {
+        "_id": "2",
+        "name": "Çağatay Çiftçi"
+      }
+    },
+    "3": {
+      "_id": 3,
+      "title": "BPM Modülü",
+      "totalPrice": 5000,
+      "progress": 15,
+      "status": "Teklif Verilecek",
+      "customer": {
+        "_id": "1",
+        "name": "Arctory"
+      },
+      "createdBy": {
+        "_id": "2",
+        "name": "Çağatay Çiftçi"
+      }
+    },
+    "4": {
+      "_id": 4,
+      "title": "BPM Modülü",
+      "totalPrice": 5000,
+      "progress": 55,
+      "status": "Teklif Verilecek",
+      "customer": {
+        "_id": "1",
+        "name": "Arctory"
+      },
+      "createdBy": {
+        "_id": "2",
+        "name": "Çağatay Çiftçi"
+      }
+    },
+    "5": {
+      "_id": 5,
+      "title": "BPM Modülü",
+      "totalPrice": 5000,
+      "progress": 95,
+      "status": "Teklif Verilecek",
+      "customer": {
+        "_id": "1",
+        "name": "Arctory"
+      },
+      "createdBy": {
+        "_id": "2",
+        "name": "Çağatay Çiftçi"
+      }
+    },
+    "6": {
+      "_id": 6,
+      "title": "BPM Modülü",
+      "totalPrice": 5000,
+      "progress": 55,
+      "status": "Teklif Verilecek",
+      "customer": {
+        "_id": "1",
+        "name": "Arctory"
+      },
+      "createdBy": {
+        "_id": "2",
+        "name": "Çağatay Çiftçi"
+      }
+    }
+  },
+
+  "columns": {
+    "c1": {
+      "_id": "c1",
+      "title": "Teklif İstendi",
+      "saleIds": [1, 2]
+    },
+    "c2": {
+      "_id": "c2",
+      "title": "Teklif Verildi",
+      "saleIds": [3, 4]
+    },
+    "c3": {
+      "_id": "c3",
+      "title": "Sözleşme Düzenlenecek",
+      "saleIds": [5, 6]
+    }
+  }
+}

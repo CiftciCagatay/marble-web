@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { putIssue, fetchCategories, fetchUnits } from '../../../actions'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
 import { map } from 'lodash'
@@ -166,8 +165,10 @@ class EditIssueForm extends Component {
           native
           {...props}
         >
-          {map(items, item => (
-            <option value={item[valueKey]}>{item[labelKey]}</option>
+          {map(items, (item, i) => (
+            <option key={i} value={item[valueKey]}>
+              {item[labelKey]}
+            </option>
           ))}
         </Select>
       </FormControl>

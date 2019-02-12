@@ -10,7 +10,13 @@ const UserAvatar = props => {
   let csl = new ColorHash()
   let backgroundColor = csl.hex(user._id)
 
-  const getInitials = () => user.name.split(' ').map(word => word[0])
+  const getInitials = () => {
+    const initials = user.name.split(' ').map(word => word[0])
+
+    if (!initials || initials.length === 0) return ''
+
+    return `${initials[0]}${initials[initials.length - 1]}`
+  }
 
   return (
     <Tooltip hidden={tooltipHidden} title={user.name}>

@@ -1,4 +1,4 @@
-import { authenticationServiceUrl } from './config'
+import { authenticationServiceUrl, userServiceUrl } from './config'
 import fetchCustom from '../scripts/fetch'
 
 export const login = ({ email, password }) => {
@@ -31,5 +31,17 @@ export const refresh = ({ refreshToken }) => {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     }
+  })
+}
+
+export const updatePassword = (accessToken, { userId, password }) => {
+  return fetch(`${userServiceUrl}/${userId}/password`, {
+    method: 'PUT',
+    headers: {
+      Authorization: accessToken,
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ password })
   })
 }

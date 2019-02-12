@@ -30,9 +30,20 @@ function configureFetch() {
             auth: { refreshToken }
           } = store.getState()
 
+          if (!refreshToken) {
+            store.dispatch({ type: LOGGED_OUT })
+            return Promise.reject(new Error('Refresh token is undefined.'))
+          }
+
           refreshingTokenPromise = new Promise((resolve, reject) => {
             refresh({ refreshToken })
-              .then(response => response.json())
+              .then(response => {
+                if (response.ok) {
+                  return response.json()
+                }
+
+                return Promise.reject(response)
+              })
               .then(({ accessToken }) => {
                 // Access token refreshed
                 store.dispatch({

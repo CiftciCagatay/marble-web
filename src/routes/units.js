@@ -25,7 +25,7 @@ class Units extends React.Component {
     const { dialogOpen, dialogMode, dialogUnit } = this.state
 
     return [
-      <Grid spacing={16} container>
+      <Grid key="container" spacing={16} container>
         <Grid item>
           <UnitList
             openUnitDialog={this.openUnitDialog}
@@ -42,6 +42,7 @@ class Units extends React.Component {
       </Grid>,
 
       <UnitDialog
+        key="unit-dialog"
         open={dialogOpen}
         mode={dialogMode}
         unit={dialogUnit}

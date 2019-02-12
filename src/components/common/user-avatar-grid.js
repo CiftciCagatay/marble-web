@@ -10,7 +10,7 @@ const UserAvatarGrid = props => {
   return (
     <Grid spacing={8} container>
       {users.map(user => (
-        <Grid key={user._id} item>
+        <Grid key={user._id} key={user._id} item>
           <UserAvatar user={user} />
         </Grid>
       ))}

@@ -6,7 +6,7 @@ const IssuesByUsersChart = props => {
   const { users, data, onClick, height } = props
 
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width={350} height={height}>
       <BarChart data={data}>
         <XAxis dataKey="key" interval={0} tick={<CustomTick users={users} />} />
         <Tooltip content={<CustomTooltip users={users} />} />

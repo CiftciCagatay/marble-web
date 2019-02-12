@@ -24,13 +24,14 @@ const EventGrid = props => {
   const renderEventCard = (event, key) => {
     return (
       <div
-        class="event-card"
+        key={key}
+        className="event-card"
         onClick={() => onSelectEvent(key)}
         style={{
           border: `${key === selectedEventId ? 4 : 1}px solid white`
         }}
       >
-        <div class="event-card-remove" onClick={() => removeEvent(key)}>
+        <div className="event-card-remove" onClick={() => removeEvent(key)}>
           <Close />
         </div>
         {renderMedia(event)}
@@ -39,10 +40,10 @@ const EventGrid = props => {
   }
 
   return (
-    <div class="events-catalog">
+    <div className="events-catalog">
       {_.map(events, (event, key) => renderEventCard(event, key))}
 
-      <div class="add-file-card" onClick={openFileDialog}>
+      <div className="add-file-card" onClick={openFileDialog}>
         <div style={{ marginTop: '16px' }}>
           <Add />
         </div>

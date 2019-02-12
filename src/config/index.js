@@ -16,3 +16,6 @@ export const UPDATE_COMMENT = 'update:comment'
 export const DELETE_COMMENT = 'delete:comment'
 
 export const READ_ALL_TASKS = 'read:all_tasks'
+
+export const DELETE_USER = 'delete:user'
+export const ADD_USER_TO_UNIT = 'update:user'

@@ -27,6 +27,7 @@ import { fetchCategories, removeCategory } from '../../actions'
 
 import { CREATE_CATEGORY, UPDATE_CATEGORY, DELETE_CATEGORY } from '../../config'
 import AccessControl from '../common/access-control'
+import DeleteForeverDialog from '../common/delete-forever-dialog'
 
 const styles = theme => ({
   searchBar: {
@@ -47,7 +48,10 @@ class CategoryList extends Component {
   state = {
     dialogOpen: false,
     dialogMode: 'create',
-    dialogCategory: { text: '', description: '', unit: '' }
+    dialogCategory: { text: '', description: '', unit: '' },
+
+    selectedCategoryId: '',
+    deleteDialogOpen: false
   }
 
   componentDidMount() {
@@ -78,12 +82,15 @@ class CategoryList extends Component {
       <Table>
         <TableBody>
           {_.map(this.props.categories, category => (
-            <TableRow>
+            <TableRow key={category._id}>
               <TableCell>{category.text}</TableCell>
               <TableCell>{category.description}</TableCell>
               <TableCell>
                 <div style={{ float: 'right' }}>
-                  <AccessControl permission={UPDATE_CATEGORY}>
+                  <AccessControl
+                    permission={UPDATE_CATEGORY}
+                    unitId={this.props.unit}
+                  >
                     <Button
                       onClick={() =>
                         this.setState({
@@ -97,9 +104,17 @@ class CategoryList extends Component {
                     </Button>
                   </AccessControl>
 
-                  <AccessControl permission={DELETE_CATEGORY}>
+                  <AccessControl
+                    permission={DELETE_CATEGORY}
+                    unitId={this.props.unit}
+                  >
                     <Button
-                      onClick={() => this.props.removeCategory(category._id)}
+                      onClick={() =>
+                        this.setState({
+                          selectedCategoryId: category._id,
+                          deleteDialogOpen: true
+                        })
+                      }
                     >
                       Sil
                     </Button>
@@ -138,7 +153,10 @@ class CategoryList extends Component {
               />
             </Grid>
             <Grid item>
-              <AccessControl permission={CREATE_CATEGORY}>
+              <AccessControl
+                permission={CREATE_CATEGORY}
+                unitId={this.props.unit}
+              >
                 <Button
                   variant="contained"
                   color="primary"
@@ -175,15 +193,37 @@ class CategoryList extends Component {
     const { dialogOpen, dialogMode, dialogCategory } = this.state
 
     return [
-      <div>
+      <div key="root">
         {this.renderToolbar()}
         {this.renderList()}
       </div>,
+
       <CategoryDialog
+        key="category-dialog"
         open={dialogOpen}
         mode={dialogMode}
         category={dialogCategory}
         handleClose={() => this.setState({ dialogOpen: false })}
+      />,
+
+      <DeleteForeverDialog
+        key="delete-dialog"
+        title="Kategoriyi Sil"
+        detail="Kategoriyi silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        onClickCancel={() =>
+          this.setState({ deleteDialogOpen: false, selectedCategoryId: '' })
+        }
+        onClickDelete={() => {
+          const { unit } = this.props
+
+          this.setState({ deleteDialogOpen: false })
+
+          this.props.removeCategory(this.state.selectedCategoryId).then(() => {
+            this.setState({ selectedCategoryId: '' })
+            this.props.fetchCategories({ unit })
+          })
+        }}
+        open={this.state.deleteDialogOpen}
       />
     ]
   }

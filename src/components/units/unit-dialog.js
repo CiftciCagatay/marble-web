@@ -10,6 +10,7 @@ import {
 
 import { connect } from 'react-redux'
 import { createUnit, updateUnit } from '../../actions'
+import { addUserToUnit } from '../../api'
 
 class UnitDialog extends Component {
   state = {
@@ -31,6 +32,13 @@ class UnitDialog extends Component {
     if (this.props.mode === 'create') {
       this.props
         .createUnit(this.state.unit)
+        .then(({ _id }) =>
+          addUserToUnit(this.props.accessToken, {
+            userId: this.props.user._id,
+            unitId: _id,
+            isAdmin: true
+          })
+        )
         .then(() => this.props.handleClose())
     } else {
       this.props
@@ -50,7 +58,6 @@ class UnitDialog extends Component {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-unitledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
           {mode === 'create' ? 'Birim Oluştur' : 'Birim Düzenle'}
@@ -91,7 +98,14 @@ class UnitDialog extends Component {
   }
 }
 
+function mapStateToProps({ users: { user }, auth: { accessToken } }) {
+  return {
+    user,
+    accessToken
+  }
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   { createUnit, updateUnit }
 )(UnitDialog)

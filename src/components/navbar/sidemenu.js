@@ -8,7 +8,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Drawer
+  Drawer,
+  ListSubheader,
+  Divider
 } from '@material-ui/core'
 
 import {
@@ -16,7 +18,14 @@ import {
   Home,
   List as ListIcon,
   AccountBalance,
-  Category as UnitIcon
+  Category as UnitIcon,
+  CalendarToday as CalendarIcon,
+  Folder as FileIcon,
+  People as CustomerIcon,
+  Receipt,
+  Cake,
+  Shop,
+  Contacts as ContactsIcon
 } from '@material-ui/icons'
 
 import { Link } from 'react-router-dom'
@@ -26,17 +35,28 @@ const drawerWidth = 200
 const Sidemenu = props => {
   const { open, classes } = props
 
-  const items = [
+  const bpmMenuItems = [
+    { to: '/calendar', icon: <CalendarIcon />, title: 'Takvim' },
     { to: '/home', icon: <Home />, title: 'Anasayfa' },
     { to: '/issues', icon: <ListIcon />, title: 'Görevler' },
+    { to: '/files', icon: <FileIcon />, title: 'Dosyalar' },
     { to: '/knowledgeBase', icon: <AccountBalance />, title: 'Bilgi Bankası' },
-    { to: '/units', icon: <UnitIcon />, title: 'Birimler' },
-    { to: '/about', icon: <Info />, title: 'Hakkında' }
+    { to: '/units', icon: <UnitIcon />, title: 'Birimler' }
   ]
 
-  const renderItems = () => {
-    return items.map(item => (
-      <Link to={item.to} style={{ textDecoration: 'none' }}>
+  const crmMenuItems = [
+    { to: '/customers', icon: <CustomerIcon />, title: 'Müşteriler' },
+    { to: '/contacts', icon: <ContactsIcon />, title: 'Kişiler' },
+    { to: '/sales', icon: <Shop />, title: 'Satışlar' },
+    { to: '/offers', icon: <Receipt />, title: 'Teklifler' },
+    { to: '/products', icon: <Cake />, title: 'Ürünler' }
+  ]
+
+  const endItems = [{ to: '/about', icon: <Info />, title: 'Hakkında' }]
+
+  const renderItems = items => {
+    return items.map((item, i) => (
+      <Link key={i} to={item.to} style={{ textDecoration: 'none' }}>
         <ListItem button style={{ paddingLeft: '14px' }}>
           <ListItemIcon style={{ fontSize: '20px' }}>{item.icon}</ListItemIcon>
           <ListItemText style={{ padding: '0px' }} primary={item.title} />
@@ -57,7 +77,15 @@ const Sidemenu = props => {
       open={open}
     >
       <List style={{ marginTop: '48px' }} component="nav">
-        {renderItems()}
+        {renderItems(bpmMenuItems)}
+
+        <Divider />
+
+        {renderItems(crmMenuItems)}
+
+        <Divider />
+
+        {renderItems(endItems)}
       </List>
     </Drawer>
   )

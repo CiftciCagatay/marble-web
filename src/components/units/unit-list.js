@@ -120,7 +120,7 @@ class UnitList extends React.Component {
     return (
       <List>
         {_.map(units, unit => (
-          <ListItem button onClick={() => onClickUnit(unit._id)}>
+          <ListItem key={unit._id} button onClick={() => onClickUnit(unit._id)}>
             <ListItemText primary={unit.name} />
           </ListItem>
         ))}

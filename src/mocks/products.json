@@ -1,0 +1,45 @@
+{
+  "products": {
+    "1": {
+      "_id": "1",
+      "image": "https://productimages.hepsiburada.net/s/1/431/9498504462386.jpg?v1",
+      "name": "Masa Lambası",
+      "code": "ML-01",
+      "unitPrice": 39.9,
+      "unitPriceCurrency": "$"
+    },
+
+    "2": {
+      "_id": "2",
+      "image": "https://cdn.tekzen.com.tr/images/product/dessenti/2454432/dessenti-kristal-ofis-masasi-beyaz-kaman_1000x1000.jpg",
+      "name": "Çalışma Masası",
+      "code": "WD-0012",
+      "unitPrice": 249.9,
+      "unitPriceCurrency": "₺"
+    },
+
+    "3": {
+      "_id": "3",
+      "image": "https://elsaofismobilya.com/wp-content/uploads/libra61-fileli-ofis-sandalyesi.jpg",
+      "name": "Ofis Sandalyesi",
+      "code": "OS-12301",
+      "unitPrice": 59.9,
+      "unitPriceCurrency": "€"
+    },
+
+    "4": {
+      "_id": "4",
+      "name": "Çöp Kutusu",
+      "code": "CS-101",
+      "unitPrice": 29.9,
+      "unitPriceCurrency": "₺"
+    },
+
+    "5": {
+      "_id": "5",
+      "name": "Kitaplık",
+      "unitPrice": 329.9,
+      "unitPriceCurrency": "₺"
+    }
+  }
+}

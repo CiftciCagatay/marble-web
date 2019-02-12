@@ -130,7 +130,11 @@ class Login extends Component {
     return (
       <List style={{ width: '100%', marginTop: '24px' }} disablePadding>
         {_.map(accounts, account => (
-          <ListItem onClick={() => this.onClickAccount(account)} button>
+          <ListItem
+            key={account.email}
+            onClick={() => this.onClickAccount(account)}
+            button
+          >
             <UserAvatar user={account} tooltipHidden />
             <ListItemText primary={account.name} secondary={account.company} />
 
@@ -193,8 +197,8 @@ class Login extends Component {
         <Button
           type="submit"
           fullWidth
-          variant="raised"
-          style={{ backgroundColor: '#015D58', color: '#fff' }}
+          variant="contained"
+          color="primary"
           className={classes.submit}
           onClick={this.onClickLogin}
         >
@@ -224,7 +228,7 @@ class Login extends Component {
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Avatar className={classes.avatar} src={marbleIcon} />
-            <Typography variant="headline">{title}</Typography>
+            <Typography variant="h5">{title}</Typography>
 
             {keys.length !== 0 && !showForm && this.renderAccounts(accounts)}
             {(keys.length === 0 || showForm) && this.renderLoginForm()}

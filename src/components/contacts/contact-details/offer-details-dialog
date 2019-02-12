@@ -1,0 +1,170 @@
+<Dialog
+              open={this.state.offerDetailDialogOpen}
+              onClose={() => this.setState({ offerDetailDialogOpen: false })}
+              fullScreen
+            >
+              <DialogTitle>
+                <Grid container>
+                  <Grid item xs>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <UserAvatar
+                          user={{ _id: '2', name: 'Çağatay Çiftçi' }}
+                        />
+                      </ListItemAvatar>
+
+                      <ListItemText
+                        primary="BPM Modülü"
+                        secondary={`Oluşturuldu - ${timeDiff(new Date())}`}
+                      />
+                    </ListItem>
+                  </Grid>
+
+                  <Grid item>
+                    <Tooltip title="İndir">
+                      <IconButton color="primary">
+                        <CloudDownload />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Kapat">
+                      <IconButton
+                        onClick={() =>
+                          this.setState({ offerDetailDialogOpen: false })
+                        }
+                        color="primary"
+                      >
+                        <Close />
+                      </IconButton>
+                    </Tooltip>
+                  </Grid>
+                </Grid>
+              </DialogTitle>
+
+              <DialogContent>
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <Work />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Arctory" secondary="Müşteri" />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <Person />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Çağatay Çiftçi"
+                      secondary="İlgili Kişi"
+                    />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <Shop />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="BPM Modülü"
+                      secondary="İlgili Satış"
+                    />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <Subject />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Marble BPM Modülü Teklif"
+                      secondary="Konu"
+                    />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <Details />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Merhaba Çağatay Çiftçi, Marble uygulamamızın BPM modülüne ilişkin şirketinize özel teklifimiz ektedir. Bu teklif sizin şirketinize özeldir. 3. kişilerle paylaşmamanızı rica ederiz. İyi çalışmalar"
+                      secondary="Giriş Metni"
+                    />
+                  </ListItem>
+                </List>
+
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Ürün</TableCell>
+                      <TableCell>Miktar</TableCell>
+                      <TableCell>Birim Fiyat</TableCell>
+                      <TableCell>KDV (%)</TableCell>
+                      <TableCell>Tutar (KDV Hariç)</TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(index => (
+                      <TableRow>
+                        <TableCell>#{index} BPM Modülü</TableCell>
+                        <TableCell align="right">1</TableCell>
+                        <TableCell align="right">500 ₺</TableCell>
+                        <TableCell align="right">18</TableCell>
+                        <TableCell align="right">500 ₺</TableCell>
+                      </TableRow>
+                    ))}
+
+                    <TableRow>
+                      <TableCell colSpan={2} />
+                      <TableCell colSpan={2}>Ara Toplam</TableCell>
+                      <TableCell align="right">5000 ₺</TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell colSpan={2} />
+                      <TableCell colSpan={2}>İndirim</TableCell>
+                      <TableCell align="right">0 %</TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell colSpan={2} />
+                      <TableCell colSpan={2}>İndirimli Toplam</TableCell>
+                      <TableCell align="right">5000 ₺</TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell colSpan={2} />
+                      <TableCell colSpan={2}>KDV</TableCell>
+                      <TableCell align="right">900 ₺</TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                      <TableCell colSpan={2} />
+                      <TableCell colSpan={2}>Genel Toplam</TableCell>
+                      <TableCell align="right">5900 ₺</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </DialogContent>
+
+              <DialogActions>
+                <Button style={{ color: red[500] }}>
+                  <Cancel />
+                  İptal Et
+                </Button>
+
+                <Button color="primary" variant="outlined">
+                  <Send />
+                  Teklifi Yolla
+                </Button>
+              </DialogActions>
+            </Dialog>

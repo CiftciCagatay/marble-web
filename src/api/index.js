@@ -1,3 +1,4 @@
+// BPM
 export * from './issue'
 export * from './issueEvent'
 export * from './auth'
@@ -10,3 +11,11 @@ export * from './config'
 export * from './label'
 export * from './category'
 export * from './unit'
+export * from './activity'
+
+// CRM
+export * from './company'
+export * from './contact'
+export * from './product'
+export * from './sale'
+export * from './offer'

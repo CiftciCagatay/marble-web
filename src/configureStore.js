@@ -8,9 +8,9 @@ export default () => {
   const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['issues','form']
+    blacklist: ['issues', 'form', 'activities', 'calendar']
   }
-  
+
   const persistedReducer = persistReducer(persistConfig, reducers)
 
   const store = createStore(persistedReducer, applyMiddleware(thunk))

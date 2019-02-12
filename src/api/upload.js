@@ -1,26 +1,24 @@
 import { fileServiceUrl } from './config'
+import fetch from '../scripts/fetch'
+import _ from 'lodash'
+
+export const getFiles = (accessToken, params) => {
+  let query = _.map(
+    params,
+    (value, key) => `${encodeURIComponent(key)}=${encodeURI(value)}`
+  ).join('&')
+
+  return fetch(`${fileServiceUrl}?${query}`, {
+    headers: { Authorization: accessToken }
+  })
+}
 
 export const uploadImage = (accessToken, data, onProgress) => {
-  var req = new XMLHttpRequest()
-
-  req.upload.addEventListener('progress', function(ev) {
-    if (onProgress) {
-      onProgress(ev.loaded / ev.total)
-    }
-  })
-
-  req.open('post', fileServiceUrl)
-
-  req.setRequestHeader('Authorization', accessToken)
-  req.send(data)
-
-  return new Promise((resolve, reject) => {
-    req.onreadystatechange = () => {
-      if (req.readyState === 4) {
-        return resolve(req.response)
-      }
-    }
-
-    req.onerror = () => reject()
+  return fetch(fileServiceUrl, {
+    method: 'POST',
+    headers: {
+      Authorization: accessToken
+    },
+    body: data
   })
 }

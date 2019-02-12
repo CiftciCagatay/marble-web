@@ -1,0 +1,45 @@
+{
+  "1": {
+    "_id": "1",
+    "user": {
+      "_id": "2",
+      "name": "Çağatay Çiftçi"
+    },
+    "createdAt": "20 Şubat",
+    "text": "Departmanlarda bulunan kullanıcılar hakkındaki veriler geldi. Bu haftasonu sisteme girmiş olmamız gerekiyor.",
+    "files": [
+      {
+        "originalname": "deparman_veriler.xlsx",
+        "mimeType": "excel",
+        "size": "1.25 MB"
+      }
+    ]
+  },
+
+  "2": {
+    "_id": "2",
+    "user": {
+      "_id": "2",
+      "name": "Çağatay Çiftçi"
+    },
+    "createdAt": "20 Şubat",
+    "text": "Departmanlarda bulunan kullanıcılar hakkındaki veriler geldi. Bu haftasonu sisteme girmiş olmamız gerekiyor.",
+    "files": [
+      {
+        "originalname": "deparman_veriler.xlsx",
+        "mimeType": "excel",
+        "size": "1.25 MB"
+      },
+      {
+        "originalname": "deparman_veriler.xlsx",
+        "mimeType": "excel",
+        "size": "1.25 MB"
+      },
+      {
+        "originalname": "deparman_veriler.xlsx",
+        "mimeType": "excel",
+        "size": "1.25 MB"
+      }
+    ]
+  }
+}

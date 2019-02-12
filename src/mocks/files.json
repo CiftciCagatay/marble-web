@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "1",
+    "originalname": "departman_veriler.xlsx",
+    "mimetype": "excel",
+    "size": "1.2 MB"
+  },
+  {
+    "_id": "2",
+    "originalname": "nodejs_testing.pdf",
+    "mimetype": "pdf",
+    "size": "1.2 MB"
+  },
+  {
+    "_id": "3",
+    "originalname": "oda_1_cizim.png",
+    "mimetype": "image",
+    "size": "1.2 MB"
+  },
+  {
+    "_id": "4",
+    "originalname": "yangin_cikisi.png",
+    "mimetype": "image",
+    "size": "1.2 MB"
+  },
+  {
+    "_id": "5",
+    "originalname": "oda_2.png",
+    "mimetype": "image",
+    "size": "1.2 MB"
+  },
+  {
+    "_id": "6",
+    "originalname": "2019_hedefleri.pdf",
+    "mimetype": "pdf",
+    "size": "1.2 MB"
+  }
+]

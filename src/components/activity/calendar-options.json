@@ -1,0 +1,37 @@
+{
+  "defaultView": "agendaWeek",
+  "height": "parent",
+
+  "nowIndicator": true,
+  "selectMirror": true,
+
+  "weekends": false,
+  "droppable": true,
+
+  "editable": true,
+  "selectable": true,
+
+  "eventLimit": 4,
+
+  "header": false,
+  "slotLabelFormat": {
+    "hour": "numeric",
+    "minute": "2-digit",
+    "omitZeroMinute": false,
+    "meridiem": "short"
+  },
+
+  "locale": "tr",
+  "allDayText": "Tüm Gün",
+  "eventLimitText": "daha",
+  "buttonText": {
+    "month": "Ay",
+    "week": "Hafta",
+    "today": "Bugün"
+  },
+
+  "eventConstraint": {
+    "startTime": "00:00",
+    "endTime": "24:00"
+  }
+}

@@ -118,6 +118,7 @@ class NotificationButton extends Component {
 
     return (
       <MenuItem
+        key={notification._id}
         onClick={() => this.onClickNotification(notification.data.issueId)}
       >
         {icon}

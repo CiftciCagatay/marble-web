@@ -58,7 +58,7 @@ class LabelPopoverButton extends Component {
     return (
       <div>
         {_.map(selectedLabels, label => (
-          <Label label={label} />
+          <Label key={label._id} label={label} />
         ))}
       </div>
     )

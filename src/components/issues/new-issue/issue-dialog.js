@@ -13,7 +13,6 @@ class IssueDialog extends Component {
         maxWidth="lg"
         fullWidth
         disableBackdropClick
-        aria-categoryledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Görev Oluştur</DialogTitle>
 

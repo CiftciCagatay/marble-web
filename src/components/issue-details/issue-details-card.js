@@ -20,7 +20,7 @@ const IssueDetailsCard = props => {
           }}
           secondaryTypographyProps={{
             color: 'textPrimary',
-            variant: 'subheading'
+            variant: 'subtitle1'
           }}
         />
       </ListItem>
@@ -103,7 +103,7 @@ const IssueDetailsCard = props => {
               }}
             >
               {issue.assignees.map(user => (
-                <UserAvatar user={user} />
+                <UserAvatar key={user._id} user={user} />
               ))}
             </div>
           )}

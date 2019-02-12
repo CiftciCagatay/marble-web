@@ -11,8 +11,12 @@ import {
   Typography,
   Avatar
 } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
-import { PriorityHigh, Grade } from '@material-ui/icons'
+import {
+  PriorityHigh as PriorityHighIcon,
+  Grade as StarIcon
+} from '@material-ui/icons'
 import { red, yellow } from '@material-ui/core/colors'
 
 import { connect } from 'react-redux'
@@ -22,6 +26,26 @@ import UserAvatar from '../../common/user-avatar'
 import { Link } from 'react-router-dom'
 import { timeFormat } from '../../../scripts'
 import _ from 'lodash'
+
+const styles = theme => ({
+  list: {
+    backgroundColor: theme.palette.background.paper
+  },
+  root: {
+    maxHeight: '400px',
+    overflowY: 'scroll'
+  },
+  priorityHighIcon: {
+    color: red[500]
+  },
+  starAvatar: {
+    color: yellow[500],
+    margin: 'auto'
+  },
+  noIssueCard: {
+    padding: '12px'
+  }
+})
 
 class AssignedIssueList extends Component {
   state = {
@@ -41,10 +65,12 @@ class AssignedIssueList extends Component {
   }
 
   renderNoIssueCard = () => {
+    const { classes } = this.props
+
     return (
-      <Paper style={{ padding: '12px' }}>
-        <Avatar style={{ color: yellow[500], margin: 'auto' }}>
-          <Grade />
+      <Paper className={classes.noIssueCard}>
+        <Avatar className={classes.starAvatar}>
+          <StarIcon />
         </Avatar>
 
         <Typography component="p" variant="body1" align="center">
@@ -59,18 +85,15 @@ class AssignedIssueList extends Component {
       return this.renderNoIssueCard()
     }
 
+    const { classes } = this.props
+
     return (
-      <Card style={{ maxHeight: '400px', overflowY: 'scroll' }}>
-        <List>
-          <ListSubheader style={{ backgroundColor: '#fff' }}>
-            Bana Atanan Görevler
-          </ListSubheader>
+      <Card className={classes.root}>
+        <List className={classes.list} subheader={<li />}>
+          <ListSubheader>Bana Atanan Görevler</ListSubheader>
 
           {this.state.issues.map(issue => (
-            <Link
-              to={`/issues/${issue._id}`}
-              style={{ textDecoration: 'none' }}
-            >
+            <Link key={issue._id} to={`/issues/${issue._id}`}>
               <ListItem key={issue._id} button>
                 <UserAvatar user={issue.createdBy} />
                 <ListItemText
@@ -81,7 +104,7 @@ class AssignedIssueList extends Component {
                 <ListItemSecondaryAction>
                   {issue.priority === 3 && (
                     <Tooltip title="Yüksek Öncelikli Görev">
-                      <PriorityHigh style={{ color: red[500] }} />
+                      <PriorityHighIcon className={classes.priorityHighIcon} />
                     </Tooltip>
                   )}
                 </ListItemSecondaryAction>
@@ -98,4 +121,4 @@ function mapStateToProps({ auth: { accessToken }, users: { user } }) {
   return { accessToken, user }
 }
 
-export default connect(mapStateToProps)(AssignedIssueList)
+export default connect(mapStateToProps)(withStyles(styles)(AssignedIssueList))

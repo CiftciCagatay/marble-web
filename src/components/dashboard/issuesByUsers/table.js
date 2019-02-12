@@ -7,7 +7,6 @@ import {
   ListItemText
 } from '@material-ui/core'
 import Label from '../../common/label'
-import UserAvatar from '../../common/user-avatar'
 import { Link } from 'react-router-dom'
 
 import { PriorityHigh, LowPriority, ReportProblem } from '@material-ui/icons'
@@ -37,7 +36,11 @@ const IssueList = props => {
       style={{ overflow: 'auto', height }}
     >
       {issues.map(issue => (
-        <Link to={`/issues/${issue._id}`} style={{ textDecoration: 'none' }}>
+        <Link
+          key={issue._id}
+          to={`/issues/${issue._id}`}
+          style={{ textDecoration: 'none' }}
+        >
           <ListItem disableGutters button>
             <Avatar
               style={{
@@ -56,7 +59,10 @@ const IssueList = props => {
                   {issue.title}
 
                   {issue.category && (
-                    <Label key="category" label={{ text: issue.category.text }} />
+                    <Label
+                      key="category"
+                      label={{ text: issue.category.text }}
+                    />
                   )}
 
                   {issue.labels.map(label => (

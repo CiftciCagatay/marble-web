@@ -1,0 +1,97 @@
+{
+  "currentVersion": "1.3.0",
+  "versions": [
+    { "number": "1.3.0", "date": "Şubat 6, 2019" },
+    { "number": "1.2.0", "date": "Ocak 28, 2019" },
+    { "number": "1.1.1", "date": "Ocak 24, 2019" },
+    { "number": "1.0.0", "date": "Ocak 20, 2019" }
+  ],
+
+  "1.3.0": {
+    "date": "Şubat 6, 2019",
+    "improvements": [
+      {
+        "title": "Takvim",
+        "detail": "Takvim kullanıcıların aylık ve haftalık planlar yapabileceği şekilde tekrar düzenlendi. Daha detaylı bilgiye Takvim sayfasının sağ altındaki 'Yardım' butonundan ulaşabilirsiniz"
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Stillendirme",
+        "detail": "Bazı bilgilerin daha göz önüne çıkması ve bazı yerlerde temaya uygunluk için küçük stil düzenlemeleri yapıldı"
+      }
+    ]
+  },
+
+  "1.2.0": {
+    "date": "Ocak 28, 2019",
+    "improvements": [
+      {
+        "title": "Takvim",
+        "detail": "Kullanıcılar birimlerindeki görevleri takvim üzerinde görebilirler. Soldaki menüden takvim ekranına ulaşabilirsiniz."
+      },
+      {
+        "title": "Dosya Gezgini",
+        "detail": "Görevlere eklenmiş tüm dosyaları tek bir yerde görüntüleyebilirsiniz. Ayrıca dosya ile birlikte yollanan mesaja(varsa), dosyayı yükleyen kişinin adına ve dosyanın eklenme tarihine göre filtreleme yapabilirsiniz."
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Stillendirme",
+        "detail": "Temaya uygunluk için bazı ekranlarda stil düzeltmeleri yapıldı."
+      },
+      {
+        "title": "Performans İyileştirmeleri",
+        "detail": "Uygulamanın bazı kısımları refaktör edilerek ufak performans iyileştirmeleri sağlandı."
+      }
+    ]
+  },
+
+  "1.1.1": {
+    "date": "Ocak 24, 2019",
+    "improvements": [
+      {
+        "title": "Şifre Değiştirme",
+        "detail": "Artık kullanıcılar sağ üstteki hesap kısmından ulaşabilecekleri 'Ayarlar' sayfası ile şifrelerini güncelleyebilecekler."
+      },
+      {
+        "title": "Birden fazla birime dahil olma",
+        "detail": "Artık kullanıcılar birden fazla birime eklenebilir ve bu birimlerdeki görevleri takip edebilir."
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Başka birime oluşturulan görevi görememe",
+        "detail": "Kullanıcının bulunduğu birimler dışındaki bir birime görev oluşturması durumunda görevi tekrar bulamamasına neden olan bir hata giderildi."
+      },
+      {
+        "title": "Veri silme butonlarının tekrar sormaması",
+        "detail": "Görev, etiket ve kategori gibi verileri silmek için kullanılan butonların kullanıcıya tekrar düşünme şansı vermeden direk işleme geçmesine neden olan bir eksik giderildi."
+      }
+    ]
+  },
+
+  "1.0.0": {
+    "date": "Ocak 20, 2019",
+    "improvements": [
+      {
+        "title": "Etiketlere göre görevleri filtreleme",
+        "detail": "Artık görevler listesinde etiketlere göre filtreleme yapabilirsiniz. Bunun için listenin üstündeki arama çubuğunun sağındaki butonu kullanın."
+      },
+      {
+        "title": "Teslim Tarihi",
+        "detail": "Artık görevlere teslim tarihi atayabilirsiniz. Bunu yapmak için görevi oluştururken veya düzenleme formundan 'Teslim Tarihi' alanına bir tarih girmeniz yeterli. Daha sonrasında listede ve detaylarda görevlerin teslim tarihlerini görebilirsiniz."
+      },
+      {
+        "title": "Mesajları Yanıtlama",
+        "detail": "Artık görevlerin konuşma alanlarındaki mesajları -mesaj balonunun sağ üst köşesindeki butona tıklayarak ulaşabileceğiniz- 'Cevapla' seçeneğinden yanıtlayabilirsiniz."
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Görev Düzenleme Formu",
+        "detail": "Görev detayları sayfasından ulaşabileceğiniz görev düzenleme formunun neden olduğu 'Uygulamadan atma' sorunu düzeltildi ve form tekrar kullanıma sunuldu."
+      }
+    ]
+  }
+}

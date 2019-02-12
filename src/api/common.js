@@ -1,5 +1,4 @@
 import {
-  categoryServiceUrl,
   feedbackServiceUrl,
   roleServiceUrl
 } from './config'

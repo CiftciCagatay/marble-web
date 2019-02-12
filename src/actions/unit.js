@@ -33,9 +33,10 @@ export function createUnit(props) {
 
     return postUnit(accessToken, props)
       .then(response => response.json())
-      .then(({ result }) =>
+      .then(({ result }) => {
         dispatch({ type: UNIT_CREATED, payload: { ...props, ...result } })
-      )
+        return Promise.resolve(result)
+      })
       .catch(error => console.log(error))
   }
 }

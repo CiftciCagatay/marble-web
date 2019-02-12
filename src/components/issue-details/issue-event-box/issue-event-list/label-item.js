@@ -1,13 +1,13 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography, Paper } from '@material-ui/core'
 import { timeDiff } from '../../../../scripts'
 
 const LabelItem = props => {
   const { event } = props
 
   return (
-    <div style={{ textAlign: 'center', padding: '8px' }}>
-      <div
+    <div style={{ textAlign: 'center', padding: '8px' }} key={event._id}>
+      <Paper
         style={{
           display: 'inline-block',
           borderRadius: '2px',
@@ -16,14 +16,14 @@ const LabelItem = props => {
           padding: '4px'
         }}
       >
-        <Typography variant="body1">
+        <Typography>
           {event.author.name}
           {event.labels.map(label => ', ' + label.text)} etiketlerini{' '}
           {event.type === 'addLabel' ? 'ekledi.' : 'çıkardı.'}
         </Typography>
 
         <Typography variant="caption">{timeDiff(event.date)}</Typography>
-      </div>
+      </Paper>
     </div>
   )
 }

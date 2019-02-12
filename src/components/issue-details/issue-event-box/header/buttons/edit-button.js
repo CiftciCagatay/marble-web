@@ -18,6 +18,7 @@ class EditButton extends Component {
         </IconButton>
       </Tooltip>,
       <EditIssueForm
+        key="edit-dialog"
         open={open}
         handleModalClose={() => this.setState({ open: false })}
       />

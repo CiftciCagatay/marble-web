@@ -66,6 +66,7 @@ class LabelButton extends Component {
 
     return [
       <IconButton
+        key="label-button"
         aria-owns={anchorEl ? 'filter-popover' : null}
         aria-haspopup="true"
         onClick={e => this.setState({ anchorEl: e.currentTarget })}
@@ -75,6 +76,7 @@ class LabelButton extends Component {
 
       <Popover
         id="label-filter-menu"
+        key="label-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={() => this.setState({ anchorEl: null })}
@@ -120,7 +122,7 @@ class LabelButton extends Component {
                 : () => onSelectLabel(label)
 
               return (
-                <ListItem onClick={onClick} dense button>
+                <ListItem key={label._id} onClick={onClick} dense button>
                   <Checkbox
                     style={{ padding: '0px' }}
                     checked={checked}

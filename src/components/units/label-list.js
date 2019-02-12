@@ -28,6 +28,7 @@ import LabelDialog from './label-dialog'
 
 import { CREATE_LABEL, UPDATE_LABEL, DELETE_LABEL } from '../../config'
 import AccessControl from '../common/access-control'
+import DeleteForeverDialog from '../common/delete-forever-dialog'
 
 const styles = theme => ({
   searchBar: {
@@ -48,7 +49,10 @@ class LabelList extends Component {
   state = {
     dialogOpen: false,
     dialogMode: 'create',
-    dialogLabel: { text: '', description: '', unit: '' }
+    dialogLabel: { text: '', description: '', unit: '' },
+
+    selectedLabelId: '',
+    deleteDialogOpen: false
   }
 
   componentDidMount() {
@@ -81,12 +85,15 @@ class LabelList extends Component {
       <Table>
         <TableBody>
           {_.map(this.props.labels, label => (
-            <TableRow>
+            <TableRow key={label._id}>
               <TableCell>{label.text}</TableCell>
               <TableCell>{label.description}</TableCell>
               <TableCell>
                 <div style={{ float: 'right' }}>
-                  <AccessControl permission={UPDATE_LABEL}>
+                  <AccessControl
+                    permission={UPDATE_LABEL}
+                    unitId={this.props.unit}
+                  >
                     <Button
                       onClick={() =>
                         this.setState({
@@ -100,8 +107,18 @@ class LabelList extends Component {
                     </Button>
                   </AccessControl>
 
-                  <AccessControl permission={DELETE_LABEL}>
-                    <Button onClick={() => this.props.removeLabel(label._id)}>
+                  <AccessControl
+                    permission={DELETE_LABEL}
+                    unitId={this.props.unit}
+                  >
+                    <Button
+                      onClick={() =>
+                        this.setState({
+                          deleteDialogOpen: true,
+                          selectedLabelId: label._id
+                        })
+                      }
+                    >
                       Sil
                     </Button>
                   </AccessControl>
@@ -115,7 +132,7 @@ class LabelList extends Component {
   }
 
   renderToolbar = () => {
-    const { classes } = this.props
+    const { classes, unit } = this.props
 
     return (
       <AppBar
@@ -140,7 +157,7 @@ class LabelList extends Component {
               />
             </Grid>
             <Grid item>
-              <AccessControl permission={CREATE_LABEL}>
+              <AccessControl permission={CREATE_LABEL} unitId={unit}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -177,15 +194,37 @@ class LabelList extends Component {
     const { dialogOpen, dialogMode, dialogLabel } = this.state
 
     return [
-      <div>
+      <div key="root">
         {this.renderToolbar()}
         {this.renderList()}
       </div>,
+
       <LabelDialog
+        key="label-dialog"
         open={dialogOpen}
         mode={dialogMode}
         label={dialogLabel}
         handleClose={() => this.setState({ dialogOpen: false })}
+      />,
+
+      <DeleteForeverDialog
+        key="delete-dialog"
+        title="Etiketi Sil"
+        detail="Etiketi silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+        onClickCancel={() =>
+          this.setState({ deleteDialogOpen: false, selectedLabelId: '' })
+        }
+        onClickDelete={() => {
+          const { unit } = this.props
+
+          this.setState({ deleteDialogOpen: false })
+
+          this.props.removeLabel(this.state.selectedLabelId).then(() => {
+            this.setState({ selectedLabelId: '' })
+            this.props.fetchLabels({ unit })
+          })
+        }}
+        open={this.state.deleteDialogOpen}
       />
     ]
   }

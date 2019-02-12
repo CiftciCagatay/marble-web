@@ -1,0 +1,16 @@
+.rbc-event {
+  margin-top: 2px;
+  border-radius: 2px;
+}
+
+.rbc-show-more {
+  color: #00796b;
+}
+
+.rbc-date-cell {
+  text-align: center;
+}
+
+.rbc-header {
+  border-bottom: none;
+}

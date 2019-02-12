@@ -12,13 +12,11 @@ import {
 import { AssignmentInd } from '@material-ui/icons'
 import UserAvatar from '../../../../common/user-avatar'
 
-import {
-  getUserList,
-  updateAssigneesAction,
-  postIssueEvent
-} from '../../../../../actions'
+import { updateAssigneesAction, postIssueEvent } from '../../../../../actions'
+import { getUsers } from '../../../../../api'
 import { connect } from 'react-redux'
 import update from 'immutability-helper'
+import _ from 'lodash'
 
 class AssigneeButton extends Component {
   state = {
@@ -29,7 +27,11 @@ class AssigneeButton extends Component {
   componentDidMount() {
     this.setState({ assignees: this.props.assignees })
 
-    this.props.getUserList({ unit: this.props.unit })
+    getUsers(this.props.accessToken, { unit: this.props.unit })
+      .then(response => response.json())
+      .then(({ results }) => {
+        this.setState({ users: _.mapKeys(results, '_id') })
+      })
   }
 
   // Actions
@@ -46,41 +48,17 @@ class AssigneeButton extends Component {
     )
   }
 
-  addEvents = (addedAssignees, removedAssignees) => {
-    let promises = []
+  getAddedAssignees = () => {
+    const ids = this.props.assignees.map(({ _id }) => _id)
 
-    if (addedAssignees.length > 0)
-      promises.push(
-        this.props.postIssueEvent({
-          issueId: this.props.issueId,
-          unitId: this.props.unitId,
-          type: 'assign',
-          users: addedAssignees
-        })
-      )
-
-    if (removedAssignees.length > 0)
-      promises.push(
-        this.props.postIssueEvent({
-          issueId: this.props.issueId,
-          unitId: this.props.unitId,
-          type: 'unassign',
-          users: removedAssignees
-        })
-      )
-
-    return Promise.all(promises)
+    return this.state.assignees.filter(({ _id }) => ids.indexOf(_id) === -1)
   }
 
-  getAddedAssignees = () =>
-    this.state.assignees.filter(
-      assignee => !this.props.assignees.includes(assignee)
-    )
+  getRemovedAssignees = () => {
+    const ids = this.state.assignees.map(({ _id }) => _id)
 
-  getRemovedAssignees = () =>
-    this.props.assignees.filter(
-      assignee => !this.state.assignees.includes(assignee)
-    )
+    return this.props.assignees.filter(({ _id }) => ids.indexOf(_id) === -1)
+  }
 
   handleClick = event => this.setState({ anchorEl: event.currentTarget })
 
@@ -99,7 +77,6 @@ class AssigneeButton extends Component {
     this.setState({ updating: true })
 
     this.updateAssignees()
-      .then(() => this.addEvents(addedAssignees, removedAssignees))
       .then(() => this.setState({ updating: false, anchorEl: null }))
       .catch(() => this.setState({ updating: false, anchorEl: null }))
   }
@@ -158,7 +135,7 @@ class AssigneeButton extends Component {
         onClose={this.handlePopoverClose}
       >
         <List dense>
-          {this.props.users.map(user => {
+          {_.map(this.state.users, user => {
             const checked = this.state.assignees.some(
               ({ _id }) => _id === user._id
             )
@@ -191,13 +168,13 @@ class AssigneeButton extends Component {
   }
 }
 
-function mapStateToProps({ users: { users } }) {
+function mapStateToProps({ auth: { accessToken } }) {
   return {
-    users
+    accessToken
   }
 }
 
 export default connect(
   mapStateToProps,
-  { getUserList, updateAssigneesAction, postIssueEvent }
+  { updateAssigneesAction, postIssueEvent }
 )(AssigneeButton)
